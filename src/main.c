@@ -19,7 +19,6 @@ t_data	*get_data(void)
 		var->height = 0;
 		var->width_pixel = 0;
 		var->height_pixel = 0;
-	
 		return (var);
 	}
 	return (var);
@@ -94,7 +93,7 @@ int32_t main(int32_t ac, const char* av[])
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-	
+
 	mlx_loop_hook(mlx, ft_randomize, mlx);
 	mlx_loop_hook(mlx, ft_hook, mlx);
 
