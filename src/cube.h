@@ -18,28 +18,30 @@
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/gnl/get_next_line.h"
 # include "../libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 # define IMG_PIXEL_SIZE 64
+#define WIDTH 512
+#define HEIGHT 512
 
 //message erreur
 # define E_CHAR_INVALID "Error\n Found Invalid Character\n"
-# define E_CHAR_MISSING "Error\n Mandatory Character Count Wrong\n"
 # define E_MAP_TOO_WIDTH "Error\n Map Too Wide (Max 40)\n"
 # define E_MAP_TOO_HEIGTH "Error\n Map Too High (max 21)\n"
-# define E_MAP_LINE_DIFF "Error\n Lines Are Not Egal Length On Map\n"
 # define E_MAP_BORDER "Error\n Map Border Missing\n"
 # define E_FILE_NAME "Error\n File Name Is Invalid\n"
 # define E_FLOODFILL "Error\n Floodfill Is Invalid\n"
 # define E_ARGS_NUM "Error\n Argument Number is wrong\n"
-# define E_FD_WRONG "Error:\n fd Error read value WRONG\n"
 
 typedef struct s_data
 {
 	mlx_t			*mlx;
+	int				height;
+	int				width;
+	int				height_pixel;
+	int				width_pixel;
 }					t_data;
 
 
