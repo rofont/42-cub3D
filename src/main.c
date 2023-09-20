@@ -35,15 +35,9 @@ t_data *get_data(void)
 }
 
 // donne la couleur selon le niveau de rgba
-uint32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+uint32_t ft_color(int32_t r, int32_t g, int32_t b, int32_t a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
-}
-
-double deg_to_rad(double degree)
-{
-    // Convert playerAngle from degrees to radians
-    return (degree * M_PI / 180.0);
 }
 
 void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius, uint32_t color)
@@ -103,6 +97,12 @@ void draw_line(mlx_image_t *image, int x1, int y1, int x2, int y2, uint32_t colo
     }
 }
 
+double deg_to_rad(double degree)
+{
+    // Convert playerAngle from degrees to radians
+    return (degree * M_PI / 180.0);
+}
+
 void draw_line_from_angle(mlx_image_t *image, int playerX, int playerY, float playerAngle, int lineLength, uint32_t color)
 {
     // Convert playerAngle from degrees to radians
@@ -143,7 +143,6 @@ int is_collision(int playerX, int playerY, int playerRadius)
             return 1;
         }
     }
-
     // No collision
     return 0;
 }
@@ -169,23 +168,14 @@ void ft_hook(void *param)
         {
             uint32_t color;
             if (map1[i][j] == '0')
-            {
-                color = ft_pixel(255, 255, 255, 255);
-            }
+                color = ft_color(255, 255, 255, 255);
             else if (map1[i][j] == '1')
-            {
-                color = ft_pixel(0, 0, 0, 255);
-            }
-
+                color = ft_color(0, 0, 0, 255);
             else
-            {
-                color = ft_pixel(0, 0, 0, 100);
-            }
-
+                color = ft_color(0, 0, 0, 100);
             // Calculate the pixel coordinates for the current square
             int startX = j * scaleFactor;
             int startY = i * scaleFactor;
-
             int x = startX;
             while (x < startX + scaleFactor)
             {
@@ -204,55 +194,72 @@ void ft_hook(void *param)
 
     // draw player
     int playerRadius = 10; // Adjust the radius as needed
-    draw_filled_circle(map, player.x, player.y, playerRadius, ft_pixel(255, 0, 0, 255));
-    draw_line_from_angle(map, player.x, player.y, player.angle, 20, ft_pixel(255, 0, 0, 255));
-    // mlx_put_pixel(map, player.x, player.y, ft_pixel(255,0,0,255));
+    draw_filled_circle(map, player.x, player.y, playerRadius, ft_color(255, 0, 0, 255));
+    draw_line_from_angle(map, player.x, player.y, player.angle, 20, ft_color(255, 0, 0, 255));
+    // mlx_put_pixel(map, player.x, player.y, ft_color(255,0,0,255));
 
     ///-----player_move
     // Handle key presses to update position
-    int prevPlayerX = player.x;
-    int prevPlayerY = player.y;
+    float moveSpeed = 4.0; // Adjust the movement speed as needed
 
     if (mlx_is_key_down(mlx, MLX_KEY_W))
     {
-        player.y -= 2;
-        if (is_collision(player.x, player.y, playerRadius))
+        // Calculate the new position based on the player's angle
+        float angleRad = deg_to_rad(player.angle);
+        int newX = player.x + (int)(moveSpeed * cos(angleRad));
+        int newY = player.y + (int)(moveSpeed * sin(angleRad));
+
+        // Check for collision before updating the position
+        if (!is_collision(newX, newY, playerRadius))
         {
-            // Collision detected, revert the player's position
-            player.x = prevPlayerX;
-            player.y = prevPlayerY;
+            player.x = newX;
+            player.y = newY;
         }
     }
     if (mlx_is_key_down(mlx, MLX_KEY_S))
     {
-        player.y += 2;
-        if (is_collision(player.x, player.y, playerRadius))
+        // Calculate the new position based on the player's angle
+        float angleRad = deg_to_rad(player.angle);
+        int newX = player.x - (int)(moveSpeed * cos(angleRad));
+        int newY = player.y - (int)(moveSpeed * sin(angleRad));
+
+        // Check for collision before updating the position
+        if (!is_collision(newX, newY, playerRadius))
         {
-            // Collision detected, revert the player's position
-            player.x = prevPlayerX;
-            player.y = prevPlayerY;
+            player.x = newX;
+            player.y = newY;
         }
     }
     if (mlx_is_key_down(mlx, MLX_KEY_A))
     {
-        player.x -= 2;
-        if (is_collision(player.x, player.y, playerRadius))
+        // Calculate the new position based on the player's angle - 90 degrees
+        float angleRad = deg_to_rad(player.angle - 90.0);
+        int newX = player.x + (int)(moveSpeed * cos(angleRad));
+        int newY = player.y + (int)(moveSpeed * sin(angleRad));
+
+        // Check for collision before updating the position
+        if (!is_collision(newX, newY, playerRadius))
         {
-            // Collision detected, revert the player's position
-            player.x = prevPlayerX;
-            player.y = prevPlayerY;
+            player.x = newX;
+            player.y = newY;
         }
     }
+
     if (mlx_is_key_down(mlx, MLX_KEY_D))
     {
-        player.x += 2;
-        if (is_collision(player.x, player.y, playerRadius))
+        // Calculate the new position based on the player's angle + 90 degrees
+        float angleRad = deg_to_rad(player.angle + 90.0);
+        int newX = player.x + (int)(moveSpeed * cos(angleRad));
+        int newY = player.y + (int)(moveSpeed * sin(angleRad));
+
+        // Check for collision before updating the position
+        if (!is_collision(newX, newY, playerRadius))
         {
-            // Collision detected, revert the player's position
-            player.x = prevPlayerX;
-            player.y = prevPlayerY;
+            player.x = newX;
+            player.y = newY;
         }
     }
+
     if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
         player.angle -= 5;
     if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
@@ -277,7 +284,7 @@ int main(int ac, const char *av[])
     player.y = 80;
     player.angle = 270;
 
-    // Gotta error check this stuff
+    // error check
     if (!(data->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true)))
     {
         puts(mlx_strerror(mlx_errno));
