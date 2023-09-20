@@ -2,22 +2,22 @@
 
 t_player player;
 mlx_image_t *map;
- char map1[15][39] = {
-        "            11111111111111111111111",
-        "11111111111111111111111111111111111",
-        "10000000001100000000000010000000001",
-        "10110000011100000000000010000000001",
-        "10010000000000000000000010000000001",
-        "11111111101100000111000000000000001",
-        "10000000001100000111011110011111111",
-        "11110111111111011100000010001       ",
-        "11110111111111011101010010001       ",
-        "11000000110101011100000010001       ",
-        "10000000000000001100000010001       ",
-        "10000000000000001101010010001       ",
-        "11000001110101011111011110N0111     ",
-        "111101111110101101111010001111111111",
-        "   111    111111111 111111111    1  "};
+char map1[15][39] = {
+    "            11111111111111111111111",
+    "11111111111111111111111111111111111",
+    "10000000001100000000000010000000001",
+    "10110000011100000000000010000000001",
+    "10010000000000000000000010000000001",
+    "11111111101100000111000000000000001",
+    "10000000001100000111011110011111111",
+    "11110111111111011100000010001       ",
+    "11110111111111011101010010001       ",
+    "11000000110101011100000010001       ",
+    "10000000000000001100000010001       ",
+    "10000000000000001101010010001       ",
+    "11000001110101011111011110N0111     ",
+    "111101111110101101111010001111111111",
+    "   111    111111111 111111111    1  "};
 // -----------------------------------------------------------------------------
 
 t_data *get_data(void)
@@ -46,8 +46,6 @@ double deg_to_rad(double degree)
     return (degree * M_PI / 180.0);
 }
 
-
-
 void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius, uint32_t color)
 {
     int x = centerX - radius;
@@ -67,10 +65,6 @@ void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius
         x++;
     }
 }
-
-#include "cube.h"
-
-// ...
 
 void draw_line(mlx_image_t *image, int x1, int y1, int x2, int y2, uint32_t color)
 {
@@ -109,7 +103,7 @@ void draw_line(mlx_image_t *image, int x1, int y1, int x2, int y2, uint32_t colo
     }
 }
 
-void draw_line_from_angle(mlx_image_t* image, int playerX, int playerY, float playerAngle, int lineLength, uint32_t color)
+void draw_line_from_angle(mlx_image_t *image, int playerX, int playerY, float playerAngle, int lineLength, uint32_t color)
 {
     // Convert playerAngle from degrees to radians
     float angleRad = playerAngle * M_PI / 180.0;
@@ -122,10 +116,42 @@ void draw_line_from_angle(mlx_image_t* image, int playerX, int playerY, float pl
     draw_line(image, playerX, playerY, lineEndX, lineEndY, color);
 }
 
+int is_collision(int playerX, int playerY, int playerRadius)
+{
+    int scaleFactor = 20;
+
+    // Convert player's pixel coordinates to grid coordinates
+    int gridX = playerX / scaleFactor;
+    int gridY = playerY / scaleFactor;
+
+    // Calculate the grid cell that the player's center falls into
+    char cell = map1[gridY][gridX];
+
+    // Check if the player's grid cell contains a wall ('1')
+    if (cell == '1')
+    {
+        // Calculate the distance from the player's center to the center of the cell
+        int cellCenterX = gridX * scaleFactor + scaleFactor / 2;
+        int cellCenterY = gridY * scaleFactor + scaleFactor / 2;
+        int dx = playerX - cellCenterX;
+        int dy = playerY - cellCenterY;
+
+        // Check if the distance is less than the sum of player's radius and half cell size
+        if (dx * dx + dy * dy <= (playerRadius + scaleFactor / 2) * (playerRadius + scaleFactor / 2))
+        {
+            // Collision detected
+            return 1;
+        }
+    }
+
+    // No collision
+    return 0;
+}
+
 void ft_hook(void *param)
 {
     mlx_t *mlx = param;
-   
+
     // draw minimap------
 
     // Original map dimensions (15x39)
@@ -184,22 +210,57 @@ void ft_hook(void *param)
 
     ///-----player_move
     // Handle key presses to update position
+    int prevPlayerX = player.x;
+    int prevPlayerY = player.y;
+
     if (mlx_is_key_down(mlx, MLX_KEY_W))
+    {
         player.y -= 2;
+        if (is_collision(player.x, player.y, playerRadius))
+        {
+            // Collision detected, revert the player's position
+            player.x = prevPlayerX;
+            player.y = prevPlayerY;
+        }
+    }
     if (mlx_is_key_down(mlx, MLX_KEY_S))
+    {
         player.y += 2;
+        if (is_collision(player.x, player.y, playerRadius))
+        {
+            // Collision detected, revert the player's position
+            player.x = prevPlayerX;
+            player.y = prevPlayerY;
+        }
+    }
     if (mlx_is_key_down(mlx, MLX_KEY_A))
+    {
         player.x -= 2;
+        if (is_collision(player.x, player.y, playerRadius))
+        {
+            // Collision detected, revert the player's position
+            player.x = prevPlayerX;
+            player.y = prevPlayerY;
+        }
+    }
     if (mlx_is_key_down(mlx, MLX_KEY_D))
+    {
         player.x += 2;
+        if (is_collision(player.x, player.y, playerRadius))
+        {
+            // Collision detected, revert the player's position
+            player.x = prevPlayerX;
+            player.y = prevPlayerY;
+        }
+    }
     if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-        player.angle-=5;
+        player.angle -= 5;
     if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-        player.angle+=5;
-    if(player.angle >=360)
-        player.angle=0;
-    if(player.angle < 0)
-        player.angle=360;
+        player.angle += 5;
+    if (player.angle >= 360)
+        player.angle = 0;
+    if (player.angle < 0)
+        player.angle = 360;
 }
 
 // -----------------------------------------------------------------------------
@@ -212,8 +273,8 @@ int main(int ac, const char *av[])
     (void)av;
     data = get_data();
 
-    player.x = 50;
-    player.y = 50;
+    player.x = 100;
+    player.y = 80;
     player.angle = 270;
 
     // Gotta error check this stuff
