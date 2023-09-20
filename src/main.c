@@ -1,8 +1,23 @@
 #include "cube.h"
 
 t_player player;
- mlx_image_t *map;
-
+mlx_image_t *map;
+ char map1[15][39] = {
+        "            11111111111111111111111",
+        "11111111111111111111111111111111111",
+        "10000000001100000000000010000000001",
+        "10110000011100000000000010000000001",
+        "10010000000000000000000010000000001",
+        "11111111101100000111000000000000001",
+        "10000000001100000111011110011111111",
+        "11110111111111011100000010001       ",
+        "11110111111111011101010010001       ",
+        "11000000110101011100000010001       ",
+        "10000000000000001100000010001       ",
+        "10000000000000001101010010001       ",
+        "11000001110101011111011110N0111     ",
+        "111101111110101101111010001111111111",
+        "   111    111111111 111111111    1  "};
 // -----------------------------------------------------------------------------
 
 t_data *get_data(void)
@@ -25,115 +40,166 @@ uint32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
+double deg_to_rad(double degree)
+{
+    // Convert playerAngle from degrees to radians
+    return (degree * M_PI / 180.0);
+}
+
+
+
+void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius, uint32_t color)
+{
+    int x = centerX - radius;
+    while (x <= centerX + radius)
+    {
+        int y = centerY - radius;
+        while (y <= centerY + radius)
+        {
+            int dx = x - centerX;
+            int dy = y - centerY;
+            if (dx * dx + dy * dy <= radius * radius)
+            {
+                mlx_put_pixel(image, x, y, color);
+            }
+            y++;
+        }
+        x++;
+    }
+}
+
+#include "cube.h"
+
+// ...
+
+void draw_line(mlx_image_t *image, int x1, int y1, int x2, int y2, uint32_t color)
+{
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+    int sx, sy;
+
+    if (x1 < x2)
+        sx = 1;
+    else
+        sx = -1;
+
+    if (y1 < y2)
+        sy = 1;
+    else
+        sy = -1;
+
+    int err = dx - dy;
+
+    while (x1 != x2 || y1 != y2)
+    {
+        mlx_put_pixel(image, x1, y1, color);
+        int e2 = 2 * err;
+
+        if (e2 > -dy)
+        {
+            err -= dy;
+            x1 += sx;
+        }
+
+        if (e2 < dx)
+        {
+            err += dx;
+            y1 += sy;
+        }
+    }
+}
+
+void draw_line_from_angle(mlx_image_t* image, int playerX, int playerY, float playerAngle, int lineLength, uint32_t color)
+{
+    // Convert playerAngle from degrees to radians
+    float angleRad = playerAngle * M_PI / 180.0;
+
+    // Calculate the endpoint coordinates
+    int lineEndX = playerX + (int)(lineLength * cos(angleRad));
+    int lineEndY = playerY + (int)(lineLength * sin(angleRad));
+
+    // Use the draw_line function to draw the line
+    draw_line(image, playerX, playerY, lineEndX, lineEndY, color);
+}
+
 void ft_hook(void *param)
 {
     mlx_t *mlx = param;
-    // char map[15][39] = {
-    //     "            11111111111111111111111",
-    //     "11111111111111111111111111111111111",
-    //     "10000000001100000000000010000000001",
-    //     "10110000011100000000000010000000001",
-    //     "10010000000000000000000010000000001",
-    //     "11111111101100000111000000000000001",
-    //     "10000000001100000111011110011111111",
-    //     "11110111111111011100000010001       ",
-    //     "11110111111111011101010010001       ",
-    //     "11000000110101011100000010001       ",
-    //     "10000000000000001100000010001       ",
-    //     "10000000000000001101010010001       ",
-    //     "11000001110101011111011110N0111     ",
-    //     "111101111110101101111010001111111111",
-    //     "   111    111111111 111111111    1  "
-    // };
+   
+    // draw minimap------
 
-    mlx_put_pixel(map, player.x, player.y, ft_pixel(255,0,0,255));
-    printf("marche tu tbk \n");
-    // Handle key presses to update position
-    if (mlx_is_key_down(mlx, MLX_KEY_UP))
-       player.y -= 10;
-    if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-        player.y += 10;
-    if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-        player.x -= 10;
-    if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-       player.x += 10;
-}
+    // Original map dimensions (15x39)
+    int originalWidth = 15;
+    int originalHeight = 39;
 
-void png_to_texture(void)
-{
-    t_data *var;
+    // Scale factor for each square
+    int scaleFactor = 20;
 
-    var = get_data();
-
-    var->wall = mlx_load_png("./asset/wall.png");
-    var->grass = mlx_load_png("./asset/grass.png");
-    var->penguin = mlx_load_png("./asset/penguin.png");
-}
-
-void texture_to_image(void)
-{
-    t_data *var;
-
-    var = get_data();
-
-    var->wall_img = mlx_texture_to_image(var->mlx, var->wall);
-    var->grass_img = mlx_texture_to_image(var->mlx, var->grass);
-    var->penguin_img = mlx_texture_to_image(var->mlx, var->penguin);
-}
-
-void render_asset(int x, int y)
-{
-    t_data *var;
-
-    var = get_data();
-    char map[15][39] = {
-        "            11111111111111111111111",
-        "11111111111111111111111111111111111",
-        "10000000001100000000000010000000001",
-        "10110000011100000000000010000000001",
-        "10010000000000000000000010000000001",
-        "11111111101100000111000000000000001",
-        "10000000001100000111011110011111111",
-        "11110111111111011100000010001       ",
-        "11110111111111011101010010001       ",
-        "11000000110101011100000010001       ",
-        "10000000000000001100000010001       ",
-        "10000000000000001101010010001       ",
-        "11000001110101011111011110N0111     ",
-        "111101111110101101111010001111111111",
-        "   111    111111111 111111111    1  "};
-    if (map[x][y] == '1')
-        mlx_image_to_window(var->mlx, var->wall_img, y * 64, x * 64);
-    else if (map[x][y] == 'N')
+    int i = 0;
+    while (i < originalWidth)
     {
-        mlx_image_to_window(var->mlx, var->penguin_img, y * 64, x * 64);
-    }
-    else if (map[x][y] == '0')
-        mlx_image_to_window(var->mlx, var->grass_img, y * 64, x * 64);
-}
-
-void render(void)
-{
-    t_data *var;
-    int x;
-    int y;
-
-    var = get_data();
-
-    var->height = 15;
-    var->width = 39;
-
-    y = 0;
-    while (y < var->width)
-    {
-        x = 0;
-        while (x < var->height)
+        int j = 0;
+        while (j < originalHeight)
         {
-            render_asset(x, y);
-            x++;
+            uint32_t color;
+            if (map1[i][j] == '0')
+            {
+                color = ft_pixel(255, 255, 255, 255);
+            }
+            else if (map1[i][j] == '1')
+            {
+                color = ft_pixel(0, 0, 0, 255);
+            }
+
+            else
+            {
+                color = ft_pixel(0, 0, 0, 100);
+            }
+
+            // Calculate the pixel coordinates for the current square
+            int startX = j * scaleFactor;
+            int startY = i * scaleFactor;
+
+            int x = startX;
+            while (x < startX + scaleFactor)
+            {
+                int y = startY;
+                while (y < startY + scaleFactor)
+                {
+                    mlx_put_pixel(map, x, y, color);
+                    y++;
+                }
+                x++;
+            }
+            j++;
         }
-        y++;
+        i++;
     }
+
+    // draw player
+    int playerRadius = 10; // Adjust the radius as needed
+    draw_filled_circle(map, player.x, player.y, playerRadius, ft_pixel(255, 0, 0, 255));
+    draw_line_from_angle(map, player.x, player.y, player.angle, 20, ft_pixel(255, 0, 0, 255));
+    // mlx_put_pixel(map, player.x, player.y, ft_pixel(255,0,0,255));
+
+    ///-----player_move
+    // Handle key presses to update position
+    if (mlx_is_key_down(mlx, MLX_KEY_W))
+        player.y -= 2;
+    if (mlx_is_key_down(mlx, MLX_KEY_S))
+        player.y += 2;
+    if (mlx_is_key_down(mlx, MLX_KEY_A))
+        player.x -= 2;
+    if (mlx_is_key_down(mlx, MLX_KEY_D))
+        player.x += 2;
+    if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
+        player.angle-=5;
+    if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+        player.angle+=5;
+    if(player.angle >=360)
+        player.angle=0;
+    if(player.angle < 0)
+        player.angle=360;
 }
 
 // -----------------------------------------------------------------------------
@@ -141,29 +207,24 @@ void render(void)
 int main(int ac, const char *av[])
 {
     t_data *data;
-   
 
     (void)ac;
     (void)av;
     data = get_data();
 
-    player.x=0;
-    player.y=0;
-    
+    player.x = 50;
+    player.y = 50;
+    player.angle = 270;
+
     // Gotta error check this stuff
     if (!(data->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true)))
     {
         puts(mlx_strerror(mlx_errno));
         return (EXIT_FAILURE);
     }
-   map = mlx_new_image(data->mlx,WIDTH, HEIGHT );
-   mlx_image_to_window(data->mlx, map, 0, 0);
 
-    // create basic map
-    png_to_texture();
-    texture_to_image();
-    //render map
-    //render();
+    map = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+    mlx_image_to_window(data->mlx, map, 0, 0);
 
     mlx_loop_hook(data->mlx, ft_hook, data->mlx);
 
