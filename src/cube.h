@@ -27,8 +27,8 @@
 
 //Variable 
 #define IMG_PIXEL_SIZE 64
-#define WIDTH 2048
-#define HEIGHT 2048
+#define WIDTH 500
+#define HEIGHT 500
 
 //message erreur
 # define E_CHAR_INVALID "Error\n Found Invalid Character\n"
@@ -67,10 +67,10 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	int				x_pos;
-	int				y_pos;
+	int				x;
+	int				y;
 
-}				s_player;
+}				t_player;
 
 //function
 
