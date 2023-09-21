@@ -128,6 +128,7 @@ void draw_line(mlx_image_t *image, int x1, int y1, int x2, int y2, uint32_t colo
     }
 }
 
+// int line_length_before_collision ()
 void draw_line_from_angle_stop_on_collision(mlx_image_t *image, int playerX, int playerY, float playerAngle, int lineLength, uint32_t color)
 {
     // Convert playerAngle from degrees to radians
@@ -153,9 +154,15 @@ void draw_line_from_angle_stop_on_collision(mlx_image_t *image, int playerX, int
     while ((step == 1 && x <= lineEndX) || (step == -1 && x >= lineEndX))
     {
         // Check for collision at the current position
-        if (is_collision(x, y, 0)) // Assuming playerRadius is 0 for collision check
+        if (is_collision(x, y, 1)) // Assuming playerRadius is 0 for collision check
         {
             break; // Stop drawing if a collision is detected
+        }
+
+        // Check if the current position is outside the environment boundaries
+        if (x < 0 || x >= WIDTH-1 || y < 0 || y >= HEIGHT-1)
+        {
+            break; // Stop drawing if outside boundaries
         }
 
         // Draw the pixel at the current position
@@ -190,9 +197,9 @@ void draw_line_from_angle(mlx_image_t *image, int playerX, int playerY, float pl
 void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
 {
       // Draw the field of view with rays
-    int numRays = 360; // Adjust the number of rays as needed
+    int numRays = 2000; // Adjust the number of rays as needed
     int fovAngle = 90; // Adjust the field of view angle as needed
-    int maxRayLength = 100; // Adjust the maximum ray length as needed
+    int maxRayLength = 1000; // Adjust the maximum ray length as needed
     uint32_t rayColor = ft_color(255, 0, 0, 255); // Color of the rays
 
     // Calculate the angle increment between rays
@@ -227,7 +234,7 @@ void ft_hook(void *param)
 
     data = get_data();
 
-    // draw minimap------
+// draw minimap------
 
     // Original map dimensions (15x39)
     int originalWidth = 15;
@@ -280,14 +287,14 @@ void ft_hook(void *param)
 
 draw_field_of_view(map, player.x, player.y);
 
-draw_line_from_angle_stop_on_collision(map, player.x, player.y, player.angle, 500, ft_color(255, 0, 0, 255));
+// draw_line_from_angle_stop_on_collision(map, player.x, player.y, player.angle, 50, ft_color(255, 0, 0, 255));
 
 
 
 
 
 
-    ///-----player_move
+///-----player_move
     // Handle key presses to update position
     float moveSpeed = 4.0; // Adjust the movement speed as needed
 
@@ -358,7 +365,7 @@ draw_line_from_angle_stop_on_collision(map, player.x, player.y, player.angle, 50
     if (player.angle < 0)
         player.angle = 360;
     if(mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_terminate(mlx);
+		exit(0);
 }
 
 // -----------------------------------------------------------------------------
