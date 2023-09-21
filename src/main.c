@@ -365,52 +365,51 @@ draw_field_of_view(map, player.x, player.y);
 
 // -----------------------------------------------------------------------------
 
-int main(int ac, const char *av[])
+int main(int ac, char *av[])
 {
-    t_data *data;
+    // t_data *data;
 
-    (void)ac;
-    (void)av;
-    data = get_data();
+    // data = get_data();
 
-    player.x = 100;
-    player.y = 80;
-    player.angle = 0;
-
+    // player.x = 100;
+    // player.y = 80;
+    // player.angle = 0;
+    f_check_arg(ac, av);
+    f_print_file(av[1]);
 	// Gotta error check this stuff
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (!(image = mlx_new_image(mlx, 128, 128)))
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
+	// if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+	// {
+	// 	puts(mlx_strerror(mlx_errno));
+	// 	return(EXIT_FAILURE);
+	// }
+	// if (!(image = mlx_new_image(mlx, 128, 128)))
+	// {
+	// 	mlx_close_window(mlx);
+	// 	puts(mlx_strerror(mlx_errno));
+	// 	return(EXIT_FAILURE);
+	// }
+	// if (mlx_image_to_window(mlx, image, 0, 0) == -1)
+	// {
+	// 	mlx_close_window(mlx);
+	// 	puts(mlx_strerror(mlx_errno));
+	// 	return(EXIT_FAILURE);
+	// }
 
-	mlx_loop_hook(mlx, ft_randomize, mlx);
-	mlx_loop_hook(mlx, ft_hook, mlx);
-    // error check
-    if (!(data->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true)))
-    {
-        puts(mlx_strerror(mlx_errno));
-        return (EXIT_FAILURE);
-    }
+	// mlx_loop_hook(mlx, ft_randomize, mlx);
+	// mlx_loop_hook(mlx, ft_hook, mlx);
+    // // error check
+    // if (!(data->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true)))
+    // {
+    //     puts(mlx_strerror(mlx_errno));
+    //     return (EXIT_FAILURE);
+    // }
 
-    map = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-    mlx_image_to_window(data->mlx, map, 0, 0);
+    // map = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+    // mlx_image_to_window(data->mlx, map, 0, 0);
 
-    mlx_loop_hook(data->mlx, ft_hook, data->mlx);
+    // mlx_loop_hook(data->mlx, ft_hook, data->mlx);
 
-    mlx_loop(data->mlx);
-    mlx_terminate(data->mlx);
+    // mlx_loop(data->mlx);
+    // mlx_terminate(data->mlx);
     return (EXIT_SUCCESS);
 }

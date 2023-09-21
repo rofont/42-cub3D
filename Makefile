@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bmartin <bmartin@student.42quebec.com>     +#+  +:+       +#+         #
+#    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/02/08 13:09:49 by bmartin          ###   ########.fr        #
+#    Updated: 2023/09/21 15:28:17 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-#                 \ \ / /_\ | _ |_ _| /_\ | _ | |  | __/ __|                   
-#                  \ V / _ \|   /| | / _ \| _ | |__| _|\__ \                    
-#                   \_/_/ \_|_|_|___/_/ \_|___|____|___|___/                   
+#                 \ \ / /_\ | _ |_ _| /_\ | _ | |  | __/ __|
+#                  \ V / _ \|   /| | / _ \| _ | |__| _|\__ \
+#                   \_/_/ \_|_|_|___/_/ \_|___|____|___|___/
 
 
 
@@ -43,7 +43,9 @@ HEADERS	= -I ./include -I $(LIBMLX)/include
 
 
 SRCS	=	src/main.c \
-		
+			src/check_arg.c \
+			src/check_file.c \
+
 
 OBJDIR	=	bin/
 
@@ -53,21 +55,21 @@ OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
 
 
 
-#                        _____ _   ___  ___ ___ _____                         
-#                       |_   _/_\ | _ \/ __| __|_   _|                         
-#                         | |/ _ \|   | (_ | _|  | |                          
-#                         |_/_/ \_|_|_\\___|___| |_|                           
+#                        _____ _   ___  ___ ___ _____
+#                       |_   _/_\ | _ \/ __| __|_   _|
+#                         | |/ _ \|   | (_ | _|  | |
+#                         |_/_/ \_|_|_\\___|___| |_|
 
 ######################______________TARGET______________######################
 
 
 all: mk_bin libs_make $(NAME)
-	
-	
+
+
 # The target "mk_bin" creates the "bin" directory if it doesn't exist already
 mk_bin:
 	@mkdir -p $(OBJDIR)
-	
+
 
 libs_make:
 	@$(MAKE) -C $(LIBMLX)
@@ -114,5 +116,4 @@ leaks: all
 
 #"play" builds the program and runs it with a specific map file.
 run: all
-	./$(NAME) 
-
+	./$(NAME)
