@@ -197,7 +197,7 @@ void draw_line_from_angle(mlx_image_t *image, int playerX, int playerY, float pl
 void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
 {
       // Draw the field of view with rays
-    int numRays = 2000; // Adjust the number of rays as needed
+    int numRays = 512; // Adjust the number of rays as needed
     int fovAngle = 90; // Adjust the field of view angle as needed
     int maxRayLength = 1000; // Adjust the maximum ray length as needed
     uint32_t rayColor = ft_color(255, 0, 0, 255); // Color of the rays
@@ -213,12 +213,6 @@ void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
     {
         // Calculate the angle for the current ray
         float currentAngle = startAngle + i * angleIncrement;
-
-        // Ensure the angle is within [0, 360) degrees
-        if (currentAngle >= 360.0)
-            currentAngle = 0;
-        if (currentAngle < 0.0)
-            currentAngle = 360.0;
 
         // Call draw_line_from_angle_stop_on_collision for the current ray
         draw_line_from_angle_stop_on_collision(image, playerX, playerY, currentAngle, maxRayLength, rayColor);
