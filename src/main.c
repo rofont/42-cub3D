@@ -2,8 +2,9 @@
 
 t_player player;
 mlx_image_t *map;
-char map1[15][39] = {
-    "            11111111111111111111111",
+char map1[16][39] = {
+    " 1111111111111111111111111111111111",
+    " 1111111111111111111111111111111111",
     "11111111111111111111111111111111111",
     "10000000001100000000000010000000001",
     "10110000011100000000000010000000001",
@@ -60,6 +61,37 @@ void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius
     }
 }
 
+int is_collision(int playerX, int playerY, int playerRadius)
+{
+    int scaleFactor = 20;
+
+    // Convert player's pixel coordinates to grid coordinates
+    int gridX = playerX / scaleFactor;
+    int gridY = playerY / scaleFactor;
+
+    // Calculate the grid cell that the player's center falls into
+    char cell = map1[gridY][gridX];
+
+    // Check if the player's grid cell contains a wall ('1')
+    if (cell == '1')
+    {
+        // Calculate the distance from the player's center to the center of the cell
+        int cellCenterX = gridX * scaleFactor + scaleFactor / 2;
+        int cellCenterY = gridY * scaleFactor + scaleFactor / 2;
+        int dx = playerX - cellCenterX;
+        int dy = playerY - cellCenterY;
+
+        // Check if the distance is less than the sum of player's radius and half cell size
+        if (dx * dx + dy * dy <= (playerRadius + scaleFactor / 2) * (playerRadius + scaleFactor / 2))
+        {
+            // Collision detected
+            return 1;
+        }
+    }
+    // No collision
+    return 0;
+}
+
 void draw_line(mlx_image_t *image, int x1, int y1, int x2, int y2, uint32_t color)
 {
     int dx = abs(x2 - x1);
@@ -97,6 +129,46 @@ void draw_line(mlx_image_t *image, int x1, int y1, int x2, int y2, uint32_t colo
     }
 }
 
+void draw_line_from_angle_stop_on_collision(mlx_image_t *image, int playerX, int playerY, float playerAngle, int lineLength, uint32_t color)
+{
+    // Convert playerAngle from degrees to radians
+    float angleRad = playerAngle * M_PI / 180.0;
+
+    // Calculate the endpoint coordinates
+    int lineEndX = playerX + (int)(lineLength * cos(angleRad));
+    int lineEndY = playerY + (int)(lineLength * sin(angleRad));
+
+    // Step size for drawing the line
+    int step = 1;
+
+    // Determine the direction of the line (positive or negative step)
+    if (lineEndX < playerX)
+        step = -1;
+
+    // Calculate the slope of the line
+    float slope = (float)(lineEndY - playerY) / (float)(lineEndX - playerX);
+
+    int x = playerX;
+    int y = playerY;
+
+    while ((step == 1 && x <= lineEndX) || (step == -1 && x >= lineEndX))
+    {
+        // Check for collision at the current position
+        if (is_collision(x, y, 0)) // Assuming playerRadius is 0 for collision check
+        {
+            break; // Stop drawing if a collision is detected
+        }
+
+        // Draw the pixel at the current position
+        mlx_put_pixel(image, x, y, color);
+
+        // Calculate the next position
+        x += step;
+        y = playerY + (int)(slope * (x - playerX));
+    }
+}
+
+
 double deg_to_rad(double degree)
 {
     // Convert playerAngle from degrees to radians
@@ -116,40 +188,45 @@ void draw_line_from_angle(mlx_image_t *image, int playerX, int playerY, float pl
     draw_line(image, playerX, playerY, lineEndX, lineEndY, color);
 }
 
-int is_collision(int playerX, int playerY, int playerRadius)
+void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
 {
-    int scaleFactor = 20;
+      // Draw the field of view with rays
+    int numRays = 4000; // Adjust the number of rays as needed
+    int fovAngle = 90; // Adjust the field of view angle as needed
+    int maxRayLength = 500; // Adjust the maximum ray length as needed
+    uint32_t rayColor = ft_color(255, 0, 0, 255); // Color of the rays
 
-    // Convert player's pixel coordinates to grid coordinates
-    int gridX = playerX / scaleFactor;
-    int gridY = playerY / scaleFactor;
+    // Calculate the angle increment between rays
+    float angleIncrement = (float)fovAngle / (float)(numRays - 1);
 
-    // Calculate the grid cell that the player's center falls into
-    char cell = map1[gridY][gridX];
+    // Start angle for the first ray
+    float startAngle = player.angle - (float)(fovAngle / 2);
 
-    // Check if the player's grid cell contains a wall ('1')
-    if (cell == '1')
+    // Iterate over the number of rays
+    for (int i = 0; i < numRays; i+=20)
     {
-        // Calculate the distance from the player's center to the center of the cell
-        int cellCenterX = gridX * scaleFactor + scaleFactor / 2;
-        int cellCenterY = gridY * scaleFactor + scaleFactor / 2;
-        int dx = playerX - cellCenterX;
-        int dy = playerY - cellCenterY;
+        // Calculate the angle for the current ray
+        float currentAngle = startAngle + i * angleIncrement;
 
-        // Check if the distance is less than the sum of player's radius and half cell size
-        if (dx * dx + dy * dy <= (playerRadius + scaleFactor / 2) * (playerRadius + scaleFactor / 2))
-        {
-            // Collision detected
-            return 1;
-        }
+        // Ensure the angle is within [0, 360) degrees
+        if (currentAngle >= 360.0)
+            currentAngle = 0;
+        if (currentAngle < 0.0)
+            currentAngle = 360.0;
+
+        // Call draw_line_from_angle_stop_on_collision for the current ray
+        draw_line_from_angle_stop_on_collision(image, playerX, playerY, currentAngle, maxRayLength, rayColor);
     }
-    // No collision
-    return 0;
 }
+
+
 
 void ft_hook(void *param)
 {
     mlx_t *mlx = param;
+    t_data *data;
+
+    data = get_data();
 
     // draw minimap------
 
@@ -195,8 +272,21 @@ void ft_hook(void *param)
     // draw player
     int playerRadius = 10; // Adjust the radius as needed
     draw_filled_circle(map, player.x, player.y, playerRadius, ft_color(255, 0, 0, 255));
-    draw_line_from_angle(map, player.x, player.y, player.angle, 20, ft_color(255, 0, 0, 255));
+   // draw_line_from_angle(map, player.x, player.y, player.angle, 50, ft_color(255, 0, 0, 255));
     // mlx_put_pixel(map, player.x, player.y, ft_color(255,0,0,255));
+
+
+//draw raycast
+
+
+draw_field_of_view(map, player.x, player.y);
+
+draw_line_from_angle_stop_on_collision(map, player.x, player.y, player.angle, 500, ft_color(255, 0, 0, 255));
+
+
+
+
+
 
     ///-----player_move
     // Handle key presses to update position
@@ -282,7 +372,7 @@ int main(int ac, const char *av[])
 
     player.x = 100;
     player.y = 80;
-    player.angle = 270;
+    player.angle = 0;
 
     // error check
     if (!(data->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true)))
