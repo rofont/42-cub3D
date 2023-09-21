@@ -13,18 +13,22 @@
 #ifndef CUBE
 # define CUBE
 
+//////Libraries
 # include "../MLX42/include/GLFW/glfw3.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/gnl/get_next_line.h"
 # include "../libft/libft.h"
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
+ #include <math.h>
 
-# define IMG_PIXEL_SIZE 64
-#define WIDTH 512
-#define HEIGHT 512
+//Variable 
+#define IMG_PIXEL_SIZE 64
+#define WIDTH 2048
+#define HEIGHT 2048
 
 //message erreur
 # define E_CHAR_INVALID "Error\n Found Invalid Character\n"
@@ -42,8 +46,32 @@ typedef struct s_data
 	int				width;
 	int				height_pixel;
 	int				width_pixel;
+	char			**map;
+
+	mlx_texture_t *wall;
+	mlx_texture_t *grass;
+	mlx_texture_t *penguin;
+
+	mlx_image_t *wall_img;
+	mlx_image_t *grass_img;
+	mlx_image_t *penguin_img;
 }					t_data;
 
+typedef struct s_map
+{
+	char		**map;
+	int			map_height;	
+	int			map_width;	
+
+}					t_map;
+
+typedef struct s_player
+{
+	int				x;
+	int				y;
+	float			angle;
+
+}				t_player;
 
 //function
 

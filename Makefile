@@ -24,7 +24,7 @@ G = \033[0;32m
 RT = \033[0m
 
 # NAME_OF_THE_PROGRAM (exemple:   a.out    )
-NAME	= cube
+NAME	= cub3D
 
 # COMPILER
 CC		= gcc
