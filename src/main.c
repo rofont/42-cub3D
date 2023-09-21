@@ -3,8 +3,7 @@
 t_player player;
 mlx_image_t *map;
 char map1[16][39] = {
-    " 1111111111111111111111111111111111",
-    " 1111111111111111111111111111111111",
+    "11111111111111111111111111111111111",
     "11111111111111111111111111111111111",
     "10000000001100000000000010000000001",
     "10110000011100000000000010000000001",
@@ -191,9 +190,9 @@ void draw_line_from_angle(mlx_image_t *image, int playerX, int playerY, float pl
 void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
 {
       // Draw the field of view with rays
-    int numRays = 4000; // Adjust the number of rays as needed
+    int numRays = 360; // Adjust the number of rays as needed
     int fovAngle = 90; // Adjust the field of view angle as needed
-    int maxRayLength = 500; // Adjust the maximum ray length as needed
+    int maxRayLength = 100; // Adjust the maximum ray length as needed
     uint32_t rayColor = ft_color(255, 0, 0, 255); // Color of the rays
 
     // Calculate the angle increment between rays
@@ -358,6 +357,8 @@ draw_line_from_angle_stop_on_collision(map, player.x, player.y, player.angle, 50
         player.angle = 0;
     if (player.angle < 0)
         player.angle = 360;
+    if(mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
+		mlx_terminate(mlx);
 }
 
 // -----------------------------------------------------------------------------
