@@ -2,6 +2,8 @@
 
 t_player player;
 mlx_image_t *map;
+  // Scale factor for each square
+    int scaleFactor = 30;
 char map1[16][39] = {
     "11111111111111111111111111111111111",
     "11111111111111111111111111111111111",
@@ -62,7 +64,7 @@ void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius
 
 int is_collision(int playerX, int playerY, int playerRadius)
 {
-    int scaleFactor = 20;
+
 
     // Convert player's pixel coordinates to grid coordinates
     int gridX = playerX / scaleFactor;
@@ -154,13 +156,13 @@ void draw_line_from_angle_stop_on_collision(mlx_image_t *image, int playerX, int
     while ((step == 1 && x <= lineEndX) || (step == -1 && x >= lineEndX))
     {
         // Check for collision at the current position
-        if (is_collision(x, y, 1)) // Assuming playerRadius is 0 for collision check
+        if (is_collision(x, y, 10)) // Assuming playerRadius is 0 for collision check
         {
             break; // Stop drawing if a collision is detected
         }
 
         // Check if the current position is outside the environment boundaries
-        if (x < 0 || x >= WIDTH-1 || y < 0 || y >= HEIGHT-1)
+        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
         {
             break; // Stop drawing if outside boundaries
         }
@@ -234,8 +236,7 @@ void ft_hook(void *param)
     int originalWidth = 15;
     int originalHeight = 39;
 
-    // Scale factor for each square
-    int scaleFactor = 20;
+  
 
     int i = 0;
     while (i < originalWidth)
