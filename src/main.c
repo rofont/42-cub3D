@@ -188,7 +188,7 @@ void draw_wall(mlx_image_t *image, float distance, float playerAngle, int wallX)
 void draw_line_from_angle_stop_on_collision(mlx_image_t *image, int playerX, int playerY, float playerAngle, uint32_t color)
 {
 
-    player.radius =10;
+    player.radius =1;
     int lineLength = 5000;
     
     // Convert playerAngle from degrees to radians
@@ -311,12 +311,11 @@ void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
 {
     // Define FOV and other constants
     float fov = 60.0; // Field of view angle in degrees
-    int numRays = 100000; // Number of rays (one per pixel)
+    int numRays = WIDTH; // Number of rays (one per pixel)
     float rayAngleIncrement = fov / numRays;
 
-    // Calculate the starting and ending angles for the FOV
+    // Calculate the starting angle for the FOV
     float startAngle = player.angle - (fov / 2);
-   // float endAngle = player.angle + (fov / 2);
 
     // Iterate over the entire FOV and draw rays
     for (int wallX = 0; wallX < WIDTH; wallX++)
@@ -325,8 +324,6 @@ void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
         float rayAngle = startAngle + wallX * rayAngleIncrement;
         rayAngle = fmod(rayAngle, 360.0); // Ensure the angle is within [0, 360)
 
-        draw_line_from_angle_stop_on_collision(image,player.x,player.y,player.angle, ft_color(255,0,0,255));
-
         // Use rayAngle to calculate the distance to the wall (you need to implement this)
         float distance = calculate_wall_distance(playerX, playerY, rayAngle);
 
@@ -334,6 +331,97 @@ void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
         draw_wall(image, distance, player.angle, wallX);
     }
 }
+
+void draw_line_from_angle_stop_on_collision2(mlx_image_t *image, int playerX, int playerY, float playerAngle, uint32_t color)
+{
+
+    player.radius =10;
+    int lineLength = 5000;
+    
+    // Convert playerAngle from degrees to radians
+    float angleRad = playerAngle * M_PI / 180.0;
+
+    // Calculate the endpoint coordinates
+    int lineEndX = playerX + (int)(lineLength * cos(angleRad));
+    int lineEndY = playerY + (int)(lineLength * sin(angleRad));
+
+
+printf("lineendx = %i\n", lineEndX);
+printf("lineendy = %i\n", lineEndY);
+ 
+    // Step size for drawing the line
+    int step = 1;
+
+    // Determine the direction of the line (positive or negative step)
+    if (lineEndX < playerX)
+        step = -1;
+
+    // Calculate the slope of the line
+    float slope = (float)(lineEndY - playerY) / (float)(lineEndX - playerX);
+
+    int x = playerX;
+    int y = playerY;
+
+    while ((step ==  1 && x <= lineEndX) || (step == -1 && x >= lineEndX))
+    {
+        // Check for collision at the current position
+        if (is_collision(x, y, player.radius)) // Assuming playerRadius is 10 for collision check
+        {
+            break; // Stop drawing if a collision is detected
+        }
+
+        // Check if the current position is outside the environment boundaries
+        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+        {
+            break; // Stop drawing if outside boundaries
+        }
+
+        // Draw the pixel at the current position
+       mlx_put_pixel(image, x, y, color);
+
+        // Calculate the next position
+        x += step;
+        y = playerY + (int)(slope * (x - playerX));
+    }
+  // Calculate the distance to the current position
+        int dx = x - playerX;
+        int dy = y - playerY;
+        int distance = sqrt(dx * dx + dy * dy);
+        printf("Distance to endpoint: %i\n", distance);
+          // Check if the current position is outside the environment boundaries
+
+   
+   
+        
+
+
+}
+
+void draw_field_of_view2(mlx_image_t *image, int playerX, int playerY)
+{
+      // Draw the field of view with rays
+    int numRays = 4000; // Adjust the number of rays as needed
+    int fovAngle =60; // Adjust the field of view angle as needed
+    
+    
+    // Calculate the angle increment between rays
+    float angleIncrement = (float)fovAngle / (float)(numRays - 1);
+
+    // Start angle for the first ray
+    float startAngle = player.angle - (float)(fovAngle / 2);
+
+    // Iterate over the number of rays
+    for (int i = 0; i < numRays; i+=20)
+    {
+        // Calculate the angle for the current ray
+        float currentAngle = startAngle + i * angleIncrement;
+
+        // Call draw_line_from_angle_stop_on_collision for the current ray
+        draw_line_from_angle_stop_on_collision2(image, playerX, playerY, currentAngle,ft_color(255,0,0,255));
+    }
+}
+
+
 
 
 
@@ -397,6 +485,7 @@ void ft_hook(void *param)
 
 
 draw_field_of_view(map, player.x, player.y);
+draw_field_of_view2(map, player.x, player.y);
 
 
 
