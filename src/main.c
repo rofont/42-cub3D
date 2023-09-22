@@ -242,8 +242,10 @@ printf("lineendy = %i\n", lineEndY);
             break; // Stop drawing if a collision is detected
         }
 
-        // Check if the current position is outside the environment boundaries
-        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+        // Check if the current position is outside the minimap boundaries
+        //TODO *****replace 39 and 16 by the value of minimap height and width
+
+        if (x < 0 || x >= 39*scaleFactor || y < 0 || y >= 16*scaleFactor)
         {
             break; // Stop drawing if outside boundaries
         }
