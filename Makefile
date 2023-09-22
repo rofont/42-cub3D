@@ -6,7 +6,7 @@
 #    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/09/21 15:28:17 by rofontai         ###   ########.fr        #
+#    Updated: 2023/09/22 12:06:25 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ RT = \033[0m
 NAME	= cub3D
 
 # COMPILER
-CC		= gcc
+CC		= gcc -g
 
 # COMPILER FLAGS
 CFLAGS	= -Wextra -Wall -Werror -Wunreachable-code -Ofast

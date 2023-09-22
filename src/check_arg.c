@@ -6,7 +6,7 @@ void	f_error(char *msg)
 	exit (EXIT_FAILURE);
 }
 
-int	f_check_fdf(char *str)
+int	f_check_cub(char *str)
 {
 	str = ft_strrchr(str, '.');
 	if (ft_strncmp(str, ".cub", 5) == 0)
@@ -25,7 +25,7 @@ void	f_check_arg(int argc, char **argv)
 	{
 		fd = open(argv[1], O_RDONLY);
 		str	= get_next_line(fd);
-		if (fd < 0 || str == NULL || f_check_fdf(argv[1]) == 0)
+		if (fd < 0 || str == NULL || f_check_cub(argv[1]) == 0)
 		{
 			close (fd);
 			f_error(E_FILE_NAME);

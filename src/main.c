@@ -368,14 +368,18 @@ draw_field_of_view(map, player.x, player.y);
 int main(int ac, char *av[])
 {
     // t_data *data;
-
+    char **ex;
     // data = get_data();
 
     // player.x = 100;
     // player.y = 80;
     // player.angle = 0;
     f_check_arg(ac, av);
-    f_print_file(av[1]);
+    ex = f_extract_data(av[1]);
+    f_print_tab(ex);
+    ft_free_tab_char(ex);
+
+    // f_print_(av[1]);
 	// Gotta error check this stuff
 	// if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
 	// {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bmartin <bmartin@student.42quebec.com>     +#+  +:+       +#+         #
+#    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/03 16:12:29 by bmartin           #+#    #+#              #
-#    Updated: 2023/02/06 18:21:51 by bmartin          ###   ########.fr        #
+#    Updated: 2023/09/22 11:17:19 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC	=	ft_atoi.c		\
 		ft_substr.c		\
 		ft_tolower.c	\
 		ft_toupper.c	\
+		ft_free_tab.c	\
 		../libft/gnl/get_next_line.c \
 		../libft/gnl/get_next_line_utils.c \
 		../libft/ft_printf/ft_hexa_print_max.c \
@@ -58,7 +59,7 @@ SRC	=	ft_atoi.c		\
 		../libft/ft_printf/ft_printstr.c \
 		../libft/ft_printf/ft_printu.c \
 		../libft/ft_printf/ft_ptr_to_hexa.c \
-		
+
 
 SRC_BONUS = ft_lstnew.c			\
 			 ft_lstadd_front.c	\
@@ -68,7 +69,7 @@ SRC_BONUS = ft_lstnew.c			\
 			 ft_lstdelone.c		\
 			 ft_lstclear.c		\
 			 ft_lstiter.c		\
-			 ft_lstmap.c		
+			 ft_lstmap.c
 
 OBJS = $(SRC:.c=.o)
 
@@ -86,7 +87,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 bonus: $(OBJS_BONUS)
-	$(AR) $(NAME) $^ 
+	$(AR) $(NAME) $^
 
 all: $(NAME)
 
@@ -94,7 +95,7 @@ clean:
 	$(RM) $(OBJS) $(OBJS_BONUS)
 
 fclean:	clean
-	$(RM) $(NAME)		
+	$(RM) $(NAME)
 
 re:	fclean all
 
