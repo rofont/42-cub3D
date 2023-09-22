@@ -70,6 +70,7 @@ typedef struct s_player
 	int				x;
 	int				y;
 	float			angle;
+	int				radius;
 
 }				t_player;
 
