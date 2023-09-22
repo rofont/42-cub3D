@@ -26,9 +26,9 @@
  #include <math.h>
 
 //Variable 
-#define IMG_PIXEL_SIZE 64
-#define WIDTH 2048
-#define HEIGHT 2048
+#define IMG_PIXEL_SIZE 16
+#define WIDTH 800
+#define HEIGHT 600
 
 //message erreur
 # define E_CHAR_INVALID "Error\n Found Invalid Character\n"

@@ -43,6 +43,7 @@ HEADERS	= -I ./include -I $(LIBMLX)/include
 
 
 SRCS	=	src/main.c \
+			
 		
 
 OBJDIR	=	bin/
