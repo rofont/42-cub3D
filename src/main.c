@@ -83,34 +83,29 @@ void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius
 
 int is_collision(int playerX, int playerY, int playerRadius)
 {
-
-
     // Convert player's pixel coordinates to grid coordinates
     int gridX = playerX / scaleFactor;
     int gridY = playerY / scaleFactor;
 
-    // Calculate the grid cell that the player's center falls into
-    char cell = map1[gridY][gridX];
-
     // Check if the player's grid cell contains a wall ('1')
-    if (cell == '1')
+    if (map1[gridY][gridX] == '1')
     {
-        // Calculate the distance from the player's center to the center of the cell
-        int cellCenterX = gridX * scaleFactor + scaleFactor / 2;
-        int cellCenterY = gridY * scaleFactor + scaleFactor / 2;
-        int dx = playerX - cellCenterX;
-        int dy = playerY - cellCenterY;
+        // Calculate the squared distance from the player's center to the cell center
+        int dx = playerX - (gridX * scaleFactor + scaleFactor / 2);
+        int dy = playerY - (gridY * scaleFactor + scaleFactor / 2);
+        int squaredDist = dx * dx + dy * dy;
 
-        // Check if the distance is less than the sum of player's radius and half cell size
-        if (dx * dx + dy * dy <= (playerRadius + scaleFactor / 2) * (playerRadius + scaleFactor / 2))
-        {
-            // Collision detected
-            return 1;
-        }
+        // Calculate the maximum squared distance allowed for collision
+        int maxSquaredDist = (playerRadius + scaleFactor / 2) * (playerRadius + scaleFactor / 2);
+
+        // Collision detected if the squared distance is less than or equal to the allowed maximum
+        return squaredDist <= maxSquaredDist;
     }
+
     // No collision
     return 0;
 }
+
 
 
 /////SUUSPECTE TO CAUSE THE SEGFAULT IN #D PERSPECTIVE WHEN TOO CLOSE TO WALL***
@@ -266,6 +261,7 @@ printf("lineendy = %i\n", lineEndY);
 
 //TODO   sassurer que la representation est fidele au vrai raycast dimpression 
 //(celui utiliser dans  la section draw wall de la function draw_field_of_view)
+// ((((((utiliser les memes variables))))))
 
 void draw_raycast_on_minimap(mlx_image_t *image, int playerX, int playerY)
 {
@@ -304,6 +300,11 @@ void ft_hook(void *param)
 
     //reset_pixel
    reset_window(map);
+
+//draw 3d view
+draw_field_of_view(map, player.x, player.y);
+
+
 
 // draw minimap------
 
@@ -347,14 +348,11 @@ void ft_hook(void *param)
     }
 
 // draw player
-    int playerRadius = 8; // Adjust the radius as needed
+    int playerRadius = 4; // Adjust the radius as needed
     draw_filled_circle(map, player.x, player.y, playerRadius, ft_color(255, 0, 0, 255));
+//draw raycast
+    draw_raycast_on_minimap(map, player.x, player.y);
 
-
-
-draw_field_of_view(map, player.x, player.y);
-
- //draw_raycast_on_minimap(map, player.x, player.y);
 
 
 ///-----player_move
