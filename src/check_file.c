@@ -77,3 +77,33 @@ char **f_extract_data(char *file)
 	return (data);
 }
 
+/*A travailler*/
+// t_dm *f_get_good_map(char **dat)
+// {
+// 	t_dm	*data_map;
+// 	int i;
+// 	int j;
+
+// 	i = 0;
+// 	data_map = f_calloc(sizeof(t_dm), 1);
+// 	ft_bzero(data_map, sizeof(t_dm));
+
+// 	while (dat[i])
+// 	{
+// 		if data commance par no
+// 			copie dans no
+// 		if data commance par so
+// 			copie dans so
+// 		if data commance par we
+// 			copie dans we
+// 		if data commance par ea
+// 			copie dans ea
+// 		if data commance par f
+// 			copie dans floor
+// 		if data commance par c
+// 			copie dans ceilling
+// 		if data dif de \n
+// 			copie dans map;
+// 	}
+// 	return (data_map);
+// }

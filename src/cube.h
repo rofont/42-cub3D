@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:31:36 by bmartin           #+#    #+#             */
-/*   Updated: 2023/09/22 12:31:06 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:35:16 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_player
 
 }				t_player;
 
-typedef struct s_md
+typedef struct s_dm
 {
 	char	*no;
 	char	*so;
@@ -83,7 +83,7 @@ typedef struct s_md
 	int		floor;
 	int		ceiling;
 	char	**map;
-}			t_md;
+}			t_dm;
 
 
 //function
