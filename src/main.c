@@ -187,14 +187,18 @@ void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
         distance = 1;
 
         // Calculate the height of the wall based on its distance for perspective
-        int wallHeight = (int)(HEIGHT / distance);
+        int wallHeight = (int)(HEIGHT / distance) * (cos((startAngle-wallX) - player.angle)) * 5;
 
         // Calculate the Y-coordinates for the top and bottom of the wall segment
         int wallTop = (HEIGHT - wallHeight) / 2;
+        if(wallTop > HEIGHT)
+        wallTop = HEIGHT;
         int wallBottom = wallTop + wallHeight;
+        if(wallBottom < 0)
+        wallBottom = 0;
 
         // Draw the wall segment on the screen as a vertical line
-        for (int y = wallTop; y < wallBottom; y++)
+        for (int y = wallTop; y < wallBottom; y++ )
         {
             mlx_put_pixel(image, wallX, y, ft_color(0, 255, 0, 255)); // Set color for the wall
         }
@@ -258,6 +262,43 @@ printf("lineendy = %i\n", lineEndY);
         y = playerY + (int)(slope * (x - playerX));
     }
 
+     step = 1;
+
+    // Determine the direction of the line (positive or negative step)
+    if (lineEndY < playerY)
+        step = -1;
+
+    // Calculate the slope of the line
+   slope = (float)(lineEndX - playerX) / (float)(lineEndY - playerY);
+
+     x = playerX;
+     y = playerY;
+
+
+ while ((step ==  1 && y <= lineEndY) || (step == -1 && y >= lineEndY))
+    {
+        // Check for collision at the current position
+        if (is_collision(x, y, lineEndRadius)) // Assuming playerRadius is 10 for collision check
+        {
+            break; // Stop drawing if a collision is detected
+        }
+
+        // Check if the current position is outside the minimap boundaries
+        //TODO *****replace 39 and 16 by the value of minimap height and width
+
+        if (x < 0 || x >= 39*scaleFactor || y < 0 || y >= 16*scaleFactor)
+        {
+            break; // Stop drawing if outside boundaries
+        }
+printf("avant\n");
+        // Draw the pixel at the current position
+       mlx_put_pixel(image, x, y, color);
+printf("apres\n");
+
+        // Calculate the next position
+        y += step;
+        x = playerX + (int)(slope * (y - playerY));
+    }
 
 }
 
