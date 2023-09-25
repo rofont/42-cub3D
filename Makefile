@@ -6,7 +6,7 @@
 #    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/09/25 10:59:31 by rofontai         ###   ########.fr        #
+#    Updated: 2023/09/25 14:09:14 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ HEADERS	= -I ./include -I $(LIBMLX)/include
 SRCS	=	src/main.c \
 			src/check_arg.c \
 			src/check_file.c \
-
+			src/pars_data.c \
 
 OBJDIR	=	bin/
 

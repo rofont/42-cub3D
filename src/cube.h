@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:31:36 by bmartin           #+#    #+#             */
-/*   Updated: 2023/09/25 12:52:12 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:41:54 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,12 @@ void	f_print_dm(t_dm *data_map);
 void	f_print_tab(char **cou);
 void	*f_freenull(void *str);
 void	f_print_file(char *file);
-char **f_extract_data(char *file);
-bool f_its_here(char *src, char *search);
-t_dm *f_get_good_map(char **dat);
+char 	**f_extract_data(char *file);
+bool 	f_its_here(char *src, char *search);
+t_dm 	*f_get_good_map(char **dat);
+
+//pars_data
+char *f_pars_direction(char *line, char *dir);
+char	*f_pars_colors(char *line, char *dir);
 
 #endif

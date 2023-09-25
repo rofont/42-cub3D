@@ -122,26 +122,24 @@ t_dm *f_get_good_map(char **dat)
 {
 	t_dm	*data_map;
 	int i;
-	// int j;
 
 	i = -1;
 	data_map = ft_calloc(sizeof(t_dm), 1);
 	ft_bzero(data_map, sizeof(t_dm));
-
 	while (dat[++i])
 	{
 		if (f_its_here(dat[i], "NO"))
-			data_map->no = ft_strdup(dat[i]);
+			data_map->no = f_pars_direction(dat[i], "NO");
 		else if (f_its_here(dat[i], "SO"))
-			data_map->so = ft_strdup(dat[i]);
+			data_map->so = f_pars_direction(dat[i], "SO");
 		else if (f_its_here(dat[i], "WE"))
-			data_map->we = ft_strdup(dat[i]);
+			data_map->we = f_pars_direction(dat[i], "WE");
 		else if (f_its_here(dat[i], "EA"))
-			data_map->ea = ft_strdup(dat[i]);
+			data_map->ea = f_pars_direction(dat[i], "EA");
 		else if (f_its_here(dat[i], "F"))
-			data_map->floor = ft_strdup(dat[i]);
+			data_map->floor = f_pars_colors(dat[i], "F");
 		else if (f_its_here(dat[i], "C"))
-			data_map->ceiling = ft_strdup(dat[i]);
+			data_map->ceiling = f_pars_colors(dat[i], "C");
 	}
 	return (data_map);
 }
