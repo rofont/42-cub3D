@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:31:36 by bmartin           #+#    #+#             */
-/*   Updated: 2023/09/22 12:35:16 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:52:12 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ typedef struct s_dm
 	char	*so;
 	char	*we;
 	char	*ea;
-	int		floor;
-	int		ceiling;
+	char*		floor;
+	char*		ceiling;
 	char	**map;
 }			t_dm;
 
@@ -96,9 +96,12 @@ int		f_check_cub(char *str);
 void	f_check_arg(int argc, char **argv);
 
 //check_file
+void	f_print_dm(t_dm *data_map);
 void	f_print_tab(char **cou);
 void	*f_freenull(void *str);
 void	f_print_file(char *file);
 char **f_extract_data(char *file);
+bool f_its_here(char *src, char *search);
+t_dm *f_get_good_map(char **dat);
 
 #endif

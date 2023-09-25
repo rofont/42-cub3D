@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 11:16:56 by rofontai          #+#    #+#             */
-/*   Updated: 2023/09/22 11:17:02 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:41:47 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@ void	**ft_free_tab_char(char **tabl)
 {
 	size_t	i;
 
-	i = 0;
-	while (tabl[i])
-	{
+	i = -1;
+	while (tabl[++i])
 		free(tabl[i]);
-		i++;
-	}
 	free(tabl);
 	return (0);
 }

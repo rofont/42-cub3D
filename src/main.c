@@ -369,6 +369,7 @@ int main(int ac, char *av[])
 {
     // t_data *data;
     char **ex;
+    t_dm *map;
     // data = get_data();
 
     // player.x = 100;
@@ -377,6 +378,8 @@ int main(int ac, char *av[])
     f_check_arg(ac, av);
     ex = f_extract_data(av[1]);
     f_print_tab(ex);
+    map = f_get_good_map(ex);
+    f_print_dm(map);
     ft_free_tab_char(ex);
 
     // f_print_(av[1]);

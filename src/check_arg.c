@@ -30,5 +30,6 @@ void	f_check_arg(int argc, char **argv)
 			close (fd);
 			f_error(E_FILE_NAME);
 		}
+		str = f_freenull(str);
 	}
 }
