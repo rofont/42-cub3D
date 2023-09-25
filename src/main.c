@@ -108,18 +108,21 @@ int is_collision(int playerX, int playerY, int playerRadius)
 
 
 
-/////SUUSPECTE TO CAUSE THE SEGFAULT IN #D PERSPECTIVE WHEN TOO CLOSE TO WALL***
+
 float calculate_wall_distance(int playerX, int playerY, float rayAngle)
 {
     // Constants
     const float rayStepSize = 0.1;   // Step size for ray casting
-    const float maxDistance = 5000.0; // Maximum raycasting distance
+    const float maxDistance = 1000; // Maximum raycasting distance
 
     // Convert rayAngle from degrees to radians
     float angleRad = deg_to_rad(rayAngle);
 
     float rayX = playerX;
     float rayY = playerY;
+
+    float dx = cos(angleRad) * rayStepSize; // Precompute the step in the x-direction
+    float dy = sin(angleRad) * rayStepSize; // Precompute the step in the y-direction
 
     while (rayX >= 0 && rayX < WIDTH && rayY >= 0 && rayY < HEIGHT)
     {
@@ -134,20 +137,15 @@ float calculate_wall_distance(int playerX, int playerY, float rayAngle)
             if (map1[gridY][gridX] == '1')
             {
                 // Calculate the distance to the wall using the Pythagorean theorem
-                float dx = rayX - playerX;
-                float dy = rayY - playerY;
-
-                // Ensure dx and dy are positive
-                if (dx < 0) dx = -dx;
-                if (dy < 0) dy = -dy;
-
-                return sqrt(dx * dx + dy * dy);
+                float deltaX = rayX - playerX;
+                float deltaY = rayY - playerY;
+                return sqrt(deltaX * deltaX + deltaY * deltaY);
             }
         }
 
         // Move to the next position along the ray
-        rayX += rayStepSize * cos(angleRad);
-        rayY += rayStepSize * sin(angleRad);
+        rayX += dx;
+        rayY += dy;
 
         // Limit the maximum raycasting distance to avoid infinite loops
         if (rayX - playerX >= maxDistance || rayY - playerY >= maxDistance)
@@ -167,8 +165,8 @@ float calculate_wall_distance(int playerX, int playerY, float rayAngle)
 void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
 {
     // Define FOV and other constants
-    float fov = 90.0; // Field of view angle in degrees
-    int numRays = WIDTH; // Number of rays (one per pixel)
+    float fov = 60.0; // Field of view angle in degrees
+    int numRays = WIDTH ; // Number of rays (one per pixel)
     float rayAngleIncrement = fov / numRays;
 
     // Calculate the starting angle for the FOV
@@ -183,24 +181,28 @@ void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
 
         // Use rayAngle to calculate the distance to the wall
         float distance = calculate_wall_distance(playerX, playerY, rayAngle);
-        if(distance < 1)
-        distance = 1;
-
-        // Calculate the height of the wall based on its distance for perspective
-        int wallHeight = (int)(HEIGHT / distance) * (cos((startAngle-wallX) - player.angle)) * 5;
-
-        // Calculate the Y-coordinates for the top and bottom of the wall segment
-        int wallTop = (HEIGHT - wallHeight) / 2;
-        if(wallTop > HEIGHT)
-        wallTop = HEIGHT;
-        int wallBottom = wallTop + wallHeight;
-        if(wallBottom < 0)
-        wallBottom = 0;
-
-        // Draw the wall segment on the screen as a vertical line
-        for (int y = wallTop; y < wallBottom; y++ )
+        
+        // Check if the distance is greater than 0 to avoid division by zero
+        if (distance > 0)
         {
-            mlx_put_pixel(image, wallX, y, ft_color(0, 255, 0, 255)); // Set color for the wall
+            // Calculate the perpendicular distance from player to wall using trigonometry
+            float angleDifference = rayAngle - player.angle;
+            float perpendicularDist = distance * cos(deg_to_rad(angleDifference));
+
+            // Calculate the height of the wall based on perpendicular distance for perspective
+            int wallHeight = (int)(HEIGHT / perpendicularDist);
+
+            // Calculate the Y-coordinates for the top and bottom of the wall segment
+            int wallTop = (HEIGHT - wallHeight) / 2;
+            if (wallTop < 0) wallTop = 0;
+            int wallBottom = wallTop + wallHeight;
+            if (wallBottom >= HEIGHT) wallBottom = HEIGHT - 1;
+
+            // Draw the wall segment on the screen as a vertical line
+            for (int y = wallTop; y < wallBottom; y++)
+            {
+                mlx_put_pixel(image, wallX, y, ft_color(0, 255, 0, 255)); // Set color for the wall
+            }
         }
     }
 }
@@ -208,11 +210,12 @@ void draw_field_of_view(mlx_image_t *image, int playerX, int playerY)
 
 
 
+
 void draw_line_from_angle_stop_on_collision2(mlx_image_t *image, int playerX, int playerY, float playerAngle, uint32_t color)
 {
 
-    float lineEndRadius =10;
-    int lineLength = 1000;
+    float lineEndRadius =1;
+    int lineLength = 100;
     
     // Convert playerAngle from degrees to radians
     float angleRad = playerAngle * M_PI / 180.0;
@@ -222,8 +225,6 @@ void draw_line_from_angle_stop_on_collision2(mlx_image_t *image, int playerX, in
     int lineEndY = playerY + (int)(lineLength * sin(angleRad));
 
 
-printf("lineendx = %i\n", lineEndX);
-printf("lineendy = %i\n", lineEndY);
  
     // Step size for drawing the line
     int step = 1;
@@ -290,10 +291,8 @@ printf("lineendy = %i\n", lineEndY);
         {
             break; // Stop drawing if outside boundaries
         }
-printf("avant\n");
         // Draw the pixel at the current position
        mlx_put_pixel(image, x, y, color);
-printf("apres\n");
 
         // Calculate the next position
         y += step;
@@ -309,7 +308,7 @@ printf("apres\n");
 void draw_raycast_on_minimap(mlx_image_t *image, int playerX, int playerY)
 {
       // Draw the field of view with rays
-    int numRays = WIDTH*4; // Adjust the number of rays as needed
+    int numRays = WIDTH; // Adjust the number of rays as needed
     int fovAngle =60; // Adjust the field of view angle as needed
     
     
@@ -391,7 +390,7 @@ draw_field_of_view(map, player.x, player.y);
     }
 
 // draw player
-    int playerRadius = 4; // Adjust the radius as needed
+    int playerRadius = 20; // Adjust the radius as needed
     draw_filled_circle(map, player.x, player.y, playerRadius, ft_color(255, 0, 0, 255));
 //draw raycast
     draw_raycast_on_minimap(map, player.x, player.y);
@@ -400,7 +399,7 @@ draw_field_of_view(map, player.x, player.y);
 
 ///-----player_move
     // Handle key presses to update position
-    float moveSpeed = 4.0; // Adjust the movement speed as needed
+    float moveSpeed = 3.0; // Adjust the movement speed as needed
 
     if (mlx_is_key_down(mlx, MLX_KEY_W))
     {
