@@ -6,7 +6,7 @@
 #    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/09/25 14:09:14 by rofontai         ###   ########.fr        #
+#    Updated: 2023/09/26 13:08:56 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRCS	=	src/main.c \
 			src/check_arg.c \
 			src/check_file.c \
 			src/pars_data.c \
+			src/pars_map.c \
 
 OBJDIR	=	bin/
 

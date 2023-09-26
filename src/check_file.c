@@ -9,8 +9,8 @@ void	f_print_dm(t_dm *data_map)
 	printf("EA =%s=\n", data_map->ea);
 	printf("F =%d=\n", data_map->floor);
 	printf("C =%d=\n", data_map->ceiling);
-	// printf("map =\n");
-	// f_print_tab(data_map->map);
+	printf("map =\n");
+	f_print_tab(data_map->map);
 	printf("=\n");
 	printf("---------data_map out------------\n");
 }
@@ -126,12 +126,18 @@ t_dm *f_get_good_map(char **dat)
 {
 	t_dm	*data_map;
 	int i;
+	int j;
+	int size;
 
 	if (DEBUG == 1)
 		printf(CYA"-----get_good_data in-----\n"WHT);
+	size = 0;
+	j = 0;
 	i = -1;
 	data_map = ft_calloc(sizeof(t_dm), 1);
 	ft_bzero(data_map, sizeof(t_dm));
+	while (dat[size])
+		size ++;
 	while (dat[++i])
 	{
 		if (f_its_here(dat[i], "NO"))
@@ -146,9 +152,14 @@ t_dm *f_get_good_map(char **dat)
 			data_map->floor = f_return_colors(dat[i], "F");
 		else if (f_its_here(dat[i], "C"))
 			data_map->ceiling = f_return_colors(dat[i], "C");
+		else
+			break ;
 	}
+	data_map->map = ft_calloc(sizeof(char *), size - i + 1);
+	while (dat[i])
+		data_map->map[j++] = ft_strdup(dat[i++]);
 	if (DEBUG == 1)
-		printf(GRE"-----get_good_data in-----\n"WHT);
+		printf(GRE"-----get_good_data out-----\n"WHT);
 	return (data_map);
 }
 
