@@ -370,6 +370,11 @@ int main(int ac, char *av[])
     // t_data *data;
     char **ex;
     t_dm *map;
+    // int *c;
+    // int *f;
+
+    // c = NULL;
+    // f = NULL;
     // data = get_data();
 
     // player.x = 100;
@@ -380,7 +385,10 @@ int main(int ac, char *av[])
     f_print_tab(ex);
     map = f_get_good_map(ex);
     f_print_dm(map);
+    // f = f_tab_color(map->floor);
+    // c = f_tab_color(map->ceiling);
     ft_free_tab_char(ex);
+    f_free_dm(map);
 
     // f_print_(av[1]);
 	// Gotta error check this stuff

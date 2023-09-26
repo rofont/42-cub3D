@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:31:36 by bmartin           #+#    #+#             */
-/*   Updated: 2023/09/25 14:41:54 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/09/26 11:22:55 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,20 @@
 # define E_MAP_BORDER "Error\nMap Border Missing\n"
 # define E_FILE_NAME "Error\nFile Is Invalid\n"
 # define E_FLOODFILL "Error\nFloodfill Is Invalid\n"
-# define E_ARGS_NUM "Error\nArgument Number is wrong\n"
+# define E_ARGS_NUM "Error\nArgument Number Is Wrong\n"
+# define E_COLORS "Error\nColors Is Invalid\n"
 
+// colors
+# define BCK "\x1B[30m"
+# define GRE "\x1B[32m"
+# define YEL "\x1B[33m"
+# define BLE "\x1B[34m"
+# define MAG "\x1B[35m"
+# define CYA "\x1B[36m"
+# define WHT "\x1B[37m"
+
+//debug
+# define DEBUG 1
 typedef struct s_data
 {
 	mlx_t			*mlx;
@@ -80,8 +92,8 @@ typedef struct s_dm
 	char	*so;
 	char	*we;
 	char	*ea;
-	char*		floor;
-	char*		ceiling;
+	int		floor;
+	int		ceiling;
 	char	**map;
 }			t_dm;
 
@@ -103,9 +115,15 @@ void	f_print_file(char *file);
 char 	**f_extract_data(char *file);
 bool 	f_its_here(char *src, char *search);
 t_dm 	*f_get_good_map(char **dat);
+void	*f_free_dm(t_dm *data);
 
 //pars_data
-char *f_pars_direction(char *line, char *dir);
+int		get_rgba(int r, int g, int b, int a);
+int		f_number(char *str);
+bool	f_is_digit(char *str);
+char 	*f_pars_direction(char *line, char *dir);
 char	*f_pars_colors(char *line, char *dir);
+int		*f_tab_color(char *line);
+int		f_return_colors(char *line, char *dir);
 
 #endif

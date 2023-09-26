@@ -7,8 +7,8 @@ void	f_print_dm(t_dm *data_map)
 	printf("SO =%s=\n", data_map->so);
 	printf("WE =%s=\n", data_map->we);
 	printf("EA =%s=\n", data_map->ea);
-	printf("F =%s=\n", data_map->floor);
-	printf("C =%s=\n", data_map->ceiling);
+	printf("F =%d=\n", data_map->floor);
+	printf("C =%d=\n", data_map->ceiling);
 	// printf("map =\n");
 	// f_print_tab(data_map->map);
 	printf("=\n");
@@ -82,6 +82,8 @@ char	*f_join_and_free(char *src, char *add)
 
 char **f_extract_data(char *file)
 {
+	if (DEBUG == 1)
+		printf(CYA"-----extract_data in-----\n"WHT);
 	int fd;
 	char *temp;
 	char*line;
@@ -100,6 +102,8 @@ char **f_extract_data(char *file)
 	close (fd);
 	map_file = ft_split(line, '\n');
 	line = f_freenull(line);
+	if (DEBUG == 1)
+		printf(GRE"-----extract_data out-----\n"WHT);
 	return (map_file);
 }
 
@@ -123,6 +127,8 @@ t_dm *f_get_good_map(char **dat)
 	t_dm	*data_map;
 	int i;
 
+	if (DEBUG == 1)
+		printf(CYA"-----get_good_data in-----\n"WHT);
 	i = -1;
 	data_map = ft_calloc(sizeof(t_dm), 1);
 	ft_bzero(data_map, sizeof(t_dm));
@@ -137,9 +143,27 @@ t_dm *f_get_good_map(char **dat)
 		else if (f_its_here(dat[i], "EA"))
 			data_map->ea = f_pars_direction(dat[i], "EA");
 		else if (f_its_here(dat[i], "F"))
-			data_map->floor = f_pars_colors(dat[i], "F");
+			data_map->floor = f_return_colors(dat[i], "F");
 		else if (f_its_here(dat[i], "C"))
-			data_map->ceiling = f_pars_colors(dat[i], "C");
+			data_map->ceiling = f_return_colors(dat[i], "C");
 	}
+	if (DEBUG == 1)
+		printf(GRE"-----get_good_data in-----\n"WHT);
 	return (data_map);
+}
+
+void	*f_free_dm(t_dm *data)
+{
+	if (data->no)
+		data->no = f_freenull(data->no);
+	if (data->so)
+		data->so = f_freenull(data->so);
+	if (data->we)
+		data->we = f_freenull(data->we);
+	if (data->ea)
+		data->ea = f_freenull(data->ea);
+	data->ceiling = 0;
+	data->floor = 0;
+	free(data);
+	return (NULL);
 }
