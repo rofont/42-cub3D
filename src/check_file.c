@@ -119,9 +119,6 @@ bool f_its_here(char *src, char *search)
 	return (false);
 }
 
-
-
-/*A travailler*/
 t_dm *f_get_good_map(char **dat)
 {
 	t_dm	*data_map;
@@ -175,6 +172,8 @@ void	*f_free_dm(t_dm *data)
 		data->ea = f_freenull(data->ea);
 	data->ceiling = 0;
 	data->floor = 0;
+	if (data->map)
+		ft_free_tab_char(data->map);
 	free(data);
 	return (NULL);
 }

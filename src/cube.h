@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:31:36 by bmartin           #+#    #+#             */
-/*   Updated: 2023/09/26 11:22:55 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:44:27 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_player
 {
 	int				x;
 	int				y;
-	float			angle;
+	char			orientation;
 
 }				t_player;
 
@@ -125,5 +125,12 @@ char 	*f_pars_direction(char *line, char *dir);
 char	*f_pars_colors(char *line, char *dir);
 int		*f_tab_color(char *line);
 int		f_return_colors(char *line, char *dir);
+
+//pars_map
+void	f_print_player(t_player *play);
+t_player	*f_init_player(t_player *play);
+bool	f_is_position(char c);
+int		f_search_player(t_dm *data, t_player *player);
+
 
 #endif
