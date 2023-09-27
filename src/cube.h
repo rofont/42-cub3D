@@ -24,11 +24,17 @@
 #include <stdlib.h>
 #include <stdbool.h>
  #include <math.h>
+ #include <sys/time.h>
 
 //Variable 
-#define IMG_PIXEL_SIZE 16
-#define WIDTH 800
-#define HEIGHT 600
+
+
+#define WIDTH 1080
+#define HEIGHT 1080
+#define textureWidth 64
+#define textureHeight 64
+#define mapWidth 24
+#define mapHeight 24
 
 //message erreur
 # define E_CHAR_INVALID "Error\n Found Invalid Character\n"
@@ -67,12 +73,16 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	int				x;
-	int				y;
-	float			angle;
-	int				radius;
+    int x;
+    int y;
+	char orientation; 
+    float angle;
+    float dirX; // Direction vector X-component
+    float dirY; // Direction vector Y-component
+    float planeX; // Camera plane vector X-component
+    float planeY; // Camera plane vector Y-component
+} t_player;
 
-}				t_player;
 
 //function
 
