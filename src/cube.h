@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:31:36 by bmartin           #+#    #+#             */
-/*   Updated: 2023/09/27 14:44:18 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:10:57 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int		*f_tab_color(char *line);
 int		f_return_colors(char *line, char *dir);
 
 //pars_map
+void	f_pri_map(char **map);
 void	f_print_player(t_player *play);
 void	f_print_map(t_map *play);
 t_player	*f_init_player(t_player *play);
@@ -134,7 +135,7 @@ bool	f_is_position(char c);
 int		f_search_player(t_dm *data, t_player *player);
 t_map	*f_maps(t_map *cub, t_dm *data);
 void	f_modif_map(t_map *cub, t_dm *data);
-void	f_flood_fill(t_map *cub, int x, int y, int x1, int y1);
+void	f_flood_fill(t_map *cub, int x, int y);
 
 
 #endif

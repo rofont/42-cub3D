@@ -22,8 +22,8 @@ int main(int ac, char *av[])
     map = f_maps(map, data);
     f_modif_map(map, data);
     f_print_map(map);
-    f_flood_fill(map, play->x, play->y, map->map_height, map->map_width);
-    f_print_map(map);
+    f_flood_fill(map, play->x, play->y);
+    // f_print_map(map);
     free(play);
     ft_free_tab_char(ex);
     f_free_dm(data);

@@ -1,5 +1,22 @@
 #include "cube.h"
 
+void	f_pri_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	usleep(50000);
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	while (map[i])
+	{
+		printf("%s\n", map[i]);
+		i++;
+	}
+}
+
 void	f_print_player(t_player *play)
 {
 	printf("x =%d=\n", play->x);
@@ -100,12 +117,7 @@ void f_modif_map(t_map *cub, t_dm *data)
 		cub->map[x] = ft_calloc(sizeof(char), cub->map_width + 1);
 		while(y < cub->map_width)
 		{
-			if (ft_strlen(data->map[x]) < (size_t)cub->map_width && (size_t)y > ft_strlen(data->map[x]))
-				cub->map[x][y] = 'y';
-			else if (data->map[x][y] == '1' || data->map[x][y] == '0' || f_is_position(data->map[x][y]))
-				cub->map[x][y] = data->map[x][y];
-			else
-				cub->map[x][y] = 'y';
+			cub->map[x][y] = data->map[x][y];
 			y++;
 		}
 		x++;
@@ -114,23 +126,21 @@ void f_modif_map(t_map *cub, t_dm *data)
 		printf(GRE"-----modif_map out-----\n"WHT);
 }
 
-void	f_flood_fill(t_map *cub, int x, int y, int x1, int y1)
+void	f_flood_fill(t_map *cub, int x, int y)
 {
-	// if (DEBUG == 1)
-	// 	printf(CYA"-----flood in-----\n"WHT);
-	if (x < 0 || x > x1 || y < 0 || y > y1)
-		return ;
-	if (cub->map[x][y] == '1' || cub->map[x][y] == 'y' || cub->map[x][y] == 'x')
-		return ;
-	if (cub->map[x][y] == '0')
-	{
-
-	}
-		cub->map[x][y] = 'x';
-	f_flood_fill(cub, x, y + 1, x1, y1);
-	f_flood_fill(cub, x, y - 1, x1, y1);
-	f_flood_fill(cub, x + 1, y, x1, y1);
-	f_flood_fill(cub, x - 1, y, x1, y1);
-	// if (DEBUG == 1)
-		// printf(CYA"-----flood out-----\n"WHT);
+	if (!cub->map[x] || x < 0 || x > cub->map_height || y < 0 || y + 1 > (int)ft_strlen(cub->map[x]))
+		f_error(E_FLOODFILL);
+	if (cub->map[x][y] == '0' || f_is_position(cub->map[x][y]))
+		cub->map[x][y] = '.';
+	else
+		return;
+	f_pri_map(cub->map);
+	f_flood_fill(cub, x + 1, y);
+	f_flood_fill(cub, x - 1, y);
+	f_flood_fill(cub, x, y + 1);
+	f_flood_fill(cub, x, y - 1);
+	// f_flood_fill(cub, x + 1, y + 1, x1, y1);
+	// f_flood_fill(cub, x + 1, y - 1, x1, y1);
+	// f_flood_fill(cub, x -1, y + 1, x1, y1);
+	// f_flood_fill(cub, x - 1, y - 1, x1, y1);
 }
