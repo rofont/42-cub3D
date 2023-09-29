@@ -3,7 +3,7 @@
 t_player player;
 mlx_image_t *map;
   // Scale factor for each square
-    int Minimap_scale_factor = 12;
+    int Minimap_scale_factor = 16;
 
 
 double posX = 6, posY = 6;  //x and y start position   (player x and y)
@@ -12,13 +12,13 @@ double posX = 6, posY = 6;  //x and y start position   (player x and y)
 
 char map1[9][9] = {
     "111111111",
+    "110010011",
     "100000001",
     "100000001",
+    "110010011",
     "100000001",
     "100000001",
-    "100000001",
-    "100000001",
-    "100000001",
+    "110010011",
     "111111111"};
 // -----------------------------------------------------------------------------
 
@@ -102,137 +102,123 @@ double getTicks()
 
 
 
-
 void draw_3d()
 {
-
-  for(int x = 0; x < WIDTH; x++)
+    for (int x = 0; x < WIDTH; x++)
     {
-      //calculate ray position and direction
-      double cameraX = 2 * x / (double)WIDTH - 1; //x-coordinate in camera space
-      double rayDirX = dirX + planeX * cameraX;
-      double rayDirY = dirY + planeY * cameraX;
+        // Calculate ray position and direction
+        double cameraX = 2 * x / (double)WIDTH - 1; // x-coordinate in camera space
+        double rayDirX = dirX + planeX * cameraX;
+        double rayDirY = dirY + planeY * cameraX;
 
-      //which box of the map we're in
-      int mapX = player.x;
-      int mapY = player.y;
+        // Map grid position
+        int mapX = (int)posX;
+        int mapY = (int)posY;
 
-      //length of ray from current position to next x or y-side
-      double sideDistX;
-      double sideDistY;
+        // Length of ray from current position to next x or y-side
+        double sideDistX;
+        double sideDistY;
 
-       //length of ray from one x or y-side to next x or y-side
-      double deltaDistX = fabs(1 / rayDirX);
-      double deltaDistY = fabs(1 / rayDirY);
-      double perpWallDist;
+        // Length of ray from one x or y-side to next x or y-side
+        double deltaDistX = fabs(1 / rayDirX);
+        double deltaDistY = fabs(1 / rayDirY);
+        double perpWallDist;
 
-      //what direction to step in x or y-direction (either +1 or -1)
-      double stepX;
-      double stepY;
+        // Direction to step in x or y-direction (either +1 or -1)
+        int stepX;
+        int stepY;
 
-      int hit = 0; //was there a wall hit?
-      int side; //was a NS or a EW wall hit?
+        int hit = 0; // Was there a wall hit?
+        int side;    // Was a NS or EW wall hit?
 
-
-      //calculate step and initial sideDist
-      if (rayDirX < 0)
-      {
-        stepX = -1;
-        sideDistX = (posX - mapX) * deltaDistX;
-      }
-      else
-      {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - posX) * deltaDistX;
-      }
-      if (rayDirY < 0)
-      {
-        stepY = -1;
-        sideDistY = (posY - mapY) * deltaDistY;
-      }
-      else
-      {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
-      }
-
-
-
-    //deBUG PRINT
-printf("player.x=%i\n", player.x);
-printf("player.y=%i\n", player.y);
-//  printf("mapX=%d\n", mapX);
-//     printf("mapY=%d\n", mapY);
-//     printf("cameraX=%f\n", cameraX);
-//     printf("rayDirX=%f\n", rayDirX);
-//     printf("rayDirY=%f\n", rayDirY);
-    //    printf("deltaDistX=%f\n", deltaDistX);
-    // printf("deltaDistY=%f\n", deltaDistY);   printf("stepX=%d\n", stepX);
-    // printf("stepY=%d\n", stepY);
-    // printf("sideDistX=%f\n", sideDistX);
-    // printf("sideDistY=%f\n", sideDistY); printf("hit=%d\n", hit);
-
-
-
-
-       //perform DDA
-      while (!hit)
-      {
-        //jump to next map square, either in x-direction, or in y-direction
-        if (sideDistX < sideDistY)
+        // Calculate step and initial sideDist
+        if (rayDirX < 0)
         {
-          sideDistX += deltaDistX;
-          mapX += stepX;
-          side = 0;
+            stepX = -1;
+            sideDistX = (posX - mapX) * deltaDistX;
         }
         else
         {
-          sideDistY += deltaDistY;
-          mapY += stepY;
-          side = 1;
+            stepX = 1;
+            sideDistX = (mapX + 1.0 - posX) * deltaDistX;
         }
-        //Check if ray has hit a wall
-        if (map1[mapX][mapY] == '1') 
-        hit = 1;
-      } 
+        if (rayDirY < 0)
+        {
+            stepY = -1;
+            sideDistY = (posY - mapY) * deltaDistY;
+        }
+        else
+        {
+            stepY = 1;
+            sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+        }
 
-     //Calculate distance projected on camera direction (Euclidean distance would give fisheye effect!)
-      if(side == 0)
-       perpWallDist = (sideDistX - deltaDistX);
-      else         
-       perpWallDist = (sideDistY - deltaDistY);
+        // Perform DDA
+        while (!hit)
+        {
+            // Jump to next map square, either in x-direction, or in y-direction
+            if (sideDistX < sideDistY)
+            {
+                sideDistX += deltaDistX;
+                mapX += stepX;
+                side = 0;
+            }
+            else
+            {
+                sideDistY += deltaDistY;
+                mapY += stepY;
+                side = 1;
+            }
+            // Check if ray has hit a wall
+            if (map1[mapX][mapY] == '1')
+                hit = 1;
+        }
 
+        // Calculate distance projected on camera direction
+        if (side == 0)
+            perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
+        else
+            perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
 
+        // Calculate height of line to draw on screen
+        int lineHeight = (int)(HEIGHT / perpWallDist);
 
-       //Calculate height of line to draw on screen
-      int lineHeight = (int)(HEIGHT ) / perpWallDist;
+        // Calculate lowest and highest pixel to fill in current stripe
+        int drawStart = -lineHeight / 2 + HEIGHT / 2;
+        if (drawStart < 0)
+            drawStart = 0;
+        int drawEnd = lineHeight / 2 + HEIGHT / 2;
+        if (drawEnd >= HEIGHT)
+            drawEnd = HEIGHT - 1;
 
-      //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + HEIGHT / 2;
-      if(drawStart < 0)drawStart = 0;
-      int drawEnd = lineHeight / 2 + HEIGHT / 2;
-      if(drawEnd >= HEIGHT)drawEnd = HEIGHT - 1;
+        // Choose wall color (update this according to your map)
+        uint32_t color;
+        switch (map1[mapX][mapY])
+        {
+            case '1':
+                color = ft_color(255, 0, 0, 255); // Red
+                break;
+            case '2':
+                color = ft_color(0, 255, 0, 255); // Green
+                break;
+            case '3':
+                color = ft_color(0, 0, 255, 255); // Blue
+                break;
+            default:
+                color = ft_color(255, 255, 255, 255); // White
+                break;
+        }
 
-    //choose wall color
-      uint32_t color;
-      switch(map1[mapX][mapY])
-      {
-        case 1:  color = ft_color(255,0,0,255);  break; //red
-        case 2:  color = ft_color(0,255,0,255);  break; //green
-        case 3:  color = ft_color(255,0,0,255);   break; //blue
-        case 4:  color = ft_color(255,255,255,255);  break; //white
-        default: color = ft_color(255,255,0,255); break; //yellow
-      }
+        // Give x and y sides different brightness
+        if (side == 1)
+        {
+            color = color / 2;
+        }
 
-      //give x and y sides different brightness
-      if (side == 1) {color = color / 2;}
-
-      //draw the pixels of the stripe as a vertical line
-      verLine(x, drawStart, drawEnd, color);
+        // Draw the pixels of the stripe as a vertical line
+        verLine(x, drawStart, drawEnd, color);
     }
-    
-
-  }
+}
 
 
 
@@ -252,15 +238,9 @@ void ft_hook(void *param)
 draw_3d();
 
 
-
-
-// draw player
-  //  int playerRadius = 5; // Adjust the radius as needed
-  //  draw_filled_circle(map, player.x, player.y, playerRadius, ft_color(255, 0, 0, 255));
-
 ///-----player_move
        //speed modifiers
-    double moveSpeed = 0.05; //the constant value is in squares/second
+    double moveSpeed = 0.1 ; //the constant value is in squares/second
     double rotSpeed = 0.1; //the constant value is in radians/second
 
       //move forward if no wall in front of you
