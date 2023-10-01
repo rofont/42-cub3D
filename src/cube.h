@@ -29,12 +29,8 @@
 //Variable 
 
 
-#define WIDTH 1080
-#define HEIGHT 1080
-#define textureWidth 64
-#define textureHeight 64
-#define mapWidth 24
-#define mapHeight 24
+#define WIDTH 520
+#define HEIGHT 520
 
 //message erreur
 # define E_CHAR_INVALID "Error\n Found Invalid Character\n"
@@ -45,23 +41,55 @@
 # define E_FLOODFILL "Error\n Floodfill Is Invalid\n"
 # define E_ARGS_NUM "Error\n Argument Number is wrong\n"
 
-typedef struct s_data
+
+
+typedef struct s_ray
 {
-	mlx_t			*mlx;
-	int				height;
-	int				width;
-	int				height_pixel;
-	int				width_pixel;
-	char			**map;
+	//iterator
+		int i; 
 
-	mlx_texture_t *wall;
-	mlx_texture_t *grass;
-	mlx_texture_t *penguin;
+	//init cam values
+		 double posX;//x and y start position   (player x and y)
+		 double posY;//x and y start position   (player x and y)
+		 double dirX;//initial direction vector
+		 double dirY;//initial direction vector
+		 double planeX;//raycaster of camera plane 
+		 double planeY;//raycaster of camera plane 
 
-	mlx_image_t *wall_img;
-	mlx_image_t *grass_img;
-	mlx_image_t *penguin_img;
-}					t_data;
+	 // Calculate ray position and direction
+        double cameraX; // x-coordinate in camera space
+        double rayDirX;
+        double rayDirY;
+
+        // Map grid position
+        int mapX;
+        int mapY;
+        // Length of ray from current position to next x or y-side
+        double sideDistX;
+        double sideDistY;
+        // Length of ray from one x or y-side to next x or y-side
+        double deltaDistX;
+        double deltaDistY;
+        double perpWallDist;
+        // Direction to step in x or y-direction (either +1 or -1)
+        int stepX;
+        int stepY;
+        int hit; // Was there a wall hit?
+        int side;    // Was a NS or EW wall hit?
+		int lineHeight;	//wall height
+		int	drawStart;	//position to start drawing wall
+		int	drawEnd;	//position to end drawing wall
+
+		uint32_t	color;   ///TODO pick wall color (replace when texture update)
+}	t_ray;
+
+typedef struct s_player
+{
+    int x;
+    int y;
+	char orientation; 
+    float angle;
+} t_player;
 
 typedef struct s_map
 {
@@ -71,17 +99,19 @@ typedef struct s_map
 
 }					t_map;
 
-typedef struct s_player
+typedef struct s_data
 {
-    int x;
-    int y;
-	char orientation; 
-    float angle;
-    float dirX; // Direction vector X-component
-    float dirY; // Direction vector Y-component
-    float planeX; // Camera plane vector X-component
-    float planeY; // Camera plane vector Y-component
-} t_player;
+	mlx_t			*mlx;
+	int				height;
+	int				width;
+	int				height_pixel;
+	int				width_pixel;
+	char			**map;
+	t_ray			*ray;
+
+}					t_data;
+
+
 
 
 //function
