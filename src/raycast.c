@@ -1,6 +1,5 @@
 #include "cube.h"
 
-
 ///TODO remove temp map
 char map2[9][9] = {
     "111111111",
@@ -59,7 +58,7 @@ void ray_init (t_data *data)
 
 }
 
-  // Calculate step and initial sideDist
+// Calculate step and initial sideDist
 void get_side_dist (t_data *data)
 {
  if (data->ray->rayDirX < 0)

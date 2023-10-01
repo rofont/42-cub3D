@@ -1,11 +1,5 @@
 #include "cube.h"
 
-t_player player;
-
-  // Scale factor for each square
-  //  int Minimap_scale_factor = 16;
-
-
 
 char map1[9][9] = {
     "111111111",
