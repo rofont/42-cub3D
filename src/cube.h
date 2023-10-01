@@ -47,7 +47,6 @@ typedef struct s_ray
 {
 	//iterator
 		int i; 
-
 	//init cam values
 		 double posX;//x and y start position   (player x and y)
 		 double posY;//x and y start position   (player x and y)

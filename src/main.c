@@ -187,23 +187,17 @@ void    wall_color (t_data *data)
         switch (map1[data->ray->mapX][data->ray->mapY])
         {
             case '1':
-                data->ray->color = ft_color(255, 0, 0, 255); // Red
-                break;
-            case '2':
-                data->ray->color = ft_color(0, 255, 0, 255); // Green
-                break;
-            case '3':
-                data->ray->color = ft_color(0, 0, 255, 255); // Blue
+                data->ray->color = ft_color(0, 255, 0, 255); // GREEN
                 break;
             default:
-                data->ray->color = ft_color(255, 255, 255, 255); // White
+                data->ray->color = ft_color(255, 255, 255, 255); // White if error wall
                 break;
         }
 
         // Give x and y sides different brightness
         if (data->ray->side == 1)
         {
-            data->ray->color = data->ray->color / 2;
+            data->ray->color = ft_color(128, 0, 128, 255); ///side wall are purples
         }
 }
 
@@ -226,10 +220,10 @@ void raycast(t_data *data)
        get_wall(data);
 
         //TODO replace with WALL TEXTURE
-      // wall_color(data);
+       wall_color(data);
 
         // Draw the pixels of the stripe as a vertical line
-        verLine(data->ray->i, data->ray->drawStart, data->ray->drawEnd, ft_color(0,255,0,255));
+        verLine(data->ray->i, data->ray->drawStart, data->ray->drawEnd, data->ray->color);
     }
 }
 
@@ -279,7 +273,9 @@ if (mlx_is_key_down(mlx, MLX_KEY_A))
   double leftDirY = data->ray->dirX;
 
   // Update the position based on the leftward direction
+  
   if (map1[(int)(data->ray->posX - leftDirX * moveSpeed)][(int)(data->ray->posY)] == '0') 
+  
     data->ray->posX += leftDirX * moveSpeed;
   if (map1[(int)(data->ray->posX)][(int)(data->ray->posY - leftDirY * moveSpeed)] == '0') 
     data->ray->posY += leftDirY * moveSpeed;
@@ -348,7 +344,7 @@ int main(int ac, const char *av[])
     }
 
  
- data->ray->posX = 6, data->ray->posY = 6;  //x and y start position   (player x and y)
+    data->ray->posX = 6, data->ray->posY = 6;  //x and y start position   (player x and y)
     data->ray->dirX = -1, data->ray->dirY = 0; //initial direction vector
     data->ray->planeX = 0, data->ray->planeY = 0.66; //the 2d raycaster version of camera plane 
 
