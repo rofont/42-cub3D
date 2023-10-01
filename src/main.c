@@ -20,32 +20,8 @@ char map1[9][9] = {
 // -----------------------------------------------------------------------------
 
 
-t_data *get_data(void)
 
-{
-    static t_data *var = NULL;
 
-    if (!var)
-    {
-        var = ft_calloc(1, sizeof(t_data));
-        var->ray = ft_calloc(1, sizeof(t_ray)); // Allocate and initialize the ray structure
-        var->player = ft_calloc(1, sizeof(t_ray)); // Allocate and initialize the player structure
-        return (var);
-    }
-    return (var);
-}
-
-//put black pixel everywhere
-void reset_window(mlx_image_t *image)
-{
-    for (int x = 0; x < WIDTH; x++)
-    {
-        for (int y = 0; y < HEIGHT; y++)
-        {
-            mlx_put_pixel(image, x, y, ft_color(0, 0, 0, 255)); // Set pixel to black
-        }
-    }
-}
 
 
 
@@ -65,9 +41,7 @@ void    wall_color (t_data *data)
 
         // Give x and y sides different brightness
         if (data->ray->side == 1)
-        {
             data->ray->color = ft_color(128, 0, 128, 255); ///side wall are purples
-        }
 }
 
 
@@ -78,14 +52,13 @@ void ft_hook(void *param)
 
     data = get_data();
 
-    //reset_pixel
-   reset_window(data->canvas);
+    //reset_pixel or commment it to see something beautifull hahahah
+   reset_window(data);
 
-//draw "3d" view with raycast
-raycast(data);
+    //draw "3d" view with raycast
+    raycast(data);
 
-
-//player_move
+    //player_move
     player_control(data);
 
 }
@@ -100,32 +73,19 @@ int main(int ac, const char *av[])
     (void)av;
     data = get_data();
 
-    player.x = 6 ;
-    player.y = 6 ;
-    player.angle = 0;
     ///////TODO replace map1 with actual map
     data->map = map1;
 
+    /////INSERT PARSING HERE
 
-//------------mlx init
-    // error check
-    if (!(data->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true)))
-    {
-        puts(mlx_strerror(mlx_errno));
-        return (EXIT_FAILURE);
-    }
-    data->canvas = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-    mlx_image_to_window(data->mlx, data->canvas, 0, 0);
-///////-------
+    //--mlx init
+    init_mlx(data);
 
-
+    //TODO modify the values according to the letter we have for the player (N-S-E-W)
     player_view_init(data);
-
-
 
     mlx_loop_hook(data->mlx, ft_hook, data->mlx);
     mlx_loop(data->mlx);
-
     mlx_terminate(data->mlx);
     return (EXIT_SUCCESS);
 }

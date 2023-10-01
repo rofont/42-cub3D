@@ -16,7 +16,6 @@ char map2[9][9] = {
 
 void raycast(t_data *data)
 {
-  
     for (data->ray->i = 0; data->ray->i < WIDTH; data->ray->i++)
     {
       
@@ -39,7 +38,6 @@ void raycast(t_data *data)
         verLine(data->ray->i, data->ray->drawStart, data->ray->drawEnd, data->ray->color);
     }
 }
-
 
 
 //TODO need to set up the value of pos dir and plane values to fit the N,E,W,S

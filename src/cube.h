@@ -29,8 +29,8 @@
 //Variable 
 
 
-#define WIDTH 520
-#define HEIGHT 520
+#define WIDTH 1080
+#define HEIGHT 1080
 
 //message erreur
 # define E_CHAR_INVALID "Error\n Found Invalid Character\n"
@@ -118,14 +118,13 @@ typedef struct s_data
 
 
 
-//function
-t_data *get_data(void);
-
-	//init
+//----------------------function
+//init
+	t_data *get_data(void);
 	void player_view_init (t_data *data);
+	void init_mlx (t_data *data);
 
-
-	//raycast
+//raycast
 	void raycast(t_data *data);
 	void ray_init (t_data *data);
 	void get_side_dist (t_data *data);
@@ -135,17 +134,14 @@ t_data *get_data(void);
 		void    wall_color (t_data *data);
 
 
-
-
-	//tools
+//tools
+	void reset_window(t_data *data);
 	uint32_t ft_color(int32_t r, int32_t g, int32_t b, int32_t a);
 	void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius, uint32_t color);
 		void verLine(int x, int startY, int drawEnd, uint32_t color);
 
 
-
-
-	//player control
+//player control
 	void player_control (t_data *data);
 	void move_player(t_data *data, char key);
 	void strafe_player(t_data *data, char direction);
