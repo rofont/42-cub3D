@@ -115,4 +115,16 @@ typedef struct s_data
 
 //function
 
+	//raycast
+	void raycast(t_data *data);
+	void ray_init (t_data *data);
+	void get_side_dist (t_data *data);
+	void dda (t_data *data);
+	void get_wall (t_data *data);
+		//TODO delete when texture are in
+		void    wall_color (t_data *data);
+
+	//tools
+	void verLine(int x, int startY, int drawEnd, uint32_t color);
+
 #endif
