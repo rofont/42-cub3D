@@ -40,3 +40,14 @@ void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius
     }
 }
 
+void verLine(int x, int startY, int drawEnd, uint32_t color)
+{
+    t_data *data;
+
+    data = get_data();
+    int y;
+    for (y = startY; y <= drawEnd; y++)
+    {
+        mlx_put_pixel(data->canvas, x, y, color);
+    }
+}

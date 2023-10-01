@@ -29,6 +29,7 @@ t_data *get_data(void)
     {
         var = ft_calloc(1, sizeof(t_data));
         var->ray = ft_calloc(1, sizeof(t_ray)); // Allocate and initialize the ray structure
+        var->player = ft_calloc(1, sizeof(t_ray)); // Allocate and initialize the player structure
         return (var);
     }
     return (var);
@@ -46,17 +47,7 @@ void reset_window(mlx_image_t *image)
     }
 }
 
-void verLine(int x, int startY, int drawEnd, uint32_t color)
-{
-    t_data *data;
 
-    data = get_data();
-    int y;
-    for (y = startY; y <= drawEnd; y++)
-    {
-        mlx_put_pixel(data->canvas, x, y, color);
-    }
-}
 
 //TODO will become wall texture
 void    wall_color (t_data *data)
@@ -129,7 +120,6 @@ int main(int ac, const char *av[])
 
 
     player_view_init(data);
-
 
 
 

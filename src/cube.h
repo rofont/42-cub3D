@@ -88,6 +88,8 @@ typedef struct s_player
     int y;
 	char orientation; 
     float angle;
+	double moveSpeed; //the constant value is in squares/second
+    double rotSpeed; //the constant value is in radians/second
 } t_player;
 
 typedef struct s_map
@@ -107,6 +109,7 @@ typedef struct s_data
 	int				width_pixel;
 	//TODO replace with actual map parsing
 	char (*map)[9];
+	t_player		*player;
 	t_ray			*ray;
 	mlx_image_t *canvas;
 
@@ -116,6 +119,8 @@ typedef struct s_data
 
 
 //function
+t_data *get_data(void);
+
 	//init
 	void player_view_init (t_data *data);
 
@@ -135,7 +140,6 @@ typedef struct s_data
 	//tools
 	uint32_t ft_color(int32_t r, int32_t g, int32_t b, int32_t a);
 	void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius, uint32_t color);
-		//TODO implement to work in tools.c
 		void verLine(int x, int startY, int drawEnd, uint32_t color);
 
 
@@ -143,4 +147,7 @@ typedef struct s_data
 
 	//player control
 	void player_control (t_data *data);
+	void move_player(t_data *data, char key);
+	void strafe_player(t_data *data, char direction);
+	void rotate_player(t_data *data, char direction);
 #endif
