@@ -105,8 +105,10 @@ typedef struct s_data
 	int				width;
 	int				height_pixel;
 	int				width_pixel;
-	char			**map;
+	//TODO replace with actual map parsing
+	char (*map)[9];
 	t_ray			*ray;
+	mlx_image_t *canvas;
 
 }					t_data;
 
@@ -114,6 +116,9 @@ typedef struct s_data
 
 
 //function
+	//init
+	void player_view_init (t_data *data);
+
 
 	//raycast
 	void raycast(t_data *data);
@@ -124,7 +129,18 @@ typedef struct s_data
 		//TODO delete when texture are in
 		void    wall_color (t_data *data);
 
-	//tools
-	void verLine(int x, int startY, int drawEnd, uint32_t color);
 
+
+
+	//tools
+	uint32_t ft_color(int32_t r, int32_t g, int32_t b, int32_t a);
+	void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius, uint32_t color);
+		//TODO implement to work in tools.c
+		void verLine(int x, int startY, int drawEnd, uint32_t color);
+
+
+
+
+	//player control
+	void player_control (t_data *data);
 #endif

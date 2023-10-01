@@ -44,6 +44,9 @@ HEADERS	= -I ./include -I $(LIBMLX)/include
 
 SRCS	=	src/main.c \
 			src/raycast.c \
+			src/tools.c \
+			src/control.c\
+			src/init.c\
 			
 		
 

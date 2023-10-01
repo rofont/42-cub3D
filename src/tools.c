@@ -1,0 +1,42 @@
+#include "cube.h"
+
+///TODO remove temp map
+char map3[9][9] = {
+    "111111111",
+    "110010011",
+    "100000001",
+    "100000001",
+    "110010011",
+    "100000001",
+    "100000001",
+    "110010011",
+    "111111111"};
+
+
+
+// donne la couleur selon le niveau de rgba
+uint32_t ft_color(int32_t r, int32_t g, int32_t b, int32_t a)
+{
+    return (r << 24 | g << 16 | b << 8 | a);
+}
+
+void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius, uint32_t color)
+{
+    int x = centerX - radius;
+    while (x <= centerX + radius)
+    {
+        int y = centerY - radius;
+        while (y <= centerY + radius)
+        {
+            int dx = x - centerX;
+            int dy = y - centerY;
+            if (dx * dx + dy * dy <= radius * radius)
+            {
+                mlx_put_pixel(image, x, y, color);
+            }
+            y++;
+        }
+        x++;
+    }
+}
+
