@@ -19,12 +19,6 @@ char map1[9][9] = {
     "111111111"};
 // -----------------------------------------------------------------------------
 
-
-
-
-
-
-
 //TODO will become wall texture
 void    wall_color (t_data *data)
 {
@@ -38,7 +32,6 @@ void    wall_color (t_data *data)
                 data->ray->color = ft_color(255, 255, 255, 255); // White if error wall
                 break;
         }
-
         // Give x and y sides different brightness
         if (data->ray->side == 1)
             data->ray->color = ft_color(128, 0, 128, 255); ///side wall are purples
@@ -82,6 +75,7 @@ int main(int ac, const char *av[])
     init_mlx(data);
 
     //TODO modify the values according to the letter we have for the player (N-S-E-W)
+    //modify the function player_view_init
     player_view_init(data);
 
     mlx_loop_hook(data->mlx, ft_hook, data->mlx);
