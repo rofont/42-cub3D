@@ -9,9 +9,9 @@ void	f_print_dm(t_dm *data_map)
 	printf("EA =%s=\n", data_map->ea);
 	printf("F =%d=\n", data_map->floor);
 	printf("C =%d=\n", data_map->ceiling);
-	printf("map =\n");
-	f_print_tab(data_map->map);
-	printf("=\n");
+	// printf("map =\n");
+	// f_print_tab(data_map->map);
+	// printf("=\n");
 	printf("---------data_map out------------\n");
 }
 

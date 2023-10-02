@@ -128,13 +128,13 @@ void f_modif_map(t_map *cub, t_dm *data)
 
 void	f_flood_fill(t_map *cub, int x, int y)
 {
-	if (!cub->map[x] || x < 0 || x > cub->map_height || y < 0 || y + 1 > (int)ft_strlen(cub->map[x]))
+	if (!cub->map[x] || x < 0 || x > cub->map_height || y < 0 || y + 1 > (int)ft_strlen(cub->map[x]) || cub->map[x][y] == ' ')
 		f_error(E_FLOODFILL);
 	if (cub->map[x][y] == '0' || f_is_position(cub->map[x][y]))
 		cub->map[x][y] = '.';
 	else
 		return;
-	f_pri_map(cub->map);
+	// f_pri_map(cub->map);
 	f_flood_fill(cub, x + 1, y);
 	f_flood_fill(cub, x - 1, y);
 	f_flood_fill(cub, x, y + 1);
