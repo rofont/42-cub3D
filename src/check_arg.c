@@ -33,3 +33,20 @@ void	f_check_arg(int argc, char **argv)
 		str = f_freenull(str);
 	}
 }
+
+void	f_pars_file(int ac, char **av, t_map *map)
+{
+	char **data;
+    t_player * play;
+
+    play = f_init_player();
+    f_check_arg(ac, av);
+    data = f_extract_data(av[1]);
+    f_get_data(map, data);
+    f_freenull(data);
+    if (f_search_player(map, play) != 1)
+        f_error(E_FLOODFILL);
+    f_size_maps(map);
+    data = f_copy_tab(map->map);
+    f_flood_fill(data, map, play->x, play->y);
+}

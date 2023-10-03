@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:31:36 by bmartin           #+#    #+#             */
-/*   Updated: 2023/09/28 16:10:57 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/03 10:44:29 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ typedef struct s_data
 
 typedef struct s_map
 {
+	char		*no;
+	char		*so;
+	char		*we;
+	char		*ea;
+	int			floor;
+	int			ceiling;
 	char		**map;
 	int			map_height;
 	int			map_width;
@@ -86,56 +92,46 @@ typedef struct s_player
 
 }				t_player;
 
-typedef struct s_dm
-{
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	int		floor;
-	int		ceiling;
-	char	**map;
-}			t_dm;
-
-
 //function
 
 // PARSING
+
+//a_supp
+void	f_print_tab(char **cou);
+void	f_print_map(t_map *data_map);
+void	f_pri_map(char **map);
 
 //check_arg
 void	f_error(char *msg);
 int		f_check_cub(char *str);
 void	f_check_arg(int argc, char **argv);
+void	f_print_player(t_player *play);
+void	f_pars_file(int ac, char **av, t_map *map);
 
-//check_file
-void	f_print_dm(t_dm *data_map);
-void	f_print_tab(char **cou);
+//utils
 void	*f_freenull(void *str);
-void	f_print_file(char *file);
-char 	**f_extract_data(char *file);
-bool 	f_its_here(char *src, char *search);
-t_dm 	*f_get_good_map(char **dat);
-void	*f_free_dm(t_dm *data);
-
-//pars_data
+char	*f_join_and_free(char *src, char *add);
+t_map	*f_init_map(void);
+bool	f_its_here(char *src, char *search);
+char	*f_pars_direction(char *line, char *dir);
 int		get_rgba(int r, int g, int b, int a);
-int		f_number(char *str);
 bool	f_is_digit(char *str);
-char 	*f_pars_direction(char *line, char *dir);
-char	*f_pars_colors(char *line, char *dir);
-int		*f_tab_color(char *line);
+int		f_number(char *str);
 int		f_return_colors(char *line, char *dir);
+int		*f_tab_color(char *line);
+char	*f_pars_colors(char *line, char *dir);
+bool	f_is_good_data(t_map *map);
+t_player	*f_init_player(void);
+bool	f_is_position(char c);
+char	**f_copy_tab(char **src);
+
+//extract_data
+char	**f_extract_data(char *file);
+void	f_get_data(t_map *map, char **dat);
 
 //pars_map
-void	f_pri_map(char **map);
-void	f_print_player(t_player *play);
-void	f_print_map(t_map *play);
-t_player	*f_init_player(t_player *play);
-bool	f_is_position(char c);
-int		f_search_player(t_dm *data, t_player *player);
-t_map	*f_maps(t_map *cub, t_dm *data);
-void	f_modif_map(t_map *cub, t_dm *data);
-void	f_flood_fill(t_map *cub, int x, int y);
-
+int		f_search_player(t_map *data, t_player *player);
+void	f_size_maps(t_map *cub);
+void	f_flood_fill(char **temp, t_map *cub, int x, int y);
 
 #endif
