@@ -6,7 +6,7 @@
 #    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/10/03 10:07:26 by rofontai         ###   ########.fr        #
+#    Updated: 2023/10/03 14:33:01 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,8 @@ HEADERS	= -I ./include -I $(LIBMLX)/include
 SRCS	=	src/main.c \
 			src/check_arg.c \
 			src/utils.c \
+			src/utils1.c \
+			src/utils2.c \
 			src/extract_data.c \
 			src/a_supp.c \
 			src/pars_map.c \

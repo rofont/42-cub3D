@@ -1,8 +1,8 @@
 #include "cube.h"
 
-void	f_print_tab(char **cou) //TODO a supprimer
+void	f_print_tab(char **cou)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cou[i])
@@ -26,7 +26,6 @@ void	f_print_map(t_map *data_map)
 	printf("map =\n");
 	f_print_tab(data_map->map);
 	printf("=\n");
-
 	printf("---------data_map out------------\n");
 }
 

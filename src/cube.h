@@ -1,17 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cube.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 11:31:36 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/03 10:44:29 by rofontai         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef CUBE
-# define CUBE
+#ifndef CUBE_H
+# define CUBE_H
 
 //////Libraries
 # include "../MLX42/include/GLFW/glfw3.h"
@@ -19,19 +7,19 @@
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/gnl/get_next_line.h"
 # include "../libft/libft.h"
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <math.h>
 # include <fcntl.h>
+# include <math.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-//Variable
-#define IMG_PIXEL_SIZE 64
-#define WIDTH 2048
-#define HEIGHT 2048
+// Variable
+# define IMG_PIXEL_SIZE 64
+# define WIDTH 2048
+# define HEIGHT 2048
 
-//message erreur
+// message erreur
 # define E_CHAR_INVALID "Error\nFound Invalid Character\n"
 # define E_MAP_TOO_WIDTH "Error\nMap Too Wide (Max 40)\n"
 # define E_MAP_TOO_HEIGTH "Error\nMap Too High (max 21)\n"
@@ -50,8 +38,9 @@
 # define CYA "\x1B[36m"
 # define WHT "\x1B[37m"
 
-//debug
+// debug
 # define DEBUG 1
+
 typedef struct s_data
 {
 	mlx_t			*mlx;
@@ -61,26 +50,26 @@ typedef struct s_data
 	int				width_pixel;
 	char			**map;
 
-	mlx_texture_t *wall;
-	mlx_texture_t *grass;
-	mlx_texture_t *penguin;
+	mlx_texture_t	*wall;
+	mlx_texture_t	*grass;
+	mlx_texture_t	*penguin;
 
-	mlx_image_t *wall_img;
-	mlx_image_t *grass_img;
-	mlx_image_t *penguin_img;
+	mlx_image_t		*wall_img;
+	mlx_image_t		*grass_img;
+	mlx_image_t		*penguin_img;
 }					t_data;
 
 typedef struct s_map
 {
-	char		*no;
-	char		*so;
-	char		*we;
-	char		*ea;
-	int			floor;
-	int			ceiling;
-	char		**map;
-	int			map_height;
-	int			map_width;
+	char			*no;
+	char			*so;
+	char			*we;
+	char			*ea;
+	char			**map;
+	int				floor;
+	int				ceiling;
+	int				map_width;
+	int				map_height;
 
 }					t_map;
 
@@ -90,48 +79,55 @@ typedef struct s_player
 	int				y;
 	char			orientation;
 
-}				t_player;
+}					t_player;
 
-//function
+// function
 
 // PARSING
 
-//a_supp
-void	f_print_tab(char **cou);
-void	f_print_map(t_map *data_map);
-void	f_pri_map(char **map);
+// a_supp
+void				f_print_tab(char **cou);
+void				f_print_map(t_map *data_map);
+void				f_pri_map(char **map);
 
-//check_arg
-void	f_error(char *msg);
-int		f_check_cub(char *str);
-void	f_check_arg(int argc, char **argv);
-void	f_print_player(t_player *play);
-void	f_pars_file(int ac, char **av, t_map *map);
+// check_arg
+void				f_error(char *msg, t_map *data);
+int					f_check_cub(char *str);
+void				f_check_arg(int argc, char **argv);
+void				f_print_player(t_player *play);
+void				f_pars_file(int ac, char **av, t_map *map, t_player *play);
 
-//utils
-void	*f_freenull(void *str);
-char	*f_join_and_free(char *src, char *add);
-t_map	*f_init_map(void);
-bool	f_its_here(char *src, char *search);
-char	*f_pars_direction(char *line, char *dir);
-int		get_rgba(int r, int g, int b, int a);
-bool	f_is_digit(char *str);
-int		f_number(char *str);
-int		f_return_colors(char *line, char *dir);
-int		*f_tab_color(char *line);
-char	*f_pars_colors(char *line, char *dir);
-bool	f_is_good_data(t_map *map);
-t_player	*f_init_player(void);
-bool	f_is_position(char c);
-char	**f_copy_tab(char **src);
+// utils
+void				*f_freenull(void *str);
+char				*f_join_and_free(char *src, char *add);
+t_map				*f_init_map(void);
+char				*f_pars_direction(char *line, char *dir);
+bool				f_its_here(char *src, char *search);
 
-//extract_data
-char	**f_extract_data(char *file);
-void	f_get_data(t_map *map, char **dat);
+// utils2
+int					f_number(char *str);
+int					f_return_colors(char *line, char *dir);
+int					*f_tab_color(char *line);
+char				*f_pars_colors(char *line, char *dir);
+bool				f_is_good_data(t_map *map);
 
-//pars_map
-int		f_search_player(t_map *data, t_player *player);
-void	f_size_maps(t_map *cub);
-void	f_flood_fill(char **temp, t_map *cub, int x, int y);
+// utils1
+t_player			*f_init_player(void);
+bool				f_is_position(char c);
+char				**f_copy_tab(char **src);
+void				*f_free_tmap(t_map *data);
+void				*f_free_player(t_player *play);
+
+// extract_data
+char				**f_extract_data(char *file);
+void				f_get_data(t_map *map, char **dat);
+void				f_while_pars(int *i, char **dat, t_map *map);
+
+// pars_map
+int					get_rgba(int r, int g, int b, int a);
+bool				f_is_digit(char *str);
+int					f_search_player(t_map *data, t_player *player);
+void				f_size_maps(t_map *cub);
+void				f_flood_fill(char **temp, t_map *cub, int x, int y);
 
 #endif
