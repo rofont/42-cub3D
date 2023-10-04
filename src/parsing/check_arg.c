@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "../cube.h"
 
 void	f_error(char *msg, t_map *data)
 {

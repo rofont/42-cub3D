@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "../cube.h"
 
 t_player	*f_init_player(void)
 {

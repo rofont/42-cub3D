@@ -6,7 +6,7 @@
 #    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/10/03 14:33:01 by rofontai         ###   ########.fr        #
+#    Updated: 2023/10/04 15:37:40 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ NAME	= cub3D
 CC		= gcc -g
 
 # COMPILER FLAGS
-CFLAGS	= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS	= -Wextra -Wall -Werror #-Wunreachable-code -Ofast
 LFLAGS  = -fsanitize=address
 
 # LIBRARY
@@ -42,21 +42,22 @@ LIBS	= MLX42/lib2/libmlx42.a MLX42/lib2/libglfw3.a libft/libft.a
 HEADERS	= -I ./include -I $(LIBMLX)/include
 
 
-SRCS	=	src/main.c \
-			src/check_arg.c \
-			src/utils.c \
-			src/utils1.c \
-			src/utils2.c \
-			src/extract_data.c \
-			src/a_supp.c \
-			src/pars_map.c \
+SRC	=		main.c \
+			parsing/check_arg.c \
+			parsing/utils.c \
+			parsing/utils1.c \
+			parsing/utils2.c \
+			parsing/extract_data.c \
+			parsing/a_supp.c \
+			parsing/pars_map.c \
 
 OBJDIR	=	bin/
 
 SRCDIR	=	src/
 
-OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
-
+SRCS	= $(addprefix $(SRCDIR), $(SRC))
+OBJ		= $(SRC:%.c=%.o)
+OBJS	= $(addprefix $(OBJDIR), $(OBJ))
 
 
 #                        _____ _   ___  ___ ___ _____
@@ -81,7 +82,8 @@ libs_make:
 	@$(MAKE) -C $(LIBFT)
 
 
-$(OBJS): $(OBJDIR)%.o : $(SRCDIR)%.c $(INC) | $(OBJDIR)
+$(OBJDIR)%.o : $(SRCDIR)%.c
+	@mkdir -p $(dir $@)
 	@$(CC)  $(CFLAGS)$(LFLAGS) -c $< -o $@ $(HEADERS)
 
 
@@ -103,9 +105,9 @@ clean:
 fclean: clean rm_bin
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBMLX) fclean
-	@echo "$(G)MLX42  Cleaned$(RT)"
+	@echo "$(G)MLX42 	Cleaned$(RT)"
 	@$(MAKE) -C $(LIBFT) fclean
-	@echo "$(G)Libft Cleaned$(RT)"
+	@echo "$(G)Libft	Cleaned$(RT)"
 
 # "rm_bin" removes the "bin" directory.
 rm_bin:
@@ -120,4 +122,12 @@ leaks: all
 
 #"play" builds the program and runs it with a specific map file.
 run: all
-	./$(NAME)
+	./$(NAME) maps/$(word 2, $(MAKECMDGOALS))
+
+%:
+	@true
+
+error: all
+	./$(NAME) bad_map/$(word 2, $(MAKECMDGOALS))
+
+.PHONY: all mk_bin libs_make clean fclean rm_bin re run error

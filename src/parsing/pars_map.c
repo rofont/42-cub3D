@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "../cube.h"
 
 int	get_rgba(int r, int g, int b, int a)
 {

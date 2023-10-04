@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "../cube.h"
 
 // transforme le fichier en char **
 char	**f_extract_data(char *file)

@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "../cube.h"
 
 void	f_print_tab(char **cou)
 {

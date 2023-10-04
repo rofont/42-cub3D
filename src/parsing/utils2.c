@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "../cube.h"
 
 int	f_number(char *str)
 {
