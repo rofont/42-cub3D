@@ -36,18 +36,18 @@ void	f_check_arg(int argc, char **argv)
 	}
 }
 
-void	f_pars_file(int ac, char **av, t_map *map, t_player *play)
+void	f_pars_file(int ac, char **av, t_data *data)
 {
-	char	**data;
+	char	**dat;
 
 	f_check_arg(ac, av);
-	data = f_extract_data(av[1]);
-	f_get_data(map, data);
-	ft_free_tab_char(data);
-	if (f_search_player(map, play) != 1)
-		f_error(E_FLOODFILL, map);
-	f_size_maps(map);
-	data = f_copy_tab(map->map);
-	f_flood_fill(data, map, play->x, play->y);
-	ft_free_tab_char(data);
+	dat = f_extract_data(av[1]);
+	f_get_data(data->map, dat);
+	ft_free_tab_char(dat);
+	if (f_search_player(data->map, data->player) != 1)
+		f_error(E_FLOODFILL, data->map);
+	f_size_maps(data->map);
+	dat = f_copy_tab(data->map->map);
+	f_flood_fill(dat, data->map, data->player->x, data->player->y);
+	ft_free_tab_char(dat);
 }

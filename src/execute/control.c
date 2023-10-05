@@ -45,7 +45,7 @@ void move_player(t_data *data, char key)
     }
 
     // Check if the new position is valid (not a wall)
-    if (data->map[(int)newX][(int)newY] == '0')
+    if (data->map->map[(int)newX][(int)newY] == '0')
     {
         data->ray->posX = newX;
         data->ray->posY = newY;
@@ -71,7 +71,7 @@ void strafe_player(t_data *data, char direction)
     }
 
     // Check if the new position is valid (not a wall)
-    if (data->map[(int)newX][(int)newY] == '0')
+    if (data->map->map[(int)newX][(int)newY] == '0')
     {
         data->ray->posX = newX;
         data->ray->posY = newY;

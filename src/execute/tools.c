@@ -1,17 +1,5 @@
 #include "../cube.h"
 
-///TODO remove temp map
-char map3[9][9] = {
-    "111111111",
-    "110010011",
-    "100000001",
-    "100000001",
-    "110010011",
-    "100000001",
-    "100000001",
-    "110010011",
-    "111111111"};
-
 //put black pixel everywhere
 void reset_window(t_data *data)
 {
