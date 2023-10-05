@@ -15,9 +15,8 @@
 # include <unistd.h>
 
 // Variable
-# define IMG_PIXEL_SIZE 64
-# define WIDTH 2048
-# define HEIGHT 2048
+# define WIDTH 1080
+# define HEIGHT 1080
 
 // message erreur
 # define E_CHAR_INVALID "Error\nFound Invalid Character\n"
@@ -41,23 +40,44 @@
 // debug
 # define DEBUG 1
 
-typedef struct s_data
+typedef struct s_ray
 {
-	mlx_t			*mlx;
-	int				height;
-	int				width;
-	int				height_pixel;
-	int				width_pixel;
-	char			**map;
+	//iterator
+		int i;
+	//init cam values
+		 double posX;//x and y start position   (player x and y)
+		 double posY;//x and y start position   (player x and y)
+		 double dirX;//initial direction vector
+		 double dirY;//initial direction vector
+		 double planeX;//raycaster of camera plane
+		 double planeY;//raycaster of camera plane
 
-	mlx_texture_t	*wall;
-	mlx_texture_t	*grass;
-	mlx_texture_t	*penguin;
+	 // Calculate ray position and direction
+        double cameraX; // x-coordinate in camera space
+        double rayDirX;
+        double rayDirY;
 
-	mlx_image_t		*wall_img;
-	mlx_image_t		*grass_img;
-	mlx_image_t		*penguin_img;
-}					t_data;
+        // Map grid position
+        int mapX;
+        int mapY;
+        // Length of ray from current position to next x or y-side
+        double sideDistX;
+        double sideDistY;
+        // Length of ray from one x or y-side to next x or y-side
+        double deltaDistX;
+        double deltaDistY;
+        double perpWallDist;
+        // Direction to step in x or y-direction (either +1 or -1)
+        int stepX;
+        int stepY;
+        int hit; // Was there a wall hit?
+        int side;    // Was a NS or EW wall hit?
+		int lineHeight;	//wall height
+		int	drawStart;	//position to start drawing wall
+		int	drawEnd;	//position to end drawing wall
+
+		uint32_t	color;   ///TODO pick wall color (replace when texture update)
+}	t_ray;
 
 typedef struct s_map
 {
@@ -78,13 +98,30 @@ typedef struct s_player
 	int				x;
 	int				y;
 	char			orientation;
+	float			angle;
+	double			moveSpeed; //the constant value is in squares/second
+    double			rotSpeed; //the constant value is in radians/second
 
 }					t_player;
+
+typedef struct s_data
+{
+	mlx_t			*mlx;
+	int				height;
+	int				width;
+	int				height_pixel;
+	int				width_pixel;
+	//TODO replace with actual map parsing
+	char (*map)[9];
+	t_player		*player;
+	t_ray			*ray;
+	mlx_image_t *canvas;
+
+}					t_data;
 
 // function
 
 // PARSING
-
 // a_supp
 void				f_print_tab(char **cou);
 void				f_print_map(t_map *data_map);
@@ -129,5 +166,34 @@ bool				f_is_digit(char *str);
 int					f_search_player(t_map *data, t_player *player);
 void				f_size_maps(t_map *cub);
 void				f_flood_fill(char **temp, t_map *cub, int x, int y);
+
+//EXECUTE
+// init
+	t_data *get_data(void);
+	void player_view_init (t_data *data);
+	void init_mlx (t_data *data);
+
+// raycast
+	void raycast(t_data *data);
+	void ray_init (t_data *data);
+	void get_side_dist (t_data *data);
+	void dda (t_data *data);
+	void get_wall (t_data *data);
+		//TODO delete when texture are in
+		void    wall_color (t_data *data);
+
+
+// tools
+	void reset_window(t_data *data);
+	uint32_t ft_color(int32_t r, int32_t g, int32_t b, int32_t a);
+	void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius, uint32_t color);
+		void verLine(int x, int startY, int drawEnd, uint32_t color);
+
+
+// player control
+	void player_control (t_data *data);
+	void move_player(t_data *data, char key);
+	void strafe_player(t_data *data, char direction);
+	void rotate_player(t_data *data, char direction);
 
 #endif

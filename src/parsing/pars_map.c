@@ -73,7 +73,7 @@ void	f_flood_fill(char **temp, t_map *cub, int x, int y)
 		temp[x][y] = '.';
 	else
 		return ;
-	f_pri_map(temp);
+	// f_pri_map(temp);
 	f_flood_fill(temp, cub, x + 1, y);
 	f_flood_fill(temp, cub, x - 1, y);
 	f_flood_fill(temp, cub, x, y + 1);

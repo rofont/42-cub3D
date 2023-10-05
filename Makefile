@@ -6,14 +6,14 @@
 #    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/10/04 15:37:40 by rofontai         ###   ########.fr        #
+#    Updated: 2023/10/05 09:32:51 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 #                 \ \ / /_\ | _ |_ _| /_\ | _ | |  | __/ __|
 #                  \ V / _ \|   /| | / _ \| _ | |__| _|\__ \
-#                   \_/_/ \_|_|_|___/_/ \_|___|____|___|___/
+#                  \_/_/ \_|_|_|___/_/ \_|___|____|___|___/
 
 
 
@@ -30,7 +30,7 @@ NAME	= cub3D
 CC		= gcc -g
 
 # COMPILER FLAGS
-CFLAGS	= -Wextra -Wall -Werror #-Wunreachable-code -Ofast
+CFLAGS	= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LFLAGS  = -fsanitize=address
 
 # LIBRARY
@@ -43,6 +43,10 @@ HEADERS	= -I ./include -I $(LIBMLX)/include
 
 
 SRC	=		main.c \
+			execute/control.c \
+			execute/init.c \
+			execute/raycast.c \
+			execute/tools.c \
 			parsing/check_arg.c \
 			parsing/utils.c \
 			parsing/utils1.c \
@@ -75,17 +79,13 @@ all: mk_bin libs_make $(NAME)
 mk_bin:
 	@mkdir -p $(OBJDIR)
 
-
 libs_make:
 	@$(MAKE) -C $(LIBMLX)
-
 	@$(MAKE) -C $(LIBFT)
-
 
 $(OBJDIR)%.o : $(SRCDIR)%.c
 	@mkdir -p $(dir $@)
 	@$(CC)  $(CFLAGS)$(LFLAGS) -c $< -o $@ $(HEADERS)
-
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) -framework Cocoa -framework OpenGL -framework IOKit
@@ -120,14 +120,12 @@ re: fclean all
 leaks: all
 	leaks -atExit -- ./
 
+
 #"play" builds the program and runs it with a specific map file.
 run: all
-	./$(NAME) maps/$(word 2, $(MAKECMDGOALS))
+	@./$(NAME) $(word 2, $(MAKECMDGOALS))
 
 %:
 	@true
 
-error: all
-	./$(NAME) bad_map/$(word 2, $(MAKECMDGOALS))
-
-.PHONY: all mk_bin libs_make clean fclean rm_bin re run error
+.PHONY: all mk_bin libs_make clean fclean rm_bin re run
