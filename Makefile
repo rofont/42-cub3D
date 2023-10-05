@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bmartin <bmartin@student.42quebec.com>     +#+  +:+       +#+         #
+#    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/02/08 13:09:49 by bmartin          ###   ########.fr        #
+#    Updated: 2023/10/05 10:59:54 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-#                 \ \ / /_\ | _ |_ _| /_\ | _ | |  | __/ __|                   
-#                  \ V / _ \|   /| | / _ \| _ | |__| _|\__ \                    
-#                   \_/_/ \_|_|_|___/_/ \_|___|____|___|___/                   
+#                 \ \ / /_\ | _ |_ _| /_\ | _ | |  | __/ __|
+#                  \ V / _ \|   /| | / _ \| _ | |__| _|\__ \
+#                  \_/_/ \_|_|_|___/_/ \_|___|____|___|___/
 
 
 
@@ -27,7 +27,7 @@ RT = \033[0m
 NAME	= cub3D
 
 # COMPILER
-CC		= gcc
+CC		= gcc -g
 
 # COMPILER FLAGS
 CFLAGS	= -Wextra -Wall -Werror -Wunreachable-code -Ofast
@@ -42,47 +42,50 @@ LIBS	= MLX42/lib2/libmlx42.a MLX42/lib2/libglfw3.a libft/libft.a
 HEADERS	= -I ./include -I $(LIBMLX)/include
 
 
-SRCS	=	src/main.c \
-			src/raycast.c \
-			src/tools.c \
-			src/control.c\
-			src/init.c\
-			
-		
+SRC	=		main.c \
+			execute/control.c \
+			execute/init.c \
+			execute/raycast.c \
+			execute/tools.c \
+			parsing/check_arg.c \
+			parsing/utils.c \
+			parsing/utils1.c \
+			parsing/utils2.c \
+			parsing/extract_data.c \
+			parsing/a_supp.c \
+			parsing/pars_map.c \
 
 OBJDIR	=	bin/
 
 SRCDIR	=	src/
 
-OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
+SRCS	= $(addprefix $(SRCDIR), $(SRC))
+OBJ		= $(SRC:%.c=%.o)
+OBJS	= $(addprefix $(OBJDIR), $(OBJ))
 
 
-
-#                        _____ _   ___  ___ ___ _____                         
-#                       |_   _/_\ | _ \/ __| __|_   _|                         
-#                         | |/ _ \|   | (_ | _|  | |                          
-#                         |_/_/ \_|_|_\\___|___| |_|                           
+#                        _____ _   ___  ___ ___ _____
+#                       |_   _/_\ | _ \/ __| __|_   _|
+#                         | |/ _ \|   | (_ | _|  | |
+#                         |_/_/ \_|_|_\\___|___| |_|
 
 ######################______________TARGET______________######################
 
 
 all: mk_bin libs_make $(NAME)
-	
-	
+
+
 # The target "mk_bin" creates the "bin" directory if it doesn't exist already
 mk_bin:
 	@mkdir -p $(OBJDIR)
-	
 
 libs_make:
 	@$(MAKE) -C $(LIBMLX)
-
 	@$(MAKE) -C $(LIBFT)
 
-
-$(OBJS): $(OBJDIR)%.o : $(SRCDIR)%.c $(INC) | $(OBJDIR)
+$(OBJDIR)%.o : $(SRCDIR)%.c
+	@mkdir -p $(dir $@)
 	@$(CC)  $(CFLAGS)$(LFLAGS) -c $< -o $@ $(HEADERS)
-
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) -framework Cocoa -framework OpenGL -framework IOKit
@@ -102,9 +105,9 @@ clean:
 fclean: clean rm_bin
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBMLX) fclean
-	@echo "$(G)MLX42  Cleaned$(RT)"
+	@echo "$(G)MLX42 	Cleaned$(RT)"
 	@$(MAKE) -C $(LIBFT) fclean
-	@echo "$(G)Libft Cleaned$(RT)"
+	@echo "$(G)Libft	Cleaned$(RT)"
 
 # "rm_bin" removes the "bin" directory.
 rm_bin:
@@ -117,7 +120,12 @@ re: fclean all
 leaks: all
 	leaks -atExit -- ./
 
+
 #"play" builds the program and runs it with a specific map file.
 run: all
-	./$(NAME) 
+	@./$(NAME) $(word 2, $(MAKECMDGOALS))
 
+%:
+	@true
+
+.PHONY: all mk_bin libs_make clean fclean rm_bin re run

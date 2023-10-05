@@ -1,35 +1,10 @@
 #include "cube.h"
 
-t_player player;
-
-  // Scale factor for each square
-  //  int Minimap_scale_factor = 16;
-
-
-
-char map1[9][9] = {
-    "111111111",
-    "110010011",
-    "100000001",
-    "100000001",
-    "110010011",
-    "100000001",
-    "100000001",
-    "110010011",
-    "111111111"};
-// -----------------------------------------------------------------------------
-
-
-
-
-
-
-
 //TODO will become wall texture
 void    wall_color (t_data *data)
 {
      // Choose wall color (update this according to your map)
-        switch (map1[data->ray->mapX][data->ray->mapY])
+        switch (data->map->map[data->ray->mapX][data->ray->mapY])
         {
             case '1':
                 data->ray->color = ft_color(0, 255, 0, 255); // GREEN
@@ -38,12 +13,10 @@ void    wall_color (t_data *data)
                 data->ray->color = ft_color(255, 255, 255, 255); // White if error wall
                 break;
         }
-
         // Give x and y sides different brightness
         if (data->ray->side == 1)
             data->ray->color = ft_color(128, 0, 128, 255); ///side wall are purples
 }
-
 
 void ft_hook(void *param)
 {
@@ -63,29 +36,30 @@ void ft_hook(void *param)
 
 }
 
-// -----------------------------------------------------------------------------
 
-int main(int ac, const char *av[])
+
+int	main(int ac, char **av)
 {
-    t_data *data;
+  	t_data *data;
 
-    (void)ac;
-    (void)av;
+
     data = get_data();
+	f_pars_file(ac, av, data);
+	f_print_map(data->map);
 
-    ///////TODO replace map1 with actual map
-    data->map = map1;
-
-    /////INSERT PARSING HERE
 
     //--mlx init
     init_mlx(data);
 
     //TODO modify the values according to the letter we have for the player (N-S-E-W)
+    //modify the function player_view_init
     player_view_init(data);
 
     mlx_loop_hook(data->mlx, ft_hook, data->mlx);
     mlx_loop(data->mlx);
     mlx_terminate(data->mlx);
-    return (EXIT_SUCCESS);
+
+	// f_free_player(play);
+	// f_free_tmap(map);
+	return (EXIT_SUCCESS);
 }

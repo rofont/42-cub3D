@@ -1,4 +1,4 @@
-#include "cube.h"
+#include "../cube.h"
 
 void player_control (t_data *data)
 {
@@ -16,7 +16,7 @@ void player_control (t_data *data)
         strafe_player(data, 'a');
     if (mlx_is_key_down(data->mlx, MLX_KEY_D))
         strafe_player(data, 'd');
-   
+
     //rotate to the right
      if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
     rotate_player(data,'r');
@@ -45,7 +45,7 @@ void move_player(t_data *data, char key)
     }
 
     // Check if the new position is valid (not a wall)
-    if (data->map[(int)newX][(int)newY] == '0')
+    if (data->map->map[(int)newX][(int)newY] == '0')
     {
         data->ray->posX = newX;
         data->ray->posY = newY;
@@ -71,7 +71,7 @@ void strafe_player(t_data *data, char direction)
     }
 
     // Check if the new position is valid (not a wall)
-    if (data->map[(int)newX][(int)newY] == '0')
+    if (data->map->map[(int)newX][(int)newY] == '0')
     {
         data->ray->posX = newX;
         data->ray->posY = newY;
