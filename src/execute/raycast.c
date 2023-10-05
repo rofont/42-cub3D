@@ -1,23 +1,10 @@
-#include "cube.h"
-
-///TODO remove temp map
-char map2[9][9] = {
-    "111111111",
-    "110010011",
-    "100000001",
-    "100000001",
-    "110010011",
-    "100000001",
-    "100000001",
-    "110010011",
-    "111111111"};
-
+#include "../cube.h"
 
 void raycast(t_data *data)
 {
     for (data->ray->i = 0; data->ray->i < WIDTH; data->ray->i++)
     {
-      
+
       //init all raycast value
         ray_init(data);
 
@@ -104,7 +91,7 @@ void dda (t_data *data)
 
             //TODO change for the actual map parsing
             // Check if ray has hit a wall
-            if (map2[data->ray->mapX][data->ray->mapY] == '1')
+            if (data->map->map[data->ray->mapX][data->ray->mapY] == '1')
                 data->ray->hit = 1;
 
      // Calculate distance projected on camera direction
@@ -128,4 +115,3 @@ void get_wall (t_data *data)
         if (data->ray->drawEnd >= HEIGHT)
             data->ray->drawEnd = HEIGHT - 1;
 }
-

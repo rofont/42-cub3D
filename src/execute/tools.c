@@ -1,16 +1,4 @@
-#include "cube.h"
-
-///TODO remove temp map
-char map3[9][9] = {
-    "111111111",
-    "110010011",
-    "100000001",
-    "100000001",
-    "110010011",
-    "100000001",
-    "100000001",
-    "110010011",
-    "111111111"};
+#include "../cube.h"
 
 //put black pixel everywhere
 void reset_window(t_data *data)
@@ -64,4 +52,12 @@ void verLine(int x, int startY, int drawEnd, uint32_t color)
     {
         mlx_put_pixel(data->canvas, x, y, color);
     }
+}
+
+int is_player (char c)
+{
+    if (c == 'N' || c == 'W' || c == 'S' || c == 'E')
+        return (1);
+    else
+        return(0);
 }
