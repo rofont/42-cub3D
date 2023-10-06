@@ -24,6 +24,10 @@ void ft_hook(void *param)
     t_data *data;
 
     data = get_data();
+
+    //player_move
+    player_control(data);
+
     //reset_pixel or commment it to see something beautifull hahahah
    reset_window(data);
 
@@ -31,9 +35,9 @@ void ft_hook(void *param)
 
     //draw "3d" view with raycast
     raycast(data);
- data->ray->color--;
-    //player_move
-    player_control(data);
+
+    draw_minimap(data);
+      draw_filled_circle(data->canvas, data->ray->posX, data->ray->posY, 5, ft_color(255, 0, 0, 255));
 
 }
 
