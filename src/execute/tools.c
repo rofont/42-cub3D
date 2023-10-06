@@ -22,26 +22,6 @@ uint32_t ft_color(int32_t r, int32_t g, int32_t b, int32_t a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void draw_filled_circle(mlx_image_t *image, int centerX, int centerY, int radius, uint32_t color)
-{
-    int x = centerX - radius;
-    while (x <= centerX + radius)
-    {
-        int y = centerY - radius;
-        while (y <= centerY + radius)
-        {
-            int dx = x - centerX;
-            int dy = y - centerY;
-            if (dx * dx + dy * dy <= radius * radius)
-            {
-                mlx_put_pixel(image, x, y, color);
-            }
-            y++;
-        }
-        x++;
-    }
-}
-
 void verLine(int x, int startY, int drawEnd, uint32_t color)
 {
     t_data *data;

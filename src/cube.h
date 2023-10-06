@@ -180,8 +180,7 @@ void			wall_color(t_data *data);
 // tools
 void			reset_window(t_data *data);
 uint32_t		ft_color(int32_t r, int32_t g, int32_t b, int32_t a);
-void			draw_filled_circle(mlx_image_t *image, int centerX, int centerY,
-					int radius, uint32_t color);
+
 void			verLine(int x, int startY, int drawEnd, uint32_t color);
 int 			is_player (char c);
 
@@ -191,5 +190,8 @@ void			move_player(t_data *data, char key);
 void			strafe_player(t_data *data, char direction);
 void			rotate_player(t_data *data, char direction);
 
-
+//draw
+void			 draw_floor_sky (t_data *data);
+void			draw_filled_circle(mlx_image_t *image, int centerX, int centerY,
+					int radius, uint32_t color);
 #endif

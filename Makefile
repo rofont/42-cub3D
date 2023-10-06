@@ -47,6 +47,7 @@ SRC	=		main.c \
 			execute/init.c \
 			execute/raycast.c \
 			execute/tools.c \
+			execute/draw.c \
 			parsing/check_arg.c \
 			parsing/utils.c \
 			parsing/utils1.c \
@@ -54,6 +55,7 @@ SRC	=		main.c \
 			parsing/extract_data.c \
 			parsing/a_supp.c \
 			parsing/pars_map.c \
+
 
 OBJDIR	=	bin/
 
@@ -118,12 +120,12 @@ re: fclean all
 
 # "leaks" runs the program with the "leaks" tool to check for memory leaks.
 leaks: all
-	leaks -atExit -- ./
+	leaks -atExit -- ./$(NAME) $(word 2, $(MAKECMDGOALS)) 
 
 
 #"play" builds the program and runs it with a specific map file.
 run: all
-	@./$(NAME) $(word 2, $(MAKECMDGOALS))
+	@./$(NAME) $(word 2, $(MAKECMDGOALS)) 
 
 %:
 	@true

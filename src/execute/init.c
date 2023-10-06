@@ -18,7 +18,7 @@ t_data *get_data(void)
 
 void player_view_init (t_data *data)
 {
-      data->ray->posX = data->player->x, data->ray->posY = data->player->y;  //x and y start position   (player x and y)
+    data->ray->posX = data->player->x, data->ray->posY = data->player->y;  //x and y start position   (player x and y)
     data->ray->dirX = -1, data->ray->dirY = 0; //initial direction vector
     data->ray->planeX = 0, data->ray->planeY = 0.66; //the 2d raycaster version of camera plane
 }

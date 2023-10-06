@@ -23,6 +23,7 @@ void player_control (t_data *data)
     //rotate to the left
     if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
     rotate_player(data,'l');
+    ///////TODO add free
     if(mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		exit(0);
 }

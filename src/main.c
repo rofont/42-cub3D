@@ -24,9 +24,10 @@ void ft_hook(void *param)
     t_data *data;
 
     data = get_data();
-
     //reset_pixel or commment it to see something beautifull hahahah
    reset_window(data);
+
+   draw_floor_sky(data);
 
     //draw "3d" view with raycast
     raycast(data);
@@ -43,13 +44,18 @@ int	main(int ac, char **av)
   	t_data *data;
 
 
+    if(ac != 2)
+    {
+        //TODO add free here and clean exit
+        printf("ERROR good usage = ./cub3d map/path/here\n");
+        return(0);
+    }
+    //--mlx init
     data = get_data();
+    init_mlx(data);
 	f_pars_file(ac, av, data);
 	f_print_map(data->map);
 
-
-    //--mlx init
-    init_mlx(data);
 
     //TODO modify the values according to the letter we have for the player (N-S-E-W)
     //modify the function player_view_init

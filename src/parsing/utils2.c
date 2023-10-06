@@ -24,7 +24,7 @@ int	f_return_colors(char *line, char *dir)
 
 	temp = f_pars_colors(line, dir);
 	tab = f_tab_color(temp);
-	res = get_rgba(tab[0], tab[1], tab[2], 100);
+	res = get_rgba(tab[0], tab[1], tab[2], 255);
 	temp = f_freenull(temp);
 	free(tab);
 	return (res);
