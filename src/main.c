@@ -31,7 +31,7 @@ void ft_hook(void *param)
 
     //draw "3d" view with raycast
     raycast(data);
-
+ data->ray->color--;
     //player_move
     player_control(data);
 
