@@ -51,7 +51,7 @@ void move_player(t_data *data, char key)
         data->ray->posX = newX;
         data->ray->posY = newY;
         /////////TODO ANIMATION BS
-        data->map->floor--;
+      //  data->map->floor--;
         ////////////
     }
 }

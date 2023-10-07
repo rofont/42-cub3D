@@ -18,6 +18,18 @@ void    wall_color (t_data *data)
             data->ray->color = ft_color(128, 0, 128, 255); ///side wall are purples
 }
 
+
+//PLAY audio
+
+void *play_audio(void *arg)
+{
+  
+    system("afplay russian.wav");
+    return(arg);
+}
+
+
+
 void ft_hook(void *param)
 {
     (void)param;
@@ -37,7 +49,7 @@ void ft_hook(void *param)
     raycast(data);
 
     draw_minimap(data);
-      draw_filled_circle(data->canvas, data->ray->posX, data->ray->posY, 5, ft_color(255, 0, 0, 255));
+      //draw_filled_circle(data->canvas, data->ray->posX, data->ray->posY, 5, ft_color(255, 0, 0, 255));
 
 }
 
@@ -65,10 +77,17 @@ int	main(int ac, char **av)
     //modify the function player_view_init
     player_view_init(data);
 
+    ////MUSIC
+    pthread_t thread;
+    int result;
+
+    result = pthread_create(&thread, NULL, play_audio, NULL);
+
+
     mlx_loop_hook(data->mlx, ft_hook, data->mlx);
     mlx_loop(data->mlx);
     mlx_terminate(data->mlx);
-
+  
 	// f_free_player(play);
 	// f_free_tmap(map);
 	return (EXIT_SUCCESS);

@@ -36,6 +36,7 @@ void draw_floor_sky (t_data *data)
              mlx_put_pixel(data->canvas, x, y, data->map->ceiling);
              ////TODO ANIMATION BS
             data->map->ceiling++;
+            data->map->floor++;
             ////////
              x++;
         }

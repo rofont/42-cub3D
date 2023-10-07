@@ -126,6 +126,7 @@ leaks: all
 #"play" builds the program and runs it with a specific map file.
 run: all
 	@./$(NAME) $(word 2, $(MAKECMDGOALS)) 
+	
 
 %:
 	@true
