@@ -125,7 +125,10 @@ leaks: all
 
 #"play" builds the program and runs it with a specific map file.
 run: all
+	say "elon musk approve this project"
 	@./$(NAME) $(word 2, $(MAKECMDGOALS)) 
+	killall -9 afplay
+	say "party over bitch"
 	
 
 %:

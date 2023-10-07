@@ -81,12 +81,16 @@ void dda (t_data *data)
                 data->ray->sideDistX += data->ray->deltaDistX;
                data->ray->mapX += data->ray->stepX;
                 data->ray->side = 0;
+                if (data->ray->dirX > 0)
+                   data->ray->side = 0;
             }
             else
             {
                 data->ray->sideDistY += data->ray->deltaDistY;
                 data->ray->mapY += data->ray->stepY;
                 data->ray->side = 1;
+                if (data->ray->dirY > 0)
+                   data->ray->side = 1; /////TODO make good side east etc ....
             }
 
             //TODO change for the actual map parsing
