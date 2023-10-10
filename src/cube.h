@@ -41,6 +41,18 @@
 // debug
 #define DEBUG 1
 
+typedef struct s_tex
+{
+	int			**no;
+	int			**so;
+	int			**ea;
+	int			**we;
+	xpm_t		*no_tex;
+	xpm_t		*so_tex;
+	xpm_t		*ea_tex;
+	xpm_t		*we_tex;
+}	t_tex;
+
 typedef struct s_ray
 {
 	// iterator
@@ -76,6 +88,8 @@ typedef struct s_ray
 	int lineHeight; // wall height
 	int drawStart;	// position to start drawing wall
 	int drawEnd;	// position to end drawing wall
+	//texture
+	int			tex_x;
 	uint32_t color; /// TODO pick wall color (replace when texture update)
 } t_ray;
 
@@ -113,6 +127,7 @@ typedef struct s_data
 	t_player *player;
 	t_ray *ray;
 	mlx_image_t *canvas;
+	t_tex	*tex;
 } t_data;
 
 // function
@@ -166,8 +181,9 @@ void f_flood_fill(char **temp, t_map *cub, int x, int y);
 // EXECUTE
 // init
 t_data *get_data(void);
-void player_view_init(t_data *data);
 void init_mlx(t_data *data);
+void get_texture (t_data *data);
+void	init_dir(t_data *data);
 
 // raycast
 void raycast(t_data *data);
@@ -196,4 +212,11 @@ void draw_floor_sky(t_data *data);
 void draw_filled_circle(mlx_image_t *image, int centerX, int centerY,
 						int radius, uint32_t color);
 void draw_minimap(t_data *data);
+
+//texture
+void	choose_texture(t_data *data, int x);
+void	draw_texture(t_data *data, int x, xpm_t *wall_tex, int **array);
+int	**fill_texture(xpm_t *texture);
+void	find_texture(t_data *data, xpm_t *texture);
+
 #endif
