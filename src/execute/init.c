@@ -32,7 +32,7 @@ void init_mlx(t_data *data)
 
 void	init_dir(t_data *data)
 {
-     data->ray->posX = data->player->x, data->ray->posY = data->player->y;
+     data->ray->posX = data->player->x + 0.5, data->ray->posY = data->player->y+0.5;
 	if (data->player->orientation == 'N')
 	{
 		data->ray->dirX = -1;

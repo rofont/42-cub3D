@@ -78,12 +78,12 @@ int	main(int ac, char **av)
     ///texture load
     get_texture(data);
 
-    ////MUSIC
-    // pthread_t thread;
-    // int result;
+    //MUSIC
+    pthread_t thread;
+    int result;
 
-    // result = pthread_create(&thread, NULL, play_audio, NULL);
-    /////////
+    result = pthread_create(&thread, NULL, play_audio, NULL);
+    ///////
 
     mlx_loop_hook(data->mlx, ft_hook, data->mlx);
     mlx_loop(data->mlx);

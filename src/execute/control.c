@@ -5,7 +5,7 @@ void player_control (t_data *data)
 ///-----player_move
        //speed modifiers
     data->player->moveSpeed = 0.1;
-    data->player->rotSpeed = 0.1;
+    data->player->rotSpeed = 0.05;
 
       //4 direction move
      if (mlx_is_key_down(data->mlx, MLX_KEY_W))
@@ -33,16 +33,17 @@ void move_player(t_data *data, char key)
 {
     double newX = data->ray->posX;
     double newY = data->ray->posY;
+    double col_buffer = 0.001;
 
     if (key == 'w')
     {
-        newX += data->ray->dirX * data->player->moveSpeed;
-        newY += data->ray->dirY * data->player->moveSpeed;
+        newX += data->ray->dirX * data->player->moveSpeed + col_buffer;
+        newY += data->ray->dirY * data->player->moveSpeed + col_buffer;
     }
     else if (key == 's')
     {
-        newX -= data->ray->dirX * data->player->moveSpeed;
-        newY -= data->ray->dirY * data->player->moveSpeed;
+        newX -= data->ray->dirX * data->player->moveSpeed + col_buffer;
+        newY -= data->ray->dirY * data->player->moveSpeed + col_buffer;
     }
 
     // Check if the new position is valid (not a wall)
@@ -62,16 +63,17 @@ void strafe_player(t_data *data, char direction)
     double leftDirY = data->ray->dirX;
     double newX = data->ray->posX;
     double newY = data->ray->posY;
+    double col_buffer = 0.001;
 
     if (direction == 'a')
     {
-        newX += leftDirX * data->player->moveSpeed;
-        newY += leftDirY * data->player->moveSpeed;
+        newX += leftDirX * data->player->moveSpeed + col_buffer;
+        newY += leftDirY * data->player->moveSpeed + col_buffer;
     }
     else if (direction == 'd')
     {
-        newX -= leftDirX * data->player->moveSpeed;
-        newY -= leftDirY * data->player->moveSpeed;
+        newX -= leftDirX * data->player->moveSpeed + col_buffer;
+        newY -= leftDirY * data->player->moveSpeed + col_buffer;
     }
 
     // Check if the new position is valid (not a wall)
