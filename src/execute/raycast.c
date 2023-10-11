@@ -1,118 +1,113 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/11 18:20:30 by bmartin           #+#    #+#             */
+/*   Updated: 2023/10/11 18:20:31 by bmartin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cube.h"
 
-void raycast(t_data *data)
+void	raycast(t_data *data)
 {
-    for (data->ray->i = 0; data->ray->i < WIDTH; data->ray->i++)
-    {
-
-      //init all raycast value
-        ray_init(data);
-
-        // Calculate step and initial sideDist
-       get_side_dist(data);
-
-        // Perform DDA
-        dda(data);
-
-       //compute wall
-       get_wall(data);
-
-        //TODO replace with WALL TEXTURE
-       choose_texture(data, data->ray->i);
-    }
+	data->ray->i = 0;
+	while (data->ray->i < WIDTH)
+	{
+		ray_init(data);
+		get_side_dist(data);
+		dda(data);
+		get_wall(data);
+		choose_texture(data, data->ray->i);
+		data->ray->i++;
+	}
 }
 
-
-//TODO need to set up the value of pos dir and plane values to fit the N,E,W,S
-void ray_init (t_data *data)
+void	ray_init(t_data *data)
 {
-
-      // Calculate ray position and direction
-        data->ray->cameraX = 2 * data->ray->i / (double)WIDTH - 1; // x-coordinate in camera space
-        data->ray->rayDirX = data->ray->dirX + data->ray->planeX * data->ray->cameraX;
-        data->ray->rayDirY = data->ray->dirY + data->ray->planeY * data->ray->cameraX;
-
-        // Map grid position
-        data->ray->mapX = (int)data->ray->posX;
-        data->ray->mapY = (int)data->ray->posY;
-
-        // Length of ray from one x or y-side to next x or y-side
-         data->ray->deltaDistX = fabs(1 / data->ray->rayDirX);
-         data->ray->deltaDistY = fabs(1 / data->ray->rayDirY);
-
+	data->ray->camera_x = 2 * data->ray->i / (double)WIDTH - 1;
+	data->ray->raydir_x = data->ray->dir_x + data->ray->plane_x
+		* data->ray->camera_x;
+	data->ray->raydir_y = data->ray->dir_y + data->ray->plane_y
+		* data->ray->camera_x;
+	data->ray->map_x = (int)data->ray->pos_x;
+	data->ray->map_y = (int)data->ray->pos_y;
+	data->ray->delta_dist_x = fabs(1 / data->ray->raydir_x);
+	data->ray->delta_dist_y = fabs(1 / data->ray->raydir_y);
 }
 
-// Calculate step and initial sideDist
-void get_side_dist (t_data *data)
+void	get_side_dist(t_data *data)
 {
- if (data->ray->rayDirX < 0)
-        {
-            data->ray->stepX = -1;
-            data->ray->sideDistX = (data->ray->posX - data->ray->mapX) * data->ray->deltaDistX;
-        }
-        else
-        {
-            data->ray->stepX = 1;
-            data->ray->sideDistX = (data->ray->mapX + 1.0 - data->ray->posX) * data->ray->deltaDistX;
-        }
-        if (data->ray->rayDirY < 0)
-        {
-            data->ray->stepY = -1;
-            data->ray->sideDistY = (data->ray->posY - data->ray->mapY) * data->ray->deltaDistY;
-        }
-        else
-        {
-            data->ray->stepY = 1;
-            data->ray->sideDistY = (data->ray->mapY + 1.0 - data->ray->posY) * data->ray->deltaDistY;
-        }
+	if (data->ray->raydir_x < 0)
+	{
+		data->ray->step_x = -1;
+		data->ray->side_dist_x = (data->ray->pos_x - data->ray->map_x)
+			* data->ray->delta_dist_x;
+	}
+	else
+	{
+		data->ray->step_x = 1;
+		data->ray->side_dist_x = (data->ray->map_x + 1.0 - data->ray->pos_x)
+			* data->ray->delta_dist_x;
+	}
+	if (data->ray->raydir_y < 0)
+	{
+		data->ray->step_y = -1;
+		data->ray->side_dist_y = (data->ray->pos_y - data->ray->map_y)
+			* data->ray->delta_dist_y;
+	}
+	else
+	{
+		data->ray->step_y = 1;
+		data->ray->side_dist_y = (data->ray->map_y + 1.0 - data->ray->pos_y)
+			* data->ray->delta_dist_y;
+	}
 }
 
-void dda (t_data *data)
+void	dda(t_data *data)
 {
-    data->ray->hit = 0; // Reset hit flag
-        while (!data->ray->hit)
-        {
-            // Jump to next map square, either in x-direction, or in y-direction
-            if (data->ray->sideDistX < data->ray->sideDistY)
-            {
-                data->ray->sideDistX += data->ray->deltaDistX;
-               data->ray->mapX += data->ray->stepX;
-               if (data->ray->rayDirX >= 0)
-				    data->ray->side = 0;
-			    else
-				    data->ray->side = 1;
-            }
-            else
-            {
-                data->ray->sideDistY += data->ray->deltaDistY;
-                data->ray->mapY += data->ray->stepY;
-                if (data->ray->rayDirY > 0)
+	data->ray->hit = 0;
+	while (!data->ray->hit)
+	{
+		if (data->ray->side_dist_x < data->ray->side_dist_y)
+		{
+			data->ray->side_dist_x += data->ray->delta_dist_x;
+			data->ray->map_x += data->ray->step_x;
+			if (data->ray->raydir_x >= 0)
+				data->ray->side = 0;
+			else
+				data->ray->side = 1;
+		}
+		else
+		{
+			data->ray->side_dist_y += data->ray->delta_dist_y;
+			data->ray->map_y += data->ray->step_y;
+			if (data->ray->raydir_y > 0)
 				data->ray->side = 2;
 			else
 				data->ray->side = 3;
-            }
-
-            if (data->map->map[data->ray->mapX][data->ray->mapY] == '1')
-                data->ray->hit = 1;
-        }
+		}
+		if (data->map->map[data->ray->map_x][data->ray->map_y] == '1')
+			data->ray->hit = 1;
+	}
 }
 
-void get_wall (t_data *data)
+void	get_wall(t_data *data)
 {
-     // Calculate distance projected on camera direction
-        if (data->ray->side == 0 || data->ray->side == 1)
-            data->ray->perpWallDist = (data->ray->mapX - data->ray->posX + (1 - data->ray->stepX) / 2) / data->ray->rayDirX;
-        else
-            data->ray->perpWallDist = (data->ray->mapY - data->ray->posY + (1 - data->ray->stepY) / 2) / data->ray->rayDirY;
-        
-       // Calculate height of line to draw on screen
-        data->ray->lineHeight = (int)(HEIGHT / data->ray->perpWallDist);
-
-        // Calculate lowest and highest pixel to fill in current stripe
-        data->ray->drawStart = -data->ray->lineHeight / 2 + HEIGHT / 2;
-        if (data->ray->drawStart < 0)
-            data->ray->drawStart = 0;
-        data->ray->drawEnd = data->ray->lineHeight / 2 + HEIGHT / 2;
-        if (data->ray->drawEnd >= HEIGHT)
-            data->ray->drawEnd = HEIGHT - 1;
+	if (data->ray->side == 0 || data->ray->side == 1)
+		data->ray->perp_wall_dist = (data->ray->map_x - data->ray->pos_x + (1
+					- data->ray->step_x) / 2) / data->ray->raydir_x;
+	else
+		data->ray->perp_wall_dist = (data->ray->map_y - data->ray->pos_y + (1
+					- data->ray->step_y) / 2) / data->ray->raydir_y;
+	data->ray->line_height = (int)(HEIGHT / data->ray->perp_wall_dist);
+	data->ray->draw_start = -data->ray->line_height / 2 + HEIGHT / 2;
+	if (data->ray->draw_start < 0)
+		data->ray->draw_start = 0;
+	data->ray->draw_end = data->ray->line_height / 2 + HEIGHT / 2;
+	if (data->ray->draw_end >= HEIGHT)
+		data->ray->draw_end = HEIGHT - 1;
 }

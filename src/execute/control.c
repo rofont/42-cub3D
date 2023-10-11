@@ -1,106 +1,125 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   control.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/11 18:20:20 by bmartin           #+#    #+#             */
+/*   Updated: 2023/10/11 18:28:56 by bmartin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cube.h"
 
-void player_control (t_data *data)
+void	player_control(t_data *data)
 {
-///-----player_move
-       //speed modifiers
-    data->player->moveSpeed = 0.1;
-    data->player->rotSpeed = 0.05;
-
-      //4 direction move
-     if (mlx_is_key_down(data->mlx, MLX_KEY_W))
-         move_player(data,'w');
-     if (mlx_is_key_down(data->mlx, MLX_KEY_S))
-         move_player(data,'s');
-    if (mlx_is_key_down(data->mlx, MLX_KEY_A))
-        strafe_player(data, 'a');
-    if (mlx_is_key_down(data->mlx, MLX_KEY_D))
-        strafe_player(data, 'd');
-
-    //rotate to the right
-     if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
-    rotate_player(data,'r');
-    //rotate to the left
-    if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
-    rotate_player(data,'l');
-    ///////TODO add free
-    if(mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+	data->player->move_speed = 0.1;
+	data->player->rot_speed = 0.05;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
+		move_player(data, 'w');
+	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
+		move_player(data, 's');
+	if (mlx_is_key_down(data->mlx, MLX_KEY_A))
+		strafe_player(data, 'a');
+	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
+		strafe_player(data, 'd');
+	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+		rotate_player_r(data);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
+		rotate_player_l(data);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+	{
 		exit(0);
+	}
 }
 
-
-void move_player(t_data *data, char key)
+void	move_player(t_data *data, char key)
 {
-    double newX = data->ray->posX;
-    double newY = data->ray->posY;
-    double col_buffer = 0.001;
+	double	new_x;
+	double	new_y;
+	double	col_buffer;
 
-    if (key == 'w')
-    {
-        newX += data->ray->dirX * data->player->moveSpeed + col_buffer;
-        newY += data->ray->dirY * data->player->moveSpeed + col_buffer;
-    }
-    else if (key == 's')
-    {
-        newX -= data->ray->dirX * data->player->moveSpeed + col_buffer;
-        newY -= data->ray->dirY * data->player->moveSpeed + col_buffer;
-    }
-
-    // Check if the new position is valid (not a wall)
-      if (data->map->map[(int)newX][(int)newY] == '0' || is_player(data->map->map[(int)newX][(int)newY]))
-    {
-        data->ray->posX = newX;
-        data->ray->posY = newY;
-        /////////TODO ANIMATION BS
-      //  data->map->floor--;
-        ////////////
-    }
+	new_x = data->ray->pos_x;
+	new_y = data->ray->pos_y;
+	col_buffer = 0.001;
+	if (key == 'w')
+	{
+		new_x += data->ray->dir_x * data->player->move_speed + col_buffer;
+		new_y += data->ray->dir_y * data->player->move_speed + col_buffer;
+	}
+	else if (key == 's')
+	{
+		new_x -= data->ray->dir_x * data->player->move_speed + col_buffer;
+		new_y -= data->ray->dir_y * data->player->move_speed + col_buffer;
+	}
+	if (data->map->map[(int)new_x][(int)new_y] == '0'
+		|| is_player(data->map->map[(int)new_x][(int)new_y]))
+	{
+		data->ray->pos_x = new_x;
+		data->ray->pos_y = new_y;
+	}
 }
 
-void strafe_player(t_data *data, char direction)
+void	strafe_player(t_data *data, char direction)
 {
-    double leftDirX = -data->ray->dirY;
-    double leftDirY = data->ray->dirX;
-    double newX = data->ray->posX;
-    double newY = data->ray->posY;
-    double col_buffer = 0.001;
+	double	leftdir_x;
+	double	leftdir_y;
+	double	new_x;
+	double	new_y;
 
-    if (direction == 'a')
-    {
-        newX += leftDirX * data->player->moveSpeed + col_buffer;
-        newY += leftDirY * data->player->moveSpeed + col_buffer;
-    }
-    else if (direction == 'd')
-    {
-        newX -= leftDirX * data->player->moveSpeed + col_buffer;
-        newY -= leftDirY * data->player->moveSpeed + col_buffer;
-    }
-
-    // Check if the new position is valid (not a wall)
-    if (data->map->map[(int)newX][(int)newY] == '0' || is_player(data->map->map[(int)newX][(int)newY]))
-    {
-        data->ray->posX = newX;
-        data->ray->posY = newY;
-    }
+	leftdir_x = -data->ray->dir_y;
+	leftdir_y = data->ray->dir_x;
+	new_x = data->ray->pos_x;
+	new_y = data->ray->pos_y;
+	if (direction == 'a')
+	{
+		new_x += leftdir_x * data->player->move_speed + 0.001;
+		new_y += leftdir_y * data->player->move_speed + 0.001;
+	}
+	else if (direction == 'd')
+	{
+		new_x -= leftdir_x * data->player->move_speed + 0.001;
+		new_y -= leftdir_y * data->player->move_speed + 0.001;
+	}
+	if (data->map->map[(int)new_x][(int)new_y] == '0'
+		|| is_player(data->map->map[(int)new_x][(int)new_y]))
+	{
+		data->ray->pos_x = new_x;
+		data->ray->pos_y = new_y;
+	}
 }
 
-void rotate_player(t_data *data, char direction)
+void	rotate_player_l(t_data *data)
 {
-    double oldDirX = data->ray->dirX;
-    double oldPlaneX = data->ray->planeX;
+	double	olddir_x;
+	double	oldplane_x;
 
-    if (direction == 'r')
-    {
-        data->ray->dirX = data->ray->dirX * cos(-data->player->rotSpeed) - data->ray->dirY * sin(-data->player->rotSpeed);
-        data->ray->dirY = oldDirX * sin(-data->player->rotSpeed) + data->ray->dirY * cos(-data->player->rotSpeed);
-        data->ray->planeX = data->ray->planeX * cos(-data->player->rotSpeed) - data->ray->planeY * sin(-data->player->rotSpeed);
-        data->ray->planeY = oldPlaneX * sin(-data->player->rotSpeed) + data->ray->planeY * cos(-data->player->rotSpeed);
-    }
-    else if (direction == 'l')
-    {
-        data->ray->dirX = data->ray->dirX * cos(data->player->rotSpeed) - data->ray->dirY * sin(data->player->rotSpeed);
-        data->ray->dirY = oldDirX * sin(data->player->rotSpeed) + data->ray->dirY * cos(data->player->rotSpeed);
-        data->ray->planeX = data->ray->planeX * cos(data->player->rotSpeed) - data->ray->planeY * sin(data->player->rotSpeed);
-        data->ray->planeY = oldPlaneX * sin(data->player->rotSpeed) + data->ray->planeY * cos(data->player->rotSpeed);
-    }
+	olddir_x = data->ray->dir_x;
+	oldplane_x = data->ray->plane_x;
+	data->ray->dir_x = data->ray->dir_x * cos(data->player->rot_speed)
+		- data->ray->dir_y * sin(data->player->rot_speed);
+	data->ray->dir_y = olddir_x * sin(data->player->rot_speed)
+		+ data->ray->dir_y * cos(data->player->rot_speed);
+	data->ray->plane_x = data->ray->plane_x * cos(data->player->rot_speed)
+		- data->ray->plane_y * sin(data->player->rot_speed);
+	data->ray->plane_y = oldplane_x * sin(data->player->rot_speed)
+		+ data->ray->plane_y * cos(data->player->rot_speed);
+}
+
+void	rotate_player_r(t_data *data)
+{
+	double	olddir_x;
+	double	oldplane_x;
+
+	olddir_x = data->ray->dir_x;
+	oldplane_x = data->ray->plane_x;
+	data->ray->dir_x = data->ray->dir_x * cos(-data->player->rot_speed)
+		- data->ray->dir_y * sin(-data->player->rot_speed);
+	data->ray->dir_y = olddir_x * sin(-data->player->rot_speed)
+		+ data->ray->dir_y * cos(-data->player->rot_speed);
+	data->ray->plane_x = data->ray->plane_x * cos(-data->player->rot_speed)
+		- data->ray->plane_y * sin(-data->player->rot_speed);
+	data->ray->plane_y = oldplane_x * sin(-data->player->rot_speed)
+		+ data->ray->plane_y * cos(-data->player->rot_speed);
 }

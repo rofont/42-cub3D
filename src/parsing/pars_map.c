@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pars_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/11 18:20:46 by bmartin           #+#    #+#             */
+/*   Updated: 2023/10/11 18:20:47 by bmartin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cube.h"
 
 int	get_rgba(int r, int g, int b, int a)
@@ -73,7 +85,6 @@ void	f_flood_fill(char **temp, t_map *cub, int x, int y)
 		temp[x][y] = '.';
 	else
 		return ;
-	//f_pri_map(temp); //TODO a supp
 	f_flood_fill(temp, cub, x + 1, y);
 	f_flood_fill(temp, cub, x - 1, y);
 	f_flood_fill(temp, cub, x, y + 1);

@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cub3D", // Replace with your executable path
-            "args": ["maps/default.cub"], // Optional: Program arguments
+            "args": ["maps/extrem.cub"], // Optional: Program arguments
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

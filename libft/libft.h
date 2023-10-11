@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:30:41 by bmartin           #+#    #+#             */
-/*   Updated: 2023/09/22 11:19:45 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:21:08 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 
-void	**ft_free_tab_char(char **tabl);
+void				**ft_free_tab_char(char **tabl);
 
 #endif

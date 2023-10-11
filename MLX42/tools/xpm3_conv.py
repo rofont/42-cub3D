@@ -781,10 +781,10 @@ def main():
 	with open(sys.argv[1], "r") as f:
 		oldxpm = f.readlines()[3:]
 	fname = (sys.argv[1])[:-3] + "xpm42"
-	newxpm42 = open(fname, "w")
-	newxpm42.write("!XPM42\n")
+	new_xpm42 = open(fname, "w")
+	new_xpm42.write("!XPM42\n")
 	cpp = int(oldxpm[0].split()[3])
-	newxpm42.write(oldxpm[0][1:-3] + "c\n")
+	new_xpm42.write(oldxpm[0][1:-3] + "c\n")
 	oldxpm.pop(0)
 	prev = 0
 	for l in oldxpm:
@@ -800,16 +800,16 @@ def main():
 			out = out[:cpp+1] + "#" + repcol.upper() + "FF\n"
 			if temp == "none":
 				out = out[:-3] + "00\n" 
-		newxpm42.write(out)
+		new_xpm42.write(out)
 		prev += 1
 	oldxpm = oldxpm[prev + 1:]
 	for i, l in enumerate(oldxpm):
 		if "};" in oldxpm[i + 1]:
 			temp = l[1:-2] + "\n"
-			newxpm42.write(temp)
+			new_xpm42.write(temp)
 			break
 		temp = l[1:-3] + "\n"
-		newxpm42.write(temp)
+		new_xpm42.write(temp)
 
 
 if __name__ == "__main__":

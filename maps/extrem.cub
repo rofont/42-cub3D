@@ -1,13 +1,13 @@
-				NO                      ./img/optic/4.png
-WE                                                           ./img/optic/3.png
+				NO                     ./texture/1.xpm42
+WE                                                          ./texture/2.xpm42
                      C     0,        0,         0
-EA ./img/optic/1.png
+EA ./texture/3.xpm42
 
 
 
 
 
-                               SO ./img/optic/2.png
+                               SO ./texture/4.xpm42
 
 
 
