@@ -57,9 +57,9 @@ void	f_while_pars(int *i, char **dat, t_map *map)
 		else if (!map->ea && f_its_here(dat[*i], "EA"))
 			map->ea = f_pars_direction(dat[*i], "EA");
 		else if (!map->floor && f_its_here(dat[*i], "F"))
-			map->floor = f_return_colors(dat[*i], "F");
+			map->floor = f_return_colors(dat[*i], "F", map);
 		else if (!map->ceiling && f_its_here(dat[*i], "C"))
-			map->ceiling = f_return_colors(dat[*i], "C");
+			map->ceiling = f_return_colors(dat[*i], "C", map);
 		else
 			break ;
 		*i += 1;

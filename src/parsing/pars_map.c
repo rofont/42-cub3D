@@ -67,7 +67,7 @@ void	f_size_maps(t_map *cub)
 void	f_flood_fill(char **temp, t_map *cub, int x, int y)
 {
 	if (!temp[x] || x < 0 || x > cub->map_height || y < 0 || y
-		+ 1 > (int)ft_strlen(temp[x]) || temp[x][y] == ' ')
+		+ 1 > (int)ft_strlen(temp[x]) || (ft_isdigit(temp[x][y]) && temp[x][y] > '1') ||  temp[x][y] == ' ')
 		f_error(E_FLOODFILL, cub);
 	if (temp[x][y] == '0' || f_is_position(temp[x][y]))
 		temp[x][y] = '.';

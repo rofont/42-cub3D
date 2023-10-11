@@ -138,8 +138,8 @@ bool			f_its_here(char *src, char *search);
 
 // utils2
 int				f_number(char *str);
-int				f_return_colors(char *line, char *dir);
-int				*f_tab_color(char *line);
+int				f_return_colors(char *line, char *dir, t_map *data);
+int				*f_tab_color(char *line, t_map *data);
 char			*f_pars_colors(char *line, char *dir);
 bool			f_is_good_data(t_map *map);
 

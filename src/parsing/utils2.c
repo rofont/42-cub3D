@@ -16,21 +16,21 @@ int	f_number(char *str)
 	return (nb);
 }
 
-int	f_return_colors(char *line, char *dir)
+int	f_return_colors(char *line, char *dir, t_map *data)
 {
 	char	*temp;
 	int		*tab;
 	int		res;
 
 	temp = f_pars_colors(line, dir);
-	tab = f_tab_color(temp);
+	tab = f_tab_color(temp, data);
 	res = get_rgba(tab[0], tab[1], tab[2], 100);
 	temp = f_freenull(temp);
 	free(tab);
 	return (res);
 }
 
-int	*f_tab_color(char *line)
+int	*f_tab_color(char *line, t_map *data)
 {
 	char	**tab_char;
 	int		*tab;
@@ -44,10 +44,12 @@ int	*f_tab_color(char *line)
 	while (tab_char[i] || j == 4)
 	{
 		if (!f_is_digit(tab_char[i]) || f_number(tab_char[i]) == -1)
-			f_error(E_COLORS, NULL);
+			f_error(E_COLORS, data);
 		tab[j++] = f_number(tab_char[i++]);
 	}
 	ft_free_tab_char(tab_char);
+	if (i != 3)
+		f_error(E_COLORS, data);
 	return (tab);
 }
 
