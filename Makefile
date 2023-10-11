@@ -6,7 +6,7 @@
 #    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/10/05 09:46:30 by rofontai         ###   ########.fr        #
+#    Updated: 2023/10/11 12:10:38 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,11 @@ RT = \033[0m
 NAME	= cub3D
 
 # COMPILER
-CC		= gcc -g
+CC		= gcc -g #-fsanitize=address
 
 # COMPILER FLAGS
 CFLAGS	= -Wextra -Wall -Werror -Wunreachable-code -Ofast
-LFLAGS  = -fsanitize=address
+# LFLAGS  = -fsanitize=address
 
 # LIBRARY
 LIBMLX	= MLX42
@@ -85,7 +85,7 @@ libs_make:
 
 $(OBJDIR)%.o : $(SRCDIR)%.c
 	@mkdir -p $(dir $@)
-	@$(CC)  $(CFLAGS)$(LFLAGS) -c $< -o $@ $(HEADERS)
+	@$(CC)  $(CFLAGS) -c $< -o $@ $(HEADERS)
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) -framework Cocoa -framework OpenGL -framework IOKit

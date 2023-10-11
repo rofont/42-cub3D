@@ -80,19 +80,19 @@ char	*f_pars_colors(char *line, char *dir)
 	return (color);
 }
 
-bool	f_is_good_data(t_map *map)
+int f_is_good_data(t_map *map)
 {
 	if (map->no == NULL)
-		return (false);
+		return (-1);
 	if (map->so == NULL)
-		return (false);
+		return (-1);
 	if (map->we == NULL)
-		return (false);
+		return (-1);
 	if (map->ea == NULL)
-		return (false);
+		return (-1);
 	if (map->ceiling == 0)
-		return (false);
+		return (-2);
 	if (map->floor == 0)
-		return (false);
-	return (true);
+		return (-2);
+	return (0);
 }

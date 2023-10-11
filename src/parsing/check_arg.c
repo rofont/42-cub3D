@@ -45,7 +45,7 @@ void	f_pars_file(int ac, char **av, t_data *data)
 	f_get_data(data->map, dat);
 	ft_free_tab_char(dat);
 	if (f_search_player(data->map, data->player) != 1)
-		f_error(E_FLOODFILL, data->map);
+		f_error(E_PLAYER, data->map);
 	f_size_maps(data->map);
 	dat = f_copy_tab(data->map->map);
 	f_flood_fill(dat, data->map, data->player->x, data->player->y);

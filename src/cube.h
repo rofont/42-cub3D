@@ -22,11 +22,12 @@
 # define E_CHAR_INVALID "Error\nFound Invalid Character\n"
 # define E_MAP_TOO_WIDTH "Error\nMap Too Wide (Max 40)\n"
 # define E_MAP_TOO_HEIGTH "Error\nMap Too High (max 21)\n"
-# define E_MAP_BORDER "Error\nMap Border Missing\n"
-# define E_FILE_NAME "Error\nFile Is Invalid\n"
+# define E_ASSET "Error\nAsset Is Invalid Or Missing\n"
+# define E_FILE_NAME "Error\nFile Is Invalid or Is Empty\n"
 # define E_FLOODFILL "Error\nFloodfill Is Invalid\n"
 # define E_ARGS_NUM "Error\nArgument Number Is Wrong\n"
-# define E_COLORS "Error\nColors Is Invalid\n"
+# define E_COLORS "Error\nColors Is Invalid Or Missing\n"
+# define E_PLAYER "Error\nNumber Of Palyers Is Wrong\n"
 
 // colors
 # define BCK "\x1B[30m"
@@ -141,7 +142,7 @@ int				f_number(char *str);
 int				f_return_colors(char *line, char *dir, t_map *data);
 int				*f_tab_color(char *line, t_map *data);
 char			*f_pars_colors(char *line, char *dir);
-bool			f_is_good_data(t_map *map);
+int				f_is_good_data(t_map *map);
 
 // utils1
 t_player		*f_init_player(void);

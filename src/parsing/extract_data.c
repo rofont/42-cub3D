@@ -36,8 +36,10 @@ void	f_get_data(t_map *map, char **dat)
 	while (dat[size])
 		size++;
 	f_while_pars(&i, dat, map);
-	if (!f_is_good_data(map))
-		f_error(E_FILE_NAME, map);
+	if (f_is_good_data(map) == -2)
+		f_error(E_COLORS, map);
+	if (f_is_good_data(map) == -1)
+		f_error(E_ASSET, map);
 	map->map = ft_calloc(sizeof(char *), size - i + 1);
 	while (dat[i])
 		map->map[j++] = ft_strdup(dat[i++]);

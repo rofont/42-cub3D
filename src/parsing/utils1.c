@@ -32,20 +32,23 @@ char	**f_copy_tab(char **src)
 
 void	*f_free_tmap(t_map *data)
 {
-	if (data->no)
-		data->no = f_freenull(data->no);
-	if (data->so)
-		data->so = f_freenull(data->so);
-	if (data->we)
-		data->we = f_freenull(data->we);
-	if (data->ea)
-		data->ea = f_freenull(data->ea);
-	if (data->map)
-		ft_free_tab_char(data->map);
-	data->floor = 0;
-	data->ceiling = 0;
-	data->map_width = 0;
-	data->map_height = 0;
+	if (data)
+	{
+		if (data->no)
+			data->no = f_freenull(data->no);
+		if (data->so)
+			data->so = f_freenull(data->so);
+		if (data->we)
+			data->we = f_freenull(data->we);
+		if (data->ea)
+			data->ea = f_freenull(data->ea);
+		if (data->map)
+			ft_free_tab_char(data->map);
+		data->floor = 0;
+		data->ceiling = 0;
+		data->map_width = 0;
+		data->map_height = 0;
+	}
 	if (data)
 		free(data);
 	return (NULL);
