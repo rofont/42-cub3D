@@ -6,7 +6,7 @@
 #    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/10/11 12:10:38 by rofontai         ###   ########.fr        #
+#    Updated: 2023/10/11 12:25:51 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRC	=		main.c \
 			execute/init.c \
 			execute/raycast.c \
 			execute/tools.c \
+			execute/draw.c \
 			parsing/check_arg.c \
 			parsing/utils.c \
 			parsing/utils1.c \
@@ -54,6 +55,8 @@ SRC	=		main.c \
 			parsing/extract_data.c \
 			parsing/a_supp.c \
 			parsing/pars_map.c \
+			execute/texture.c \
+
 
 OBJDIR	=	bin/
 
@@ -118,12 +121,16 @@ re: fclean all
 
 # "leaks" runs the program with the "leaks" tool to check for memory leaks.
 leaks: all
-	leaks -atExit -- ./
+	leaks -atExit -- ./$(NAME) $(word 2, $(MAKECMDGOALS))
 
 
 #"play" builds the program and runs it with a specific map file.
 run: all
+	say "elon musk approve this project"
 	@./$(NAME) $(word 2, $(MAKECMDGOALS))
+#	killall -9 afplay
+	say "party over bitch"
+
 
 %:
 	@true

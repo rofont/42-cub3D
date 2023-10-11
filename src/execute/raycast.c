@@ -18,10 +18,7 @@ void raycast(t_data *data)
        get_wall(data);
 
         //TODO replace with WALL TEXTURE
-       wall_color(data);
-
-        // Draw the pixels of the stripe as a vertical line
-        verLine(data->ray->i, data->ray->drawStart, data->ray->drawEnd, data->ray->color);
+       choose_texture(data, data->ray->i);
     }
 }
 
@@ -80,30 +77,34 @@ void dda (t_data *data)
             {
                 data->ray->sideDistX += data->ray->deltaDistX;
                data->ray->mapX += data->ray->stepX;
-                data->ray->side = 0;
+               if (data->ray->rayDirX >= 0)
+				    data->ray->side = 0;
+			    else
+				    data->ray->side = 1;
             }
             else
             {
                 data->ray->sideDistY += data->ray->deltaDistY;
                 data->ray->mapY += data->ray->stepY;
-                data->ray->side = 1;
+                if (data->ray->rayDirY > 0)
+				data->ray->side = 2;
+			else
+				data->ray->side = 3;
             }
 
-            //TODO change for the actual map parsing
-            // Check if ray has hit a wall
             if (data->map->map[data->ray->mapX][data->ray->mapY] == '1')
                 data->ray->hit = 1;
-
-     // Calculate distance projected on camera direction
-        if (data->ray->side == 0)
-            data->ray->perpWallDist = (data->ray->mapX - data->ray->posX + (1 - data->ray->stepX) / 2) / data->ray->rayDirX;
-        else
-            data->ray->perpWallDist = (data->ray->mapY - data->ray->posY + (1 - data->ray->stepY) / 2) / data->ray->rayDirY;
         }
 }
 
 void get_wall (t_data *data)
 {
+     // Calculate distance projected on camera direction
+        if (data->ray->side == 0 || data->ray->side == 1)
+            data->ray->perpWallDist = (data->ray->mapX - data->ray->posX + (1 - data->ray->stepX) / 2) / data->ray->rayDirX;
+        else
+            data->ray->perpWallDist = (data->ray->mapY - data->ray->posY + (1 - data->ray->stepY) / 2) / data->ray->rayDirY;
+        
        // Calculate height of line to draw on screen
         data->ray->lineHeight = (int)(HEIGHT / data->ray->perpWallDist);
 

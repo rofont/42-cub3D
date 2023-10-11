@@ -23,6 +23,7 @@ void player_control (t_data *data)
     //rotate to the left
     if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
     rotate_player(data,'l');
+    ///////TODO add free
     if(mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		exit(0);
 }
@@ -45,10 +46,13 @@ void move_player(t_data *data, char key)
     }
 
     // Check if the new position is valid (not a wall)
-    if (data->map->map[(int)newX][(int)newY] == '0')
+      if (data->map->map[(int)newX][(int)newY] == '0' || is_player(data->map->map[(int)newX][(int)newY]))
     {
         data->ray->posX = newX;
         data->ray->posY = newY;
+        /////////TODO ANIMATION BS
+      //  data->map->floor--;
+        ////////////
     }
 }
 
@@ -71,7 +75,7 @@ void strafe_player(t_data *data, char direction)
     }
 
     // Check if the new position is valid (not a wall)
-    if (data->map->map[(int)newX][(int)newY] == '0')
+    if (data->map->map[(int)newX][(int)newY] == '0' || is_player(data->map->map[(int)newX][(int)newY]))
     {
         data->ray->posX = newX;
         data->ray->posY = newY;
