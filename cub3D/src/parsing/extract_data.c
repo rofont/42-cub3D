@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:15:51 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 10:58:18 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/12 12:20:10 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,28 @@ void	f_while_pars(int *i, char **dat, t_map *map)
 			break ;
 		*i += 1;
 	}
+}
+
+bool	f_check_ascii_map(char c)
+{
+	if (c == ' ' || c == '1' || c == '0' || f_is_position(c))
+		return (true);
+	return (false);
+}
+
+bool	f_check_map_good(t_data *data)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (data->map->map[++i])
+	{
+		j = 0;
+		while (data->map->map[i][j] && f_check_ascii_map(data->map->map[i][j]))
+			j++;
+		if (data->map->map[i][j] != '\0')
+			return (false);
+	}
+	return (true);
 }

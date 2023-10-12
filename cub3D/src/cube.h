@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:21:00 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 11:27:04 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/12 12:19:47 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@
 
 // message erreur
 # define E_CHAR_INVALID "Error\nFound Invalid Character\n"
-# define E_MAP_TOO_WIDTH "Error\nMap Too Wide \n"
-# define E_MAP_TOO_HEIGTH "Error\nMap Too High )\n"
+# define E_BAD_MAP "Error\nMap Is Not Valid\n"
 # define E_MAP_TOO_BIG "Error\nMap Dimension Too BIG )\n"
 # define E_MAP_BORDER "Error\nMap Border Missing\n"
 # define E_FLOODFILL "Error\nFloodfill Is Invalid\n"
@@ -172,6 +171,8 @@ void			*f_free_player(t_player *play);
 char			**f_extract_data(char *file);
 void			f_get_data(t_map *map, char **dat);
 void			f_while_pars(int *i, char **dat, t_map *map);
+bool			f_check_ascii_map(char c);
+bool			f_check_map_good(t_data *data);
 
 // pars_map
 int				get_rgba(int r, int g, int b, int a);

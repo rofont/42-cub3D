@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:41 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 10:57:56 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/12 12:20:25 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	f_pars_file(int ac, char **av, t_data *data)
 	f_check_arg(ac, av);
 	dat = f_extract_data(av[1]);
 	f_get_data(data->map, dat);
+	if (!f_check_map_good(data))
+		f_error(E_BAD_MAP, data->map);
 	ft_free_tab_char(dat);
 	if (f_search_player(data->map, data->player) != 1)
 		f_error(E_PLAYER, data->map);
