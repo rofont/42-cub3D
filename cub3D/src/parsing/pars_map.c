@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:46 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 10:58:45 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:31:55 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void	f_size_maps(t_map *cub)
 void	f_flood_fill(char **temp, t_map *cub, int x, int y)
 {
 	if (!temp[x] || x < 0 || x > cub->map_height || y < 0 || y
-		+ 1 > (int)ft_strlen(temp[x]) || (ft_isdigit(temp[x][y]) && temp[x][y] > '1') ||  temp[x][y] == ' ')
+		+ 1 > (int)ft_strlen(temp[x]) || (ft_isdigit(temp[x][y])
+		&& temp[x][y] > '1') || temp[x][y] == ' ')
 		f_error(E_FLOODFILL, cub);
 	if (temp[x][y] == '0' || f_is_position(temp[x][y]))
 		temp[x][y] = '.';
 	else
 		return ;
-	//f_pri_map(temp); //TODO a supp
 	f_flood_fill(temp, cub, x + 1, y);
 	f_flood_fill(temp, cub, x - 1, y);
 	f_flood_fill(temp, cub, x, y + 1);

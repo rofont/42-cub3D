@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:55 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 10:59:45 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:32:07 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*f_pars_colors(char *line, char *dir)
 	return (color);
 }
 
-int f_is_good_data(t_map *map)
+int	f_is_good_data(t_map *map)
 {
 	if (map->no == NULL)
 		return (-1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube_bonus.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:21:00 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 14:38:32 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:32:30 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 // Variable
 # define WIDTH 2040
-# define HEIGHT 1400
+# define HEIGHT 1200
 
 // message erreur
 # define E_CHAR_INVALID "Error\nFound Invalid Character\n"
@@ -168,7 +168,7 @@ int				f_number(char *str);
 int				f_return_colors(char *line, char *dir, t_map *data);
 int				*f_tab_color(char *line, t_map *data);
 char			*f_pars_colors(char *line, char *dir);
-int 			f_is_good_data(t_map *map);
+int				f_is_good_data(t_map *map);
 
 // utils1
 t_player		*f_init_player(void);
@@ -195,7 +195,7 @@ t_data			*get_data(void);
 void			init_mlx(t_data *data);
 void			get_texture(t_data *data);
 void			init_dir(t_data *data);
-void	mouse_view_rotation(double xpos, double ypos, void *param);
+void			mouse_view_rotation(double xpos, double ypos, void *param);
 
 // raycast
 void			raycast(t_data *data);

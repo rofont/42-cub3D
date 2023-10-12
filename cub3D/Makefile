@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
+#    By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/10/12 15:02:40 by rofontai         ###   ########.fr        #
+#    Updated: 2023/10/12 16:18:47 by bmartin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -179,14 +179,14 @@ leaks: all
 	leaks -atExit -- ./$(NAME) $(word 2, $(MAKECMDGOALS))
 leaks_bonus: bonus
 	leaks -atExit -- ./$(NAME_BONUS) $(word 2, $(MAKECMDGOALS))
+	
 
 #"play" builds the program and runs it with a specific map file.
 run: all
 	@./$(NAME) $(word 2, $(MAKECMDGOALS))
 run_bonus: bonus
 	say -v karen "3D CUBE party launching"
-	@./$(NAME) $(word 2, $(MAKECMDGOALS))
-	killall -9 afplay
+	@./$(NAME_BONUS) $(word 2, $(MAKECMDGOALS))
 	say -v karen "party over"
 %:
 	@true

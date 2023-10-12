@@ -3,21 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   animation_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:20 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 14:36:30 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:34:23 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube_bonus.h"
 
+void	*free_2d_array(int **array, int rows)
+{
+	int	i;
+
+	if (array == NULL)
+	{
+		return (NULL);
+	}
+	i = 0;
+	while (i < rows)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+	return(NULL);
+}
+
 void	load_dancer(t_data *data)
 {
-	load_no(data);
-	load_so(data);
-	load_ea(data);
-	load_we(data);
+	 load_no(data);
+	// load_so(data);
+	// load_ea(data);
+	// load_we(data);
 }
 
 void	load_no(t_data *data)
