@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:20 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 14:36:34 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:39:03 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	player_control(t_data *data)
 		rotate_player_r(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		rotate_player_l(data);
-//	if(mlx_cursor_hook(data->mlx, MLX_CURSOR_ARROW))
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		exit(0);
 }
