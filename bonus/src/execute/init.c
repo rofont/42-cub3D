@@ -6,7 +6,7 @@
 /*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:27 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/11 23:14:06 by bmartin          ###   ########.fr       */
+/*   Updated: 2023/10/12 12:36:30 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,23 @@ void	get_texture(t_data *data)
 	data->tex->so = fill_texture(data->tex->so_tex);
 	data->tex->we = fill_texture(data->tex->we_tex);
 	data->tex->ea = fill_texture(data->tex->ea_tex);
+}
+
+void	mouse_view_rotation(double xpos, double ypos, void *param)
+{
+	static double	prev_x = 300;
+	
+	
+	(void)ypos;
+	(void)param;
+	get_data()->player->rot_speed = (((prev_x - xpos) * (M_PI / 180.0)) * 0.25);
+	if(get_data()->player->rot_speed < prev_x && xpos < WIDTH)
+		rotate_player_l(get_data());
+	if(get_data()->player->rot_speed > prev_x && xpos > 0)
+		rotate_player_r(get_data());
+	if(get_data()->player->rot_speed > 0.007)
+		get_data()->player->rot_speed =0;	
+	prev_x = xpos;
+	printf("player->rotspeed = %f\n", get_data()->player->rot_speed);
+	printf("xpos = %f\n", xpos);
 }
