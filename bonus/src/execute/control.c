@@ -6,7 +6,7 @@
 /*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:20 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/11 18:28:56 by bmartin          ###   ########.fr       */
+/*   Updated: 2023/10/12 12:06:42 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ void	player_control(t_data *data)
 		strafe_player(data, 'a');
 	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
 		strafe_player(data, 'd');
-	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT) )
 		rotate_player_r(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		rotate_player_l(data);
+//	if(mlx_cursor_hook(data->mlx, MLX_CURSOR_ARROW))
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-	{
 		exit(0);
-	}
 }
 
 void	move_player(t_data *data, char key)

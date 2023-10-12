@@ -6,7 +6,7 @@
 /*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:24 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/11 23:12:56 by bmartin          ###   ########.fr       */
+/*   Updated: 2023/10/12 11:39:36 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	draw_minimap(t_data *data)
 	while (data->i < data->map->map_height)
 	{
 		data->j = 0;
-		while (data->j < data->map->map_width)
+		while (data->j < data->map->map[data->i][data->j])
 		{
 			data->color = get_color(data->map->map[data->i][data->j]);
 			data->start_x = data->j * data->scale_factor;

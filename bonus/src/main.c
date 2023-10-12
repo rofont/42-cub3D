@@ -6,7 +6,7 @@
 /*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:21:03 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/11 23:14:23 by bmartin          ###   ########.fr       */
+/*   Updated: 2023/10/12 12:41:14 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	main(int ac, char **av)
 		exit(1);
 	}
 	result = pthread_create(&thread, NULL, play_audio, NULL);
+	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_DISABLED);
+	mlx_cursor_hook(data->mlx, mouse_view_rotation, NULL);
 	mlx_loop_hook(data->mlx, ft_hook, data->mlx);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);

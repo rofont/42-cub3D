@@ -6,7 +6,7 @@
 /*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:21:00 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/11 23:12:47 by bmartin          ###   ########.fr       */
+/*   Updated: 2023/10/12 12:38:55 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # include <unistd.h>
 
 // Variable
-# define WIDTH 1080
-# define HEIGHT 1080
+# define WIDTH 2040
+# define HEIGHT 1400
 
 // message erreur
 # define E_CHAR_INVALID "Error\nFound Invalid Character\n"
@@ -194,6 +194,7 @@ t_data			*get_data(void);
 void			init_mlx(t_data *data);
 void			get_texture(t_data *data);
 void			init_dir(t_data *data);
+void	mouse_view_rotation(double xpos, double ypos, void *param);
 
 // raycast
 void			raycast(t_data *data);
