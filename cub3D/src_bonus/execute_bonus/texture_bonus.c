@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:33 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 16:02:51 by bmartin          ###   ########.fr       */
+/*   Updated: 2023/10/13 14:31:43 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	**fill_texture(xpm_t *texture)
 		ft_putstr_fd(E_TEX_PATH, 2);
 		exit(1);
 	}
+
 	array = ft_calloc(sizeof(int *), texture->texture.height + 1);
 	i = 3;
 	while (++i < (int)texture->texture.height + 4)

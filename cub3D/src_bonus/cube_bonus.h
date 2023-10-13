@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube_bonus.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:21:00 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 15:32:30 by bmartin          ###   ########.fr       */
+/*   Updated: 2023/10/13 15:34:00 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,7 @@ void			get_wall(t_data *data);
 void			reset_window(t_data *data);
 uint32_t		ft_color(int32_t r, int32_t g, int32_t b, int32_t a);
 int				is_player(char c);
+void			f_exit_all(t_data *data);
 
 // player control
 void			player_control(t_data *data);
@@ -230,6 +231,7 @@ int				**fill_texture(xpm_t *texture);
 void			find_texture(t_data *data, xpm_t *texture);
 
 //animation
+int				**free_2d_array(int **array);
 void			load_dancer(t_data *data);
 void			load_no(t_data *data);
 void			load_so(t_data *data);
