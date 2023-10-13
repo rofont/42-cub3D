@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:21:00 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/13 15:34:00 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:12:08 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ void			f_size_maps(t_map *cub);
 void			f_flood_fill(char **temp, t_map *cub, int x, int y);
 
 // EXECUTE
+
 // init
 t_data			*get_data(void);
 void			init_mlx(t_data *data);
@@ -231,10 +232,18 @@ int				**fill_texture(xpm_t *texture);
 void			find_texture(t_data *data, xpm_t *texture);
 
 //animation
-int				**free_2d_array(int **array);
 void			load_dancer(t_data *data);
 void			load_no(t_data *data);
 void			load_so(t_data *data);
 void			load_ea(t_data *data);
 void			load_we(t_data *data);
+
+//animation_plus
+
+int				**free_2d_array(int **array);
+void			make_frame_no(t_data *data, char *text);
+void			make_frame_so(t_data *data, char *text);
+void			make_frame_ea(t_data *data, char *text);
+void			make_frame_we(t_data *data, char *text);
+
 #endif
