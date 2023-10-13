@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:27 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 14:36:43 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/13 13:28:54 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,16 @@ void	get_texture(t_data *data)
 
 void	mouse_view_rotation(double xpos, double ypos, void *param)
 {
-	static double	prev_x = 300;
-
+	static double	prev_x = 800;
 
 	(void)ypos;
 	(void)param;
 	get_data()->player->rot_speed = (((prev_x - xpos) * (M_PI / 180.0)) * 0.25);
-	if(get_data()->player->rot_speed < prev_x && xpos < WIDTH)
+	if (get_data()->player->rot_speed < prev_x && xpos < WIDTH)
 		rotate_player_l(get_data());
-	if(get_data()->player->rot_speed > prev_x && xpos > 0)
+	if (get_data()->player->rot_speed > prev_x && xpos > 0)
 		rotate_player_r(get_data());
-	if(get_data()->player->rot_speed > 0.007)
-		get_data()->player->rot_speed =0;
+	if (get_data()->player->rot_speed > 0.007)
+		get_data()->player->rot_speed = 0;
 	prev_x = xpos;
-	printf("player->rotspeed = %f\n", get_data()->player->rot_speed);
-	printf("xpos = %f\n", xpos);
 }

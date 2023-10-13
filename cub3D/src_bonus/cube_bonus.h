@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:21:00 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 14:38:32 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:12:08 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 // Variable
 # define WIDTH 2040
-# define HEIGHT 1400
+# define HEIGHT 1200
 
 // message erreur
 # define E_CHAR_INVALID "Error\nFound Invalid Character\n"
@@ -168,7 +168,7 @@ int				f_number(char *str);
 int				f_return_colors(char *line, char *dir, t_map *data);
 int				*f_tab_color(char *line, t_map *data);
 char			*f_pars_colors(char *line, char *dir);
-int 			f_is_good_data(t_map *map);
+int				f_is_good_data(t_map *map);
 
 // utils1
 t_player		*f_init_player(void);
@@ -190,12 +190,13 @@ void			f_size_maps(t_map *cub);
 void			f_flood_fill(char **temp, t_map *cub, int x, int y);
 
 // EXECUTE
+
 // init
 t_data			*get_data(void);
 void			init_mlx(t_data *data);
 void			get_texture(t_data *data);
 void			init_dir(t_data *data);
-void	mouse_view_rotation(double xpos, double ypos, void *param);
+void			mouse_view_rotation(double xpos, double ypos, void *param);
 
 // raycast
 void			raycast(t_data *data);
@@ -208,6 +209,7 @@ void			get_wall(t_data *data);
 void			reset_window(t_data *data);
 uint32_t		ft_color(int32_t r, int32_t g, int32_t b, int32_t a);
 int				is_player(char c);
+void			f_exit_all(t_data *data);
 
 // player control
 void			player_control(t_data *data);
@@ -235,4 +237,13 @@ void			load_no(t_data *data);
 void			load_so(t_data *data);
 void			load_ea(t_data *data);
 void			load_we(t_data *data);
+
+//animation_plus
+
+int				**free_2d_array(int **array);
+void			make_frame_no(t_data *data, char *text);
+void			make_frame_so(t_data *data, char *text);
+void			make_frame_ea(t_data *data, char *text);
+void			make_frame_we(t_data *data, char *text);
+
 #endif

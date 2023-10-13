@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:21:00 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 12:19:47 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:30:39 by bmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int				f_number(char *str);
 int				f_return_colors(char *line, char *dir, t_map *data);
 int				*f_tab_color(char *line, t_map *data);
 char			*f_pars_colors(char *line, char *dir);
-int 			f_is_good_data(t_map *map);
+int				f_is_good_data(t_map *map);
 
 // utils1
 t_player		*f_init_player(void);

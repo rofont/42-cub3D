@@ -6,7 +6,7 @@
 #    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/10/12 15:02:40 by rofontai         ###   ########.fr        #
+#    Updated: 2023/10/13 16:09:12 by rofontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,8 @@ SRC_BONUS		=	main_bonus.c \
 					parsing_bonus/pars_map_bonus.c \
 					execute_bonus/texture_bonus.c \
 					execute_bonus/animation_bonus.c \
+					execute_bonus/anime_plus_bonus.c \
+
 
 SRCDIR_BONUS	=	src_bonus/
 
@@ -180,13 +182,13 @@ leaks: all
 leaks_bonus: bonus
 	leaks -atExit -- ./$(NAME_BONUS) $(word 2, $(MAKECMDGOALS))
 
+
 #"play" builds the program and runs it with a specific map file.
 run: all
 	@./$(NAME) $(word 2, $(MAKECMDGOALS))
 run_bonus: bonus
 	say -v karen "3D CUBE party launching"
-	@./$(NAME) $(word 2, $(MAKECMDGOALS))
-	killall -9 afplay
+	@./$(NAME_BONUS) $(word 2, $(MAKECMDGOALS))
 	say -v karen "party over"
 %:
 	@true

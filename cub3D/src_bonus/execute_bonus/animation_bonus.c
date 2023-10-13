@@ -6,7 +6,7 @@
 /*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:20 by bmartin           #+#    #+#             */
-/*   Updated: 2023/10/12 14:36:30 by rofontai         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:12:41 by rofontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,101 +23,50 @@ void	load_dancer(t_data *data)
 void	load_no(t_data *data)
 {
 	if (data->anim_f > 0 && data->anim_f < 12)
-	{
-		data->tex->no_tex = mlx_load_xpm42("./texture/dancer/dj1.xpm42");
-		data->tex->no = fill_texture(data->tex->no_tex);
-	}
+		make_frame_no(data, "./texture/dancer/dj1.xpm42");
 	if (data->anim_f > 12 && data->anim_f < 24)
-	{
-		data->tex->no_tex = mlx_load_xpm42("./texture/dancer/dj2.xpm42");
-		data->tex->no = fill_texture(data->tex->no_tex);
-	}
+		make_frame_no(data, "./texture/dancer/dj2.xpm42");
 	if (data->anim_f > 24 && data->anim_f < 36)
-	{
-		data->tex->no_tex = mlx_load_xpm42("./texture/dancer/dj3.xpm42");
-		data->tex->no = fill_texture(data->tex->no_tex);
-	}
+		make_frame_no(data, "./texture/dancer/dj3.xpm42");
 	if (data->anim_f > 36 && data->anim_f < 48)
-	{
-		data->tex->no_tex = mlx_load_xpm42("./texture/dancer/dj4.xpm42");
-		data->tex->no = fill_texture(data->tex->no_tex);
-	}
+		make_frame_no(data, "./texture/dancer/dj4.xpm42");
 	if (data->anim_f > 48 && data->anim_f < 60)
-	{
-		data->tex->no_tex = mlx_load_xpm42("./texture/dancer/dj5.xpm42");
-		data->tex->no = fill_texture(data->tex->no_tex);
-	}
+		make_frame_no(data, "./texture/dancer/dj5.xpm42");
 }
 
 void	load_so(t_data *data)
 {
 	data->map->floor++;
-	if (data->anim_f > 0 && data->anim_f < 15)
-	{
-		data->tex->so_tex = mlx_load_xpm42("./texture/dancer/glow1.xpm42");
-		data->tex->so = fill_texture(data->tex->so_tex);
-	}
-	if (data->anim_f > 15 && data->anim_f < 30)
-	{
-		data->tex->so_tex = mlx_load_xpm42("./texture/dancer/glow2.xpm42");
-		data->tex->so = fill_texture(data->tex->so_tex);
-	}
-	if (data->anim_f > 30 && data->anim_f < 45)
-	{
-		data->tex->so_tex = mlx_load_xpm42("./texture/dancer/glow3.xpm42");
-		data->tex->so = fill_texture(data->tex->so_tex);
-	}
-	if (data->anim_f > 45 && data->anim_f < 60)
-	{
-		data->tex->so_tex = mlx_load_xpm42("./texture/dancer/glow4.xpm42");
-		data->tex->so = fill_texture(data->tex->so_tex);
-	}
+	if (data->anim_f > 0 && data->anim_f < 12)
+		make_frame_so(data, "./texture/dancer/glow1.xpm42");
+	if (data->anim_f > 12 && data->anim_f < 24)
+		make_frame_so(data, "./texture/dancer/glow2.xpm42");
+	if (data->anim_f > 24 && data->anim_f < 36)
+		make_frame_so(data, "./texture/dancer/glow3.xpm42");
+	if (data->anim_f > 36 && data->anim_f < 48)
+		make_frame_so(data, "./texture/dancer/glow4.xpm42");
 }
 
 void	load_ea(t_data *data)
 {
-	if (data->anim_f > 0 && data->anim_f < 15)
-	{
-		data->tex->ea_tex = mlx_load_xpm42("./texture/dancer/cat1.xpm42");
-		data->tex->ea = fill_texture(data->tex->ea_tex);
-	}
-	if (data->anim_f > 15 && data->anim_f < 30)
-	{
-		data->tex->ea_tex = mlx_load_xpm42("./texture/dancer/cat2.xpm42");
-		data->tex->ea = fill_texture(data->tex->ea_tex);
-	}
-	if (data->anim_f > 30 && data->anim_f < 45)
-	{
-		data->tex->ea_tex = mlx_load_xpm42("./texture/dancer/cat3.xpm42");
-		data->tex->ea = fill_texture(data->tex->ea_tex);
-	}
-	if (data->anim_f > 45 && data->anim_f < 60)
-	{
-		data->tex->ea_tex = mlx_load_xpm42("./texture/dancer/cat4.xpm42");
-		data->tex->ea = fill_texture(data->tex->ea_tex);
-	}
+	if (data->anim_f > 0 && data->anim_f < 12)
+		make_frame_ea(data, "./texture/dancer/cat1.xpm42");
+	if (data->anim_f > 12 && data->anim_f < 24)
+		make_frame_ea(data, "./texture/dancer/cat2.xpm42");
+	if (data->anim_f > 24 && data->anim_f < 36)
+		make_frame_ea(data, "./texture/dancer/cat3.xpm42");
+	if (data->anim_f > 36 && data->anim_f < 48)
+		make_frame_ea(data, "./texture/dancer/cat4.xpm42");
 }
 
 void	load_we(t_data *data)
 {
-	if (data->anim_f > 0 && data->anim_f < 15)
-	{
-		data->tex->we_tex = mlx_load_xpm42("./texture/dancer/party1.xpm42");
-		data->tex->we = fill_texture(data->tex->we_tex);
-	}
-	if (data->anim_f > 15 && data->anim_f < 30)
-	{
-		data->tex->we_tex = mlx_load_xpm42("./texture/dancer/party2.xpm42");
-		data->tex->we = fill_texture(data->tex->we_tex);
-	}
-	if (data->anim_f > 30 && data->anim_f < 45)
-	{
-		data->tex->we_tex = mlx_load_xpm42("./texture/dancer/party3.xpm42");
-		data->tex->we = fill_texture(data->tex->we_tex);
-	}
-	if (data->anim_f > 45 && data->anim_f < 60)
-	{
-		data->tex->we_tex = mlx_load_xpm42("./texture/dancer/party4.xpm42");
-		data->tex->we = fill_texture(data->tex->we_tex);
-	}
+	if (data->anim_f > 0 && data->anim_f < 12)
+		make_frame_we(data, "./texture/dancer/party1.xpm42");
+	if (data->anim_f > 12 && data->anim_f < 24)
+		make_frame_we(data, "./texture/dancer/party2.xpm42");
+	if (data->anim_f > 24 && data->anim_f < 36)
+		make_frame_we(data, "./texture/dancer/party3.xpm42");
+	if (data->anim_f > 36 && data->anim_f < 48)
+		make_frame_we(data, "./texture/dancer/party4.xpm42");
 }

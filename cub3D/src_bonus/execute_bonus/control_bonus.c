@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   control_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:20:20 by bmartin           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/10/12 16:39:03 by rofontai         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/12 16:15:51 by bmartin          ###   ########.fr       */
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +28,12 @@ void	player_control(t_data *data)
 		strafe_player(data, 'a');
 	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
 		strafe_player(data, 'd');
-	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT) )
+	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 		rotate_player_r(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		rotate_player_l(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-		exit(0);
+		mlx_close_window(data->mlx);
 }
 
 void	move_player(t_data *data, char key)
