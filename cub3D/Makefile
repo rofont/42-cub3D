@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rofontai <rofontai@student.42.fr>          +#+  +:+       +#+         #
+#    By: bmartin <bmartin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 11:31:23 by bmartin           #+#    #+#              #
-#    Updated: 2023/10/13 16:09:12 by rofontai         ###   ########.fr        #
+#    Updated: 2023/10/13 21:07:48 by bmartin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -181,7 +181,6 @@ leaks: all
 	leaks -atExit -- ./$(NAME) $(word 2, $(MAKECMDGOALS))
 leaks_bonus: bonus
 	leaks -atExit -- ./$(NAME_BONUS) $(word 2, $(MAKECMDGOALS))
-
 
 #"play" builds the program and runs it with a specific map file.
 run: all
